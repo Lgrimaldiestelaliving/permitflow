@@ -645,8 +645,9 @@ function loadMSAL(){
   return new Promise((res,rej)=>{
     if(window.msal){res();return;}
     const s=document.createElement('script');
-    s.src='https://cdnjs.cloudflare.com/ajax/libs/microsoft-authentication-library-browser/2.38.3/msal-browser.min.js';
-    s.onload=res;s.onerror=rej;
+    s.src='https://unpkg.com/@azure/msal-browser@2.38.3/lib/msal-browser.min.js';
+    s.onload=()=>{console.log('MSAL loaded OK');res();}
+    s.onerror=(e)=>{console.error('MSAL load failed',e);rej(new Error('Failed to load MSAL library. Check your internet connection.'));}
     document.head.appendChild(s);
   });
 }
