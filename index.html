@@ -220,6 +220,18 @@ td.address-cell { min-width:200px; }
 .status-submitted { background:#dbeafe; color:#1e40af; }
 .status-permitted { background:#dcfce7; color:#14532d; }
 .status-co { background:#f3e8ff; color:#6b21a8; }
+/* Dual-track status badges */
+.dual-status { display:flex; flex-direction:column; gap:3px; }
+.docs-badge { display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border-radius:10px; font-size:10px; font-weight:700; white-space:nowrap; }
+.docs-collecting { background:#fff7ed; color:#c2410c; border:1px solid #fed7aa; }
+.docs-complete   { background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0; }
+.permit-badge { display:inline-flex; align-items:center; gap:4px; padding:2px 7px; border-radius:10px; font-size:10px; font-weight:700; white-space:nowrap; }
+.permit-presubmit  { background:#f8fafc; color:#64748b; border:1px solid #e2e8f0; }
+.permit-applied    { background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe; }
+.permit-review     { background:#fefce8; color:#a16207; border:1px solid #fde68a; }
+.permit-resubmit   { background:#fff1f2; color:#be123c; border:1px solid #fecdd3; }
+.permit-issued     { background:#f0fdf4; color:#15803d; border:1px solid #bbf7d0; }
+.permit-co         { background:#faf5ff; color:#7e22ce; border:1px solid #e9d5ff; }
 
 /* PROGRESS */
 .progress-wrap { min-width:90px; }
@@ -491,6 +503,7 @@ let state = {
   community: 'All',
   search: '',
   statusFilter: 'all',
+  docsFilter: 'all',
   modelFilter: '',
   elevationFilter: '',
   marketFilter: '',
@@ -509,13 +522,16 @@ function loadData() {
   const saved = localStorage.getItem('estela_permits_v3');
   if (saved) { try { state.permits = JSON.parse(saved); } catch(e) { state.permits = JSON.parse(JSON.stringify(INITIAL_DATA)); } }
   else { state.permits = JSON.parse(JSON.stringify(INITIAL_DATA)); saveData(); }
-  
+
+  // Recompute dual-track status for all permits on load
+  state.permits.forEach(p => updateOverallStatus(p));
+
   const savedSettings = localStorage.getItem('estela_settings_v1');
   if (savedSettings) { try { state.settings = JSON.parse(savedSettings); } catch(e) {} }
-  
+
   const savedOdFiles = localStorage.getItem('estela_od_files_v1');
   if (savedOdFiles) { try { state.odFiles = JSON.parse(savedOdFiles); } catch(e) {} }
-  
+
   initMSAL();
 }
 
@@ -1037,20 +1053,81 @@ function countCompleted(permit) {
 }
 function progressColor(pct) { return pct >= 80 ? '#16a34a' : pct >= 50 ? '#d97706' : '#2563eb'; }
 function updateOverallStatus(permit) {
-  if (permit.stages.co==='complete') permit.overallStatus='co';
-  else if (permit.stages.permitIssued==='complete') permit.overallStatus='permitted';
-  else if (permit.stages.submitted==='complete') permit.overallStatus='submitted';
-  else permit.overallStatus='active';
+  // ── TRACK 1: Document Collection (Phase 1) ──
+  const phase1Keys = Object.keys(STAGE_CONFIG).filter(k => STAGE_CONFIG[k].phase === 1);
+  const activeDocs = phase1Keys.filter(k => permit.stages[k] !== 'n/a');
+  const completeDocs = activeDocs.filter(k => permit.stages[k] === 'complete');
+  permit.docsStatus = (activeDocs.length > 0 && completeDocs.length === activeDocs.length)
+    ? 'complete' : 'collecting';
+
+  // ── TRACK 2: Permitting Process (Phase 2 & 3) ──
+  if (permit.stages.co === 'complete') {
+    permit.permitStatus = 'co';
+  } else if (permit.stages.permitIssued === 'complete') {
+    permit.permitStatus = 'issued';
+  } else if (permit.stages.resubmittal === 'requested' || permit.stages.resubmittal === 'complete') {
+    permit.permitStatus = 'resubmit';
+  } else if (permit.stages.planReview === 'complete' || permit.stages.planReview === 'requested') {
+    permit.permitStatus = 'review';
+  } else if (permit.stages.submitted === 'complete') {
+    permit.permitStatus = 'applied';
+  } else {
+    permit.permitStatus = 'presubmit';
+  }
+
+  // ── Legacy overallStatus (kept for filtering) ──
+  if (permit.stages.co === 'complete') permit.overallStatus = 'co';
+  else if (permit.stages.permitIssued === 'complete') permit.overallStatus = 'permitted';
+  else if (permit.stages.submitted === 'complete') permit.overallStatus = 'submitted';
+  else permit.overallStatus = 'active';
 }
 function fmtDate(d) {
   if (!d) return '—';
   try { return new Date(d).toLocaleDateString('en-US', {month:'short',day:'numeric',year:'numeric'}); } catch(e) { return d; }
 }
 
+function renderDualStatus(permit) {
+  // Docs track
+  const docsComplete = (permit.docsStatus || permit.overallStatus) === 'complete' ||
+    (() => {
+      const p1 = Object.keys(STAGE_CONFIG).filter(k=>STAGE_CONFIG[k].phase===1);
+      const active = p1.filter(k=>permit.stages[k]!=='n/a');
+      return active.length > 0 && active.every(k=>permit.stages[k]==='complete');
+    })();
+  const docsLabel = docsComplete ? '✓ Docs Ready' : '⟳ Collecting Docs';
+  const docsCls   = docsComplete ? 'docs-complete' : 'docs-collecting';
+
+  // Permit track
+  const ps = permit.permitStatus || 'presubmit';
+  const permitMap = {
+    presubmit: ['permit-presubmit', '○ Pre-Submit'],
+    applied:   ['permit-applied',   '↗ Applied'],
+    review:    ['permit-review',    '⚖ Plan Review'],
+    resubmit:  ['permit-resubmit',  '↩ Resubmittal'],
+    issued:    ['permit-issued',    '✓ Permit Issued'],
+    co:        ['permit-co',        '★ CO Received'],
+  };
+  const [permitCls, permitLabel] = permitMap[ps] || permitMap.presubmit;
+
+  return `<div class="dual-status">
+    <span class="docs-badge ${docsCls}">${docsLabel}</span>
+    <span class="permit-badge ${permitCls}">${permitLabel}</span>
+  </div>`;
+}
+
+function getPermitDocsStatus(p) {
+  const p1 = Object.keys(STAGE_CONFIG).filter(k=>STAGE_CONFIG[k].phase===1);
+  const active = p1.filter(k=>p.stages[k]!=='n/a');
+  return (active.length > 0 && active.every(k=>p.stages[k]==='complete')) ? 'complete' : 'collecting';
+}
+
 function getFilteredPermits() {
   return state.permits.filter(p => {
     if (state.community !== 'All' && p.community !== state.community) return false;
     if (state.statusFilter !== 'all' && p.overallStatus !== state.statusFilter) return false;
+    if (state.docsFilter && state.docsFilter !== 'all') {
+      if (getPermitDocsStatus(p) !== state.docsFilter) return false;
+    }
     if (state.marketFilter && p.market !== state.marketFilter) return false;
     if (state.modelFilter && !p.model.toLowerCase().includes(state.modelFilter.toLowerCase())) return false;
     if (state.elevationFilter && !p.elevation.toLowerCase().includes(state.elevationFilter.toLowerCase())) return false;
@@ -1072,6 +1149,7 @@ function countActiveFilters() {
   let n = 0;
   if (state.community !== 'All') n++;
   if (state.statusFilter !== 'all') n++;
+  if (state.docsFilter && state.docsFilter !== 'all') n++;
   if (state.marketFilter) n++;
   if (state.modelFilter) n++;
   if (state.elevationFilter) n++;
@@ -1080,7 +1158,7 @@ function countActiveFilters() {
 }
 
 function clearFilters() {
-  state.community = 'All'; state.statusFilter = 'all'; state.marketFilter = '';
+  state.community = 'All'; state.statusFilter = 'all'; state.docsFilter = 'all'; state.marketFilter = '';
   state.modelFilter = ''; state.elevationFilter = ''; state.search = '';
   state.expandedRow = null; render();
 }
@@ -1289,13 +1367,21 @@ function renderPermitsView(el, alerts) {
           </select>
         </div>
         <div class="filter-field">
-          <label class="filter-label">📋 Status</label>
+          <label class="filter-label">📋 Permit Status</label>
           <select class="filter-select" onchange="state.statusFilter=this.value;state.expandedRow=null;render()">
             <option value="all">All Statuses</option>
-            <option value="active" ${state.statusFilter==='active'?'selected':''}>In Progress</option>
-            <option value="submitted" ${state.statusFilter==='submitted'?'selected':''}>Submitted</option>
-            <option value="permitted" ${state.statusFilter==='permitted'?'selected':''}>Permitted</option>
-            <option value="co" ${state.statusFilter==='co'?'selected':''}>CO Received</option>
+            <option value="active"     ${state.statusFilter==='active'?'selected':''}>Pre-Submit (Collecting Docs)</option>
+            <option value="submitted"  ${state.statusFilter==='submitted'?'selected':''}>Applied to County</option>
+            <option value="permitted"  ${state.statusFilter==='permitted'?'selected':''}>Permit Issued</option>
+            <option value="co"         ${state.statusFilter==='co'?'selected':''}>CO Received</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label class="filter-label">📄 Docs Status</label>
+          <select class="filter-select" onchange="state.docsFilter=this.value;state.expandedRow=null;render()">
+            <option value="all">All Docs</option>
+            <option value="collecting" ${state.docsFilter==='collecting'?'selected':''}>Still Collecting</option>
+            <option value="complete"   ${state.docsFilter==='complete'?'selected':''}>Docs Ready</option>
           </select>
         </div>
       </div>
@@ -1372,7 +1458,7 @@ function renderPermitRow(permit, allAlerts, compact) {
           <div class="progress-text">${done}/${total} stages</div>
         </div>
       </td>
-      <td><span class="status-badge ${STATUS_CLS[permit.overallStatus]}">${STATUS_LABELS[permit.overallStatus]}</span></td>
+      <td>${renderDualStatus(permit)}</td>
       <td class="stage-col" style="border-left:2px solid var(--border)">
         <div style="display:flex;gap:2px;justify-content:center;flex-wrap:nowrap">
           ${stageKeys.filter(k=>STAGE_CONFIG[k].phase===1).map(k=>statusDot(permit.stages[k],k,permit.id,permit.stageUpdatedAt?.[k])).join('')}
