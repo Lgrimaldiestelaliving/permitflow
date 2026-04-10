@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -518,10 +518,30 @@ let state = {
   odUploading: {}, // permitId_stage -> true
 };
 
+// Data Sanitization - cleans NaT / null strings from imported data
+function sanitizeDateVal(v) {
+  if (!v || v === 'NaT' || v === 'null' || v === 'undefined' || v === 'Invalid Date') return null;
+  const d = new Date(v);
+  return isNaN(d.getTime()) ? null : v;
+}
+function sanitizePermit(p) {
+  const dateMaps = ['stageDates','stageRequestedAt','stageCompletedAt','stageUpdatedAt'];
+  dateMaps.forEach(map => {
+    if (p[map] && typeof p[map] === 'object') {
+      Object.keys(p[map]).forEach(k => { p[map][k] = sanitizeDateVal(p[map][k]); });
+    }
+  });
+  p.releaseDate = sanitizeDateVal(p.releaseDate);
+  return p;
+}
+
 function loadData() {
   const saved = localStorage.getItem('estela_permits_v3');
   if (saved) { try { state.permits = JSON.parse(saved); } catch(e) { state.permits = JSON.parse(JSON.stringify(INITIAL_DATA)); } }
   else { state.permits = JSON.parse(JSON.stringify(INITIAL_DATA)); saveData(); }
+
+  // Sanitize NaT / bad date values from all permits
+  state.permits = state.permits.map(sanitizePermit);
 
   // Recompute dual-track status for all permits on load
   state.permits.forEach(p => updateOverallStatus(p));
@@ -536,12 +556,10 @@ function loadData() {
 }
 
 function saveData() {
-  localStorage.setItem('estela_permits_v3', JSON.stringify(state.permits));
   // Debounced sync to OneDrive shared DB (2s after last change)
   clearTimeout(state._syncTimer);
   state._syncTimer = setTimeout(() => syncToOneDriveDB(), 2000);
 }
-function saveOdFiles() { localStorage.setItem('estela_od_files_v1', JSON.stringify(state.odFiles)); }
 
 // ══════════════════════════════════════════════════
 //  LOCAL FILE STORAGE (IndexedDB)
@@ -575,9 +593,9 @@ async function saveFileLocally(permitId, stageKey, file) {
     state.odFiles[permitId][stageKey] = state.odFiles[permitId][stageKey].filter(f => f.name !== file.name);
     state.odFiles[permitId][stageKey].push({ name: file.name, date: new Date().toISOString().split('T')[0], local: true, size: Math.round(file.size/1024) + ' KB' });
     saveOdFiles();
-    return true;
   } catch(e) {
     console.error('IndexedDB save error:', e);
+    showToast('❌ Could not save file locally. Your browser storage may be full.');
     return false;
   }
 }
@@ -637,13 +655,17 @@ const OD_META_PATH = 'Estela Living - Permit Tracker/permit-database-meta.json';
 
 let _syncInProgress = false;
 let _lastRemoteVersion = null;
+let _syncFailCount = 0;
+let _syncRetryTimer = null;
 
 async function syncToOneDriveDB() {
   if (!state.odAccount || _syncInProgress) return;
   _syncInProgress = true;
+  clearTimeout(_syncRetryTimer);
+  updateSyncBadge('syncing');
   try {
     const token = await getODToken();
-    if (!token) { _syncInProgress = false; return; }
+    if (!token) { _syncInProgress = false; updateSyncBadge('error'); return; }
     const payload = {
       version: Date.now(),
       updatedBy: state.odAccount.name || state.odAccount.username,
@@ -652,16 +674,26 @@ async function syncToOneDriveDB() {
       odFiles: state.odFiles,
     };
     const encodedPath = encodeURIComponent(OD_DB_PATH).replace(/%2F/g,'/');
-    await fetch(`https://graph.microsoft.com/v1.0/me/drive/root:/${encodedPath}:/content`, {
+    const res = await fetch(`https://graph.microsoft.com/v1.0/me/drive/root:/${encodedPath}:/content`, {
       method: 'PUT',
       headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
     _lastRemoteVersion = payload.version;
+    _syncFailCount = 0;
     updateSyncBadge('saved');
   } catch(e) {
     console.warn('OneDrive DB sync failed:', e);
+    _syncFailCount++;
     updateSyncBadge('error');
+    if (_syncFailCount === 3) {
+      showToast('⚠️ OneDrive sync is failing — check your connection. Changes saved locally.');
+    }
+    // Retry after 15 seconds
+    _syncRetryTimer = setTimeout(() => { _syncInProgress = false; syncToOneDriveDB(); }, 15000);
+    _syncInProgress = false;
+    return;
   }
   _syncInProgress = false;
 }
@@ -685,12 +717,12 @@ async function loadFromOneDriveDB() {
     const data = await res.json();
     // Only update if remote is newer than what we last wrote
     if (_lastRemoteVersion && data.version <= _lastRemoteVersion) return false;
-    state.permits = data.permits;
+    state.permits = (data.permits || []).map(sanitizePermit);
     if (data.odFiles) state.odFiles = data.odFiles;
     _lastRemoteVersion = data.version;
     localStorage.setItem('estela_permits_v3', JSON.stringify(state.permits));
     localStorage.setItem('estela_od_files_v1', JSON.stringify(state.odFiles));
-    return true;
+    return { updated: true, updatedBy: data.updatedBy || 'a team member', updatedAt: data.updatedAt };
   } catch(e) {
     console.warn('OneDrive DB load failed:', e);
     return false;
@@ -703,10 +735,12 @@ function startDBPolling() {
   if (_pollInterval) clearInterval(_pollInterval);
   _pollInterval = setInterval(async () => {
     if (!state.odAccount) return;
-    const updated = await loadFromOneDriveDB();
-    if (updated) {
+    const result = await loadFromOneDriveDB();
+    if (result && result.updated) {
       render();
-      showToast('🔄 Permit data updated by a team member.');
+      const who = result.updatedBy || 'a team member';
+      const ago = result.updatedAt ? ' just now' : '';
+      showToast('🔄 Updated by ' + who + ago);
     }
     updateSyncBadge('live');
   }, 30000);
@@ -1549,10 +1583,19 @@ function renderExpandContent(permit) {
           `<button class="od-upload-btn" onclick="triggerFileUpload('${permit.id}','${k}')" title="${odConnected ? 'Upload to OneDrive' : 'Attach file (saves locally until OneDrive is connected)'}">
             ${odConnected ? '☁️' : '📎'} Attach
           </button>`}
-        ${files.length ? `<div class="od-files-list">${files.map(f => f.local
-          ? `<span class="od-file-link" style="cursor:pointer;color:#059669" onclick="downloadLocalFile('${permit.id}','${k}','${f.name.replace(/'/g,"\\'")}')">📄 ${f.name} <span style="font-size:10px;opacity:0.7">(local${f.size?' · '+f.size:''})</span>${odConnected ? `<span style="font-size:10px;color:#0078d4;cursor:pointer;margin-left:4px" onclick="event.stopPropagation();syncLocalFileToOneDrive('${permit.id}','${k}','${f.name.replace(/'/g,"\\'")}')">↑ Sync</span>` : ''}</span>`
-          : `<a class="od-file-link" href="${f.webUrl}" target="_blank">☁️ ${f.name}</a>`
-        ).join('')}</div>` : ''}
+        ${files.length ? `<div class="od-files-list">${files.map((f,fi) => {
+          const fref = encodeURIComponent(f.name);
+          if (f.local) {
+            return `<span class="od-file-link" style="cursor:pointer;color:#059669"
+              onclick="downloadLocalFile('${permit.id}','${k}',decodeURIComponent('${fref}'))">📄 ${f.name}
+              <span style="font-size:10px;opacity:0.7">(local${f.size?' · '+f.size:''})</span>
+              ${odConnected ? `<span style="font-size:10px;color:#0078d4;cursor:pointer;margin-left:4px"
+                onclick="event.stopPropagation();syncLocalFileToOneDrive('${permit.id}','${k}',decodeURIComponent('${fref}'))">↑ Sync</span>` : ''}
+            </span>`;
+          } else {
+            return `<a class="od-file-link" href="${f.webUrl}" target="_blank">☁️ ${f.name}</a>`;
+          }
+        }).join('')}</div>` : ''}
       ` : ''}
     </div>`;
   }
