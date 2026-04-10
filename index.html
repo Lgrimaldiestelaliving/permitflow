@@ -997,20 +997,26 @@ function getPermitAlerts(permit) {
   const alerts = [];
   for (const [key, cfg] of Object.entries(STAGE_CONFIG)) {
     const status = permit.stages[key];
-    if (!status || status === 'complete' || status === 'n/a') continue;
-    const updatedAt = permit.stageUpdatedAt?.[key];
-    if (!updatedAt) continue;
-    const days = daysSince(updatedAt);
-    if (days >= 5) alerts.push({ type:'danger', stage:key, days, msg:`${cfg.label} — ${days} days with no update` });
-    else if (days >= 3) alerts.push({ type:'warning', stage:key, days, msg:`${cfg.label} — ${days} days pending` });
+    if (!status || status === 'complete' || status === 'n/a' || status === 'not-started') continue;
+    // Use requestedAt as the SLA start date (most accurate)
+    const requestedAt = permit.stageRequestedAt?.[key] || permit.stageUpdatedAt?.[key];
+    if (!requestedAt) continue;
+    const days = daysSince(requestedAt);
+    const sla = cfg.sla || 5;
+    if (days >= sla * 2) alerts.push({ type:'danger', stage:key, days, msg:`${cfg.label} — requested ${days} days ago, no response` });
+    else if (days >= sla) alerts.push({ type:'warning', stage:key, days, msg:`${cfg.label} — ${days} days since requested (SLA: ${sla}d)` });
   }
+  // Permit pending after submission
   if (permit.stages.submitted === 'complete' && permit.stages.permitIssued !== 'complete') {
-    const bd = businessDaysBetween(permit.stageDates?.submitted, new Date());
-    if (bd >= 10) alerts.push({ type:'danger', stage:'permitIssued', days:bd, msg:`Permit pending ${bd} business days since submission` });
+    const submittedDate = permit.stageCompletedAt?.submitted || permit.stageDates?.submitted;
+    const bd = businessDaysBetween(submittedDate, new Date());
+    if (bd >= 10) alerts.push({ type:'danger', stage:'permitIssued', days:bd, msg:`Permit pending ${bd} business days since applied` });
     else if (bd >= 7) alerts.push({ type:'warning', stage:'permitIssued', days:bd, msg:`Permit pending ${bd} business days` });
   }
+  // Resubmittal overdue after plan review
   if (permit.stages.planReview === 'complete' && permit.stages.resubmittal !== 'complete' && permit.stages.resubmittal !== 'n/a') {
-    const bd = businessDaysBetween(permit.stageDates?.planReview, new Date());
+    const reviewDate = permit.stageCompletedAt?.planReview || permit.stageDates?.planReview;
+    const bd = businessDaysBetween(reviewDate, new Date());
     if (bd >= 5) alerts.push({ type:'danger', stage:'resubmittal', days:bd, msg:`Plan review response overdue — ${bd} business days` });
   }
   return alerts;
@@ -1097,10 +1103,28 @@ function cycleStage(e, permitId, stageName) {
   if (!permit) return;
   const cur = permit.stages[stageName];
   if (cur === 'n/a') return;
+  const today = new Date().toISOString().split('T')[0];
   const cycle = ['not-started','requested','complete'];
-  permit.stages[stageName] = cycle[(cycle.indexOf(cur)+1)%cycle.length];
+  const next = cycle[(cycle.indexOf(cur)+1)%cycle.length];
+  permit.stages[stageName] = next;
   if (!permit.stageUpdatedAt) permit.stageUpdatedAt = {};
-  permit.stageUpdatedAt[stageName] = new Date().toISOString().split('T')[0];
+  permit.stageUpdatedAt[stageName] = today;
+  // Auto-record dates on status transition
+  if (!permit.stageRequestedAt) permit.stageRequestedAt = {};
+  if (!permit.stageCompletedAt) permit.stageCompletedAt = {};
+  if (next === 'requested' && !permit.stageRequestedAt[stageName]) {
+    permit.stageRequestedAt[stageName] = today; // pre-fill with today; user can edit
+  }
+  if (next === 'complete') {
+    if (!permit.stageCompletedAt[stageName]) permit.stageCompletedAt[stageName] = today;
+    // Also set requestedAt if it was skipped (jumped straight to complete)
+    if (!permit.stageRequestedAt[stageName]) permit.stageRequestedAt[stageName] = today;
+  }
+  if (next === 'not-started') {
+    // Clear dates when resetting
+    delete permit.stageRequestedAt[stageName];
+    delete permit.stageCompletedAt[stageName];
+  }
   updateOverallStatus(permit); saveData(); render();
 }
 
@@ -1383,29 +1407,59 @@ function renderExpandContent(permit) {
 
   function stageRowHtml(k) {
     const status = permit.stages[k];
-    const date = permit.stageDates?.[k]||'';
-    const updated = permit.stageUpdatedAt?.[k]||'';
     const isNA = status === 'n/a';
     const hasFolder = STAGE_CONFIG[k].folder;
     const files = state.odFiles?.[permit.id]?.[k] || [];
     const isUploading = state.odUploading?.[permit.id+'_'+k];
-    
-    const statusIcon = status==='complete'?'✅':status==='requested'?'🔵':
-      (updated&&daysSince(updated)>=5)?'🔴':(updated&&daysSince(updated)>=3)?'🟡':'⚪';
-    
+    const requestedAt = permit.stageRequestedAt?.[k] || '';
+    const completedAt = permit.stageCompletedAt?.[k] || '';
+    // For submitted/permitIssued keep legacy manual date as fallback
+    const legacyDate = permit.stageDates?.[k] || '';
+
+    // Status icon + days indicator
+    let statusIcon, daysLabel = '';
+    if (status === 'complete') {
+      statusIcon = '✅';
+    } else if (status === 'requested') {
+      const daysWaiting = requestedAt ? daysSince(requestedAt) : 0;
+      const sla = STAGE_CONFIG[k].sla || 5;
+      statusIcon = daysWaiting >= sla*2 ? '🔴' : daysWaiting >= sla ? '🟡' : '🔵';
+      if (daysWaiting > 0) daysLabel = `<span style="font-size:10px;color:${daysWaiting>=sla*2?'#dc2626':daysWaiting>=sla?'#d97706':'#6b7280'};font-weight:600;margin-left:4px">${daysWaiting}d waiting</span>`;
+    } else if (status === 'n/a') {
+      statusIcon = '—';
+    } else {
+      statusIcon = '⚪';
+    }
+
+    // Two date fields: Requested (manual) + Received (auto, editable for corrections)
+    // Special case: 'submitted' shows "Applied" label; permitIssued shows just received
+    const isSubmission = (k === 'submitted');
+    const reqLabel = isSubmission ? 'Applied' : 'Requested';
+    const rcvLabel = isSubmission ? 'County Received' : 'Received';
+    const rcvValue = completedAt || (status==='complete'?legacyDate:'');
+
     return `<div class="stage-row">
-      <div style="width:16px;font-size:12px">${statusIcon}</div>
+      <div style="width:16px;font-size:13px;text-align:center">${statusIcon}</div>
       <span class="stage-name">${STAGE_CONFIG[k].label}</span>
-      <select class="stage-status-select" onchange="updateStageField('${permit.id}','${k}','status',this.value)" >
+      <select class="stage-status-select" onchange="updateStageField('${permit.id}','${k}','status',this.value)">
         <option value="not-started" ${status==='not-started'?'selected':''}>○ Not Started</option>
-        <option value="requested"   ${status==='requested'?'selected':''}>↗ Requested</option>
-        <option value="complete"    ${status==='complete'?'selected':''}>✓ Complete</option>
+        <option value="requested"   ${status==='requested'?'selected':''}>↗ ${isSubmission?'Applied':'Requested'}</option>
+        <option value="complete"    ${status==='complete'?'selected':''}>✓ Received</option>
         <option value="n/a"         ${status==='n/a'?'selected':''}>— N/A</option>
       </select>
-      <input type="date" class="stage-date-input" value="${date}" title="Date received"
-             onchange="updateStageField('${permit.id}','${k}','date',this.value)">
+      ${daysLabel}
+      ${!isNA ? `
+        <label style="font-size:10px;color:var(--text-muted);margin-left:6px">${reqLabel}:</label>
+        <input type="date" class="stage-date-input" value="${requestedAt||legacyDate}" title="${reqLabel} date — enter manually"
+               onchange="updateStageField('${permit.id}','${k}','requestedAt',this.value)" style="width:120px">
+        ${status==='complete'||rcvValue ? `
+          <label style="font-size:10px;color:var(--text-muted);margin-left:6px">${rcvLabel}:</label>
+          <input type="date" class="stage-date-input" value="${rcvValue}" title="Auto-set when marked Received — edit to correct"
+                 onchange="updateStageField('${permit.id}','${k}','completedAt',this.value)" style="width:120px;background:#f0fdf4">
+        ` : ''}
+      ` : ''}
       ${hasFolder ? `
-        ${isUploading ? `<span class="od-uploading">⏳ Uploading to OneDrive...</span>` :
+        ${isUploading ? `<span class="od-uploading">⏳ Uploading...</span>` :
           `<button class="od-upload-btn" onclick="triggerFileUpload('${permit.id}','${k}')" title="${odConnected ? 'Upload to OneDrive' : 'Attach file (saves locally until OneDrive is connected)'}">
             ${odConnected ? '☁️' : '📎'} Attach
           </button>`}
@@ -1414,7 +1468,6 @@ function renderExpandContent(permit) {
           : `<a class="od-file-link" href="${f.webUrl}" target="_blank">☁️ ${f.name}</a>`
         ).join('')}</div>` : ''}
       ` : ''}
-      ${updated?`<span style="font-size:10px;color:var(--text-muted);margin-left:auto">upd ${updated}</span>`:''}
     </div>`;
   }
 
@@ -1485,24 +1538,51 @@ function renderExpandContent(permit) {
 function updateStageField(permitId, stage, field, value) {
   const permit = state.permits.find(p=>p.id===permitId);
   if (!permit) return;
-  if (field==='status') {
+  const today = new Date().toISOString().split('T')[0];
+  if (!permit.stageUpdatedAt) permit.stageUpdatedAt = {};
+  if (!permit.stageRequestedAt) permit.stageRequestedAt = {};
+  if (!permit.stageCompletedAt) permit.stageCompletedAt = {};
+  if (!permit.stageDates) permit.stageDates = {};
+
+  if (field === 'status') {
     permit.stages[stage] = value;
-    if (!permit.stageUpdatedAt) permit.stageUpdatedAt = {};
-    permit.stageUpdatedAt[stage] = new Date().toISOString().split('T')[0];
+    permit.stageUpdatedAt[stage] = today;
+    if (value === 'requested' && !permit.stageRequestedAt[stage]) {
+      permit.stageRequestedAt[stage] = today;
+    }
+    if (value === 'complete') {
+      if (!permit.stageCompletedAt[stage]) permit.stageCompletedAt[stage] = today;
+      if (!permit.stageRequestedAt[stage]) permit.stageRequestedAt[stage] = today;
+    }
+    if (value === 'not-started') {
+      delete permit.stageRequestedAt[stage];
+      delete permit.stageCompletedAt[stage];
+    }
     updateOverallStatus(permit);
-  } else if (field==='date') {
-    if (!permit.stageDates) permit.stageDates = {};
+  } else if (field === 'requestedAt') {
+    // Manual edit of requested date
+    permit.stageRequestedAt[stage] = value;
+    if (value && permit.stages[stage] === 'not-started') {
+      permit.stages[stage] = 'requested';
+      permit.stageUpdatedAt[stage] = today;
+    }
+    updateOverallStatus(permit);
+  } else if (field === 'completedAt') {
+    // Manual correction of received date (auto-set, but allow edits)
+    permit.stageCompletedAt[stage] = value;
+    updateOverallStatus(permit);
+  } else if (field === 'date') {
+    // Legacy: keep for applied/permit dates (submitted, permitIssued)
     permit.stageDates[stage] = value;
-    if (value && permit.stages[stage]==='not-started') {
-      permit.stages[stage]='complete';
-      if (!permit.stageUpdatedAt) permit.stageUpdatedAt={};
-      permit.stageUpdatedAt[stage]=new Date().toISOString().split('T')[0];
+    if (value && permit.stages[stage] === 'not-started') {
+      permit.stages[stage] = 'complete';
+      permit.stageUpdatedAt[stage] = today;
+      permit.stageCompletedAt[stage] = value;
     }
     updateOverallStatus(permit);
   }
   saveData();
   refreshExpandRow(permitId);
-  // Update badges
   const alerts = getAllAlerts();
   document.getElementById('badge-alerts').textContent = alerts.length;
   document.getElementById('bell-count').textContent = alerts.length;
