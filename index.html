@@ -588,6 +588,10 @@ function saveData() {
   state._syncTimer = setTimeout(() => syncToOneDriveDB(), 2000);
 }
 
+function saveOdFiles() {
+  localStorage.setItem('estela_od_files_v1', JSON.stringify(state.odFiles));
+}
+
 // ══════════════════════════════════════════════════
 //  LOCAL FILE STORAGE (IndexedDB)
 // ══════════════════════════════════════════════════
@@ -620,6 +624,7 @@ async function saveFileLocally(permitId, stageKey, file) {
     state.odFiles[permitId][stageKey] = state.odFiles[permitId][stageKey].filter(f => f.name !== file.name);
     state.odFiles[permitId][stageKey].push({ name: file.name, date: new Date().toISOString().split('T')[0], local: true, size: Math.round(file.size/1024) + ' KB' });
     saveOdFiles();
+    return true;
   } catch(e) {
     console.error('IndexedDB save error:', e);
     showToast('❌ Could not save file locally. Your browser storage may be full.');
