@@ -281,6 +281,13 @@ td.address-cell { min-width:200px; }
   cursor:pointer; border:none; text-decoration:none; transition:background 0.15s;
 }
 .od-folder-btn:hover { background:#005a9e; color:#fff; }
+.drop-zone-area {
+  display:inline-flex; align-items:center; gap:4px; position:relative;
+  border:1.5px dashed transparent; border-radius:6px; padding:2px; transition:all 0.15s;
+}
+.drop-zone-area.drag-over {
+  border-color:#0078d4; background:#e8f4fd; border-style:solid;
+}
 
 /* PERMIT INFO */
 .permit-info-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:0; }
@@ -1029,6 +1036,30 @@ function triggerFileUpload(permitId, stageKey) {
   input.click();
 }
 
+async function handleDroppedFiles(permitId, stageKey, fileList) {
+  const files = Array.from(fileList);
+  for (const file of files) {
+    if (state.odAccount) {
+      await uploadFileToOneDrive(permitId, stageKey, file);
+    } else {
+      const ok = await saveFileLocally(permitId, stageKey, file);
+      if (ok) {
+        const permit = state.permits.find(p => p.id === permitId);
+        if (permit && permit.stages[stageKey] !== 'complete') {
+          permit.stages[stageKey] = 'complete';
+          if (!permit.stageUpdatedAt) permit.stageUpdatedAt = {};
+          permit.stageUpdatedAt[stageKey] = new Date().toISOString().split('T')[0];
+          updateOverallStatus(permit);
+          saveData();
+        }
+        showToast('ðŸ“Ž ' + file.name + ' saved locally. Connect OneDrive to sync to the cloud.');
+        refreshExpandRow(permitId);
+      } else {
+        showToast('âŒ Could not save file. Try a smaller file or clear some browser storage.');
+      }
+    }
+  }
+}
 async function openPermitFolder(permitId) {
   const permit = state.permits.find(p => p.id === permitId);
   if (!permit) return;
@@ -1632,9 +1663,13 @@ function renderExpandContent(permit) {
         ` : ''}
       ` : ''}
       ${hasFolder ? `
+        <div class="drop-zone-area"
+          ondragover="event.preventDefault();event.stopPropagation();this.classList.add('drag-over')"
+          ondragleave="event.stopPropagation();this.classList.remove('drag-over')"
+          ondrop="event.preventDefault();event.stopPropagation();this.classList.remove('drag-over');handleDroppedFiles('${permit.id}','${k}',event.dataTransfer.files)">
         ${isUploading ? `<span class="od-uploading">⏳ Uploading...</span>` :
-          `<button class="od-upload-btn" onclick="triggerFileUpload('${permit.id}','${k}')" title="${odConnected ? 'Upload to OneDrive' : 'Attach file (saves locally until OneDrive is connected)'}">
-            ${odConnected ? '☁️' : '📎'} Attach
+          `<button class="od-upload-btn" onclick="triggerFileUpload('${permit.id}','${k}')" title="${odConnected ? 'Upload to OneDrive — or drag & drop files here' : 'Attach file (saves locally) — or drag & drop files here'}">  
+            ${odConnected ? '☁️' : '📎'} Attach or drop
           </button>`}
         ${files.length ? `<div class="od-files-list">${files.map((f,fi) => {
           const fref = encodeURIComponent(f.name);
@@ -1649,6 +1684,7 @@ function renderExpandContent(permit) {
             return `<a class="od-file-link" href="${f.webUrl}" target="_blank">☁️ ${f.name}</a>`;
           }
         }).join('')}</div>` : ''}
+        </div>
       ` : ''}
     </div>`;
   }
