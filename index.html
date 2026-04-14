@@ -1040,17 +1040,18 @@ function updateODButton() {
 function getPermitFolderPath(permit) {
   const comm = permit.community || '';
   const rawAddress = (permit.address || '').trim();
+  // Use address as folder name — strip illegal filename chars, trim to 60 chars
   const safeAddress = rawAddress.replace(/[/\:*?"<>|]/g, '-').substring(0, 60).trim();
-  const parcel = (permit.parcelId || '').trim();
   const lotNum = (permit.lotNumber || '').trim();
 
   if (comm === 'Sabana Reserve') {
-    // Sabana Reserve lives under its own folder, named just "Lot [number]"
+    // Sabana Reserve: Estela Living/Sabana Reserve/Vertical Development - Construction/Permits/Lot [number]
     const lotFolder = lotNum ? 'Lot ' + lotNum : safeAddress.substring(0, 20);
     return 'Estela Living/Sabana Reserve/Vertical Development - Construction/Permits/' + lotFolder;
   }
 
-  // All other communities live under Single Family Development
+  // All SFD communities: Estela Living/Single Family Development/[Community]/Vertical Developemnet - Construction/[Address]
+  // NOTE: "Developemnet" is intentional — matches the typo in the existing OneDrive folder name
   let communityFolder;
   if (comm === 'Ocala Waterways')           communityFolder = 'Ocala/OW';
   else if (comm === 'Marion Oaks')          communityFolder = 'Ocala/MO';
@@ -1059,18 +1060,8 @@ function getPermitFolderPath(permit) {
   else if (comm === 'Sawmill Branch')       communityFolder = 'Sawmill Branch';
   else                                       communityFolder = comm;
 
-  let projectFolder;
-  if (lotNum) {
-    projectFolder = 'Lot ' + lotNum + ' - ' + safeAddress;
-  } else if (parcel) {
-    projectFolder = safeAddress + ' - ' + parcel;
-  } else {
-    projectFolder = safeAddress;
-  }
-
-  return 'Estela Living/Single Family Development/' + communityFolder + '/' + projectFolder;
+  return 'Estela Living/Single Family Development/' + communityFolder + '/Vertical Developemnet - Construction/' + safeAddress;
 }
-async function ensureFolder(token, folderPath) {
   const parts = folderPath.split('/');
   let currentPath = '';
   for (const part of parts) {
