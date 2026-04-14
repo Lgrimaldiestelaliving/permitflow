@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -454,6 +454,7 @@ td.address-cell { min-width:200px; }
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeSettings()">Close</button>
       <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
+      <button class="btn btn-onedrive" onclick="saveSettings();setTimeout(loginOneDrive,400)" style="background:#0078d4;color:#fff;border-color:#0078d4">&#9729;&#65039; Save &amp; Connect OneDrive</button>
     </div>
   </div>
 </div>
@@ -675,6 +676,7 @@ function saveSettings() {
   initMSAL();
   closeSettings();
   render();
+  if (!state.odAccount) showToast('✅ Settings saved — click ☁️ Connect OneDrive to sign in.');
 }
 
 // ══════════════════════════════════════════════════
@@ -829,6 +831,7 @@ async function toggleOneDrive() {
 }
 
 async function loginOneDrive() {
+  if (!state.msalInstance) { initMSAL(); } // try to init before giving up
   if (!state.msalInstance) { openSettings(); return; }
   try {
     const result = await state.msalInstance.loginPopup({ scopes: ['Files.ReadWrite', 'User.Read'] });
@@ -844,7 +847,16 @@ async function loginOneDrive() {
     else showToast('✅ Connected as ' + state.odAccount.name + ' · Folder: Estela Living - Permit Tracker');
     startDBPolling();
     render();
-  } catch(e) { console.error('Login failed', e); showToast('❌ OneDrive login failed. Check your Client ID in Settings.'); }
+  } catch(e) {
+    console.error('Login failed', e);
+    if (e.errorCode === 'popup_window_error' || e.errorCode === 'empty_window_error') {
+      showToast('❌ Popup was blocked. Please allow popups for this site and try again.');
+    } else if (e.errorCode === 'user_cancelled') {
+      showToast('ℹ️ Login cancelled.');
+    } else {
+      showToast('❌ Login failed: ' + (e.errorMessage || e.message || e.errorCode || 'unknown error'));
+    }
+  }
 }
 
 function logoutOneDrive() {
