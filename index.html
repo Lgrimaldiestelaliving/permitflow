@@ -4,7 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Estela Living – Permit Tracker</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-authentication-library/2.38.4/msal-browser.min.js"></script>
+<!-- MSAL: Microsoft official CDN with jsdelivr fallback -->
+<script src="https://alcdn.msauth.net/browser/2.38.4/js/msal-browser.min.js"></script>
+<script>
+if (typeof msal === "undefined") {
+  var s = document.createElement("script");
+  s.src = "https://cdn.jsdelivr.net/npm/@azure/msal-browser@2.38.4/lib/msal-browser.min.js";
+  document.head.appendChild(s);
+}
+</script>
 <style>
 :root {
   --primary: #1e3a5f;
@@ -815,6 +823,10 @@ function updateSyncBadge(status) {
 // ══════════════════════════════════════════════════
 function initMSAL() {
   if (!state.settings.clientId) return;
+  if (typeof msal === 'undefined') {
+    console.error('MSAL library not loaded');
+    return; // saveAndConnect will show the error toast
+  }
   try {
     state.msalInstance = new msal.PublicClientApplication({
       auth: {
