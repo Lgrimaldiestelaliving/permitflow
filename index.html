@@ -589,7 +589,7 @@ const STAGE_CONFIG = {
 const COMMUNITIES = ['All','Sawmill Branch','Sabana Reserve','Palm Coast Scattered','Marion Oaks','Ocala Waterways','Juliette Falls'];
 const STATUS_LABELS = { active:'In Progress', submitted:'Submitted', permitted:'Permitted', co:'CO Received' };
 const STATUS_CLS = { active:'status-active', submitted:'status-submitted', permitted:'status-permitted', co:'status-co' };
-const ONEDRIVE_ROOT = 'Single Family Development';
+const ONEDRIVE_ROOT = 'Estela Living';
 
 // ── FILTER OPTIONS ──
 const MODELS = ['Andros','Appaloosa','Bay','Bimini','Bimini X','Cremello','Exuma X','Heron','Heron X','IBIS','Palomino','Sabino','Snapper'];
@@ -1038,40 +1038,38 @@ function updateODButton() {
 
 
 function getPermitFolderPath(permit) {
-  // Community → OneDrive subfolder routing
   const comm = permit.community || '';
-  let communityPath;
-  if (comm === 'Ocala Waterways')      communityPath = 'Ocala/OW';
-  else if (comm === 'Marion Oaks')     communityPath = 'Ocala/MO';
-  else if (comm === 'Juliette Falls')  communityPath = 'Ocala/JF';
-  else if (comm === 'Palm Coast Scattered') communityPath = 'Palm Coast';
-  else if (comm === 'Sawmill Branch')  communityPath = 'Sawmill Branch';
-  else if (comm === 'Sabana Reserve')  communityPath = 'Sabana Reserve';
-  else communityPath = comm;
-
-  // Project folder name: [Address]-[Parcel]
-  // Sabana Reserve: use last 3 digits of house number only
-  let projectFolder;
   const rawAddress = (permit.address || '').trim();
-  const safeAddress = rawAddress.replace(/[/\\:*?"<>|]/g, '-').substring(0, 60).trim();
+  const safeAddress = rawAddress.replace(/[/\:*?"<>|]/g, '-').substring(0, 60).trim();
   const parcel = (permit.parcelId || '').trim();
+  const lotNum = (permit.lotNumber || '').trim();
 
   if (comm === 'Sabana Reserve') {
-    // Extract house number (first token), take last 3 digits
-    const houseNum = rawAddress.split(/\s+/)[0].replace(/\D/g, '');
-    const last3 = houseNum.slice(-3) || safeAddress.substring(0, 10);
-    projectFolder = last3;
+    // Sabana Reserve lives under its own folder, named just "Lot [number]"
+    const lotFolder = lotNum ? 'Lot ' + lotNum : safeAddress.substring(0, 20);
+    return 'Estela Living/Sabana Reserve/Vertical Development - Construction/Permits/' + lotFolder;
+  }
+
+  // All other communities live under Single Family Development
+  let communityFolder;
+  if (comm === 'Ocala Waterways')           communityFolder = 'Ocala/OW';
+  else if (comm === 'Marion Oaks')          communityFolder = 'Ocala/MO';
+  else if (comm === 'Juliette Falls')       communityFolder = 'Ocala/JF';
+  else if (comm === 'Palm Coast Scattered') communityFolder = 'Palm Coast';
+  else if (comm === 'Sawmill Branch')       communityFolder = 'Sawmill Branch';
+  else                                       communityFolder = comm;
+
+  let projectFolder;
+  if (lotNum) {
+    projectFolder = 'Lot ' + lotNum + ' - ' + safeAddress;
   } else if (parcel) {
-    projectFolder = safeAddress + '-' + parcel;
-  } else if (permit.lotNumber) {
-    projectFolder = 'Lot ' + permit.lotNumber + ' - ' + safeAddress;
+    projectFolder = safeAddress + ' - ' + parcel;
   } else {
     projectFolder = safeAddress;
   }
 
-  return ONEDRIVE_ROOT + '/' + communityPath + '/' + projectFolder;
+  return 'Estela Living/Single Family Development/' + communityFolder + '/' + projectFolder;
 }
-
 async function ensureFolder(token, folderPath) {
   const parts = folderPath.split('/');
   let currentPath = '';
