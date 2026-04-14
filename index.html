@@ -358,11 +358,17 @@ td.address-cell { min-width:200px; }
 }
 .od-folder-btn:hover { background:#005a9e; color:#fff; }
 .drop-zone-area {
-  display:inline-flex; align-items:center; gap:4px; position:relative;
-  border:1.5px dashed transparent; border-radius:6px; padding:2px; transition:all 0.15s;
+  display:flex; align-items:center; gap:6px; position:relative;
+  border:1.5px dashed #cbd5e1; border-radius:8px; padding:4px 8px;
+  transition:all 0.15s; background:transparent; min-width:120px;
 }
+.drop-zone-area:hover { border-color:#94a3b8; background:#f8fafc; }
 .drop-zone-area.drag-over {
-  border-color:#0078d4; background:#e8f4fd; border-style:solid;
+  border-color:#0078d4 !important; background:#e8f4fd !important;
+  border-style:solid !important; box-shadow:0 0 0 3px rgba(0,120,212,0.15);
+}
+.drop-zone-label {
+  font-size:10px; color:#94a3b8; pointer-events:none; white-space:nowrap;
 }
 
 /* PERMIT INFO */
@@ -1792,12 +1798,11 @@ function renderExpandContent(permit) {
       ${hasFolder ? `
         <div class="drop-zone-area"
           ondragover="event.preventDefault();event.stopPropagation();this.classList.add('drag-over')"
-          ondragleave="event.stopPropagation();this.classList.remove('drag-over')"
+          ondragleave="if(!this.contains(event.relatedTarget)){this.classList.remove('drag-over')}"
           ondrop="event.preventDefault();event.stopPropagation();this.classList.remove('drag-over');handleDroppedFiles('${permit.id}','${k}',event.dataTransfer.files)">
         ${isUploading ? `<span class="od-uploading">⏳ Uploading...</span>` :
-          `<button class="od-upload-btn" onclick="triggerFileUpload('${permit.id}','${k}')" title="${odConnected ? 'Upload to OneDrive — or drag & drop files here' : 'Attach file (saves locally) — or drag & drop files here'}">  
-            ${odConnected ? '☁️' : '📎'} Attach or drop
-          </button>`}
+          `<button class="od-upload-btn" onclick="triggerFileUpload('${permit.id}','${k}')">${odConnected ? '☁️' : '📎'} Attach</button>`}
+        <span class="drop-zone-label">or drop files</span>
         ${files.length ? `<div class="od-files-list">${files.map((f,fi) => {
           const fref = encodeURIComponent(f.name);
           if (f.local) {
