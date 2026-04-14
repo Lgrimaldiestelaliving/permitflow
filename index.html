@@ -454,7 +454,7 @@ td.address-cell { min-width:200px; }
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeSettings()">Close</button>
       <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
-      <button class="btn btn-onedrive" onclick="saveSettings();setTimeout(loginOneDrive,400)" style="background:#0078d4;color:#fff;border-color:#0078d4">&#9729;&#65039; Save &amp; Connect OneDrive</button>
+      <button class="btn btn-onedrive" onclick="saveAndConnect()" style="background:#0078d4;color:#fff;border-color:#0078d4">&#9729;&#65039; Save &amp; Connect OneDrive</button>
     </div>
   </div>
 </div>
@@ -815,13 +815,38 @@ function initMSAL() {
       },
       cache: { cacheLocation: 'localStorage' },
     });
-    // Try silent account detection
+    // Handle redirect response (after Microsoft login redirects back here)
+    state.msalInstance.handleRedirectPromise().then(async (result) => {
+      if (result && result.account) {
+        state.odAccount = result.account;
+        state.odToken = result.accessToken;
+        updateODButton();
+        updateSyncBadge('syncing');
+        showToast('✅ Connected as ' + state.odAccount.name + ' — loading shared database...');
+        try { await ensureFolder(await getODToken(), ONEDRIVE_ROOT); } catch(e) {}
+        const loaded = await loadFromOneDriveDB();
+        if (loaded) showToast('✅ ' + state.permits.length + ' permits synced from OneDrive.');
+        else showToast('✅ Connected to OneDrive · ' + state.odAccount.name);
+        startDBPolling();
+        render();
+      }
+    }).catch(e => console.warn('Redirect promise error:', e));
+    // Detect already-logged-in account
     const accounts = state.msalInstance.getAllAccounts();
     if (accounts.length > 0) {
       state.odAccount = accounts[0];
       updateODButton();
     }
   } catch(e) { console.warn('MSAL init failed:', e); }
+}
+
+function saveAndConnect() {
+  const cid = document.getElementById("settings-client-id")?.value?.trim();
+  if (cid) state.settings.clientId = cid;
+  localStorage.setItem("estela_settings_v1", JSON.stringify(state.settings));
+  initMSAL();
+  closeSettings();
+  loginOneDrive(); // called synchronously to preserve user-gesture for popup
 }
 
 async function toggleOneDrive() {
@@ -831,16 +856,16 @@ async function toggleOneDrive() {
 }
 
 async function loginOneDrive() {
-  if (!state.msalInstance) { initMSAL(); } // try to init before giving up
+  if (!state.msalInstance) { initMSAL(); }
   if (!state.msalInstance) { openSettings(); return; }
   try {
+    // Try popup first; if blocked fall back to redirect
     const result = await state.msalInstance.loginPopup({ scopes: ['Files.ReadWrite', 'User.Read'] });
     state.odAccount = result.account;
     state.odToken = result.accessToken;
     updateODButton();
     updateSyncBadge('syncing');
     showToast('✅ Connected as ' + state.odAccount.name + ' — setting up OneDrive folder...');
-    // Auto-create the root folder immediately on connect
     try { await ensureFolder(await getODToken(), ONEDRIVE_ROOT); } catch(e) { console.warn('Root folder init:', e); }
     const loaded = await loadFromOneDriveDB();
     if (loaded) showToast('✅ Shared permit database loaded — ' + state.permits.length + ' permits synced.');
@@ -849,8 +874,12 @@ async function loginOneDrive() {
     render();
   } catch(e) {
     console.error('Login failed', e);
-    if (e.errorCode === 'popup_window_error' || e.errorCode === 'empty_window_error') {
-      showToast('❌ Popup was blocked. Please allow popups for this site and try again.');
+    if (e.errorCode === 'popup_window_error' || e.errorCode === 'empty_window_error' || e.errorCode === 'popup_blocked') {
+      // Popup blocked → fall back to redirect (navigates away and comes back)
+      showToast('⏳ Popup blocked — redirecting to Microsoft login...');
+      setTimeout(() => {
+        state.msalInstance.loginRedirect({ scopes: ['Files.ReadWrite', 'User.Read'] });
+      }, 1000);
     } else if (e.errorCode === 'user_cancelled') {
       showToast('ℹ️ Login cancelled.');
     } else {
