@@ -1064,6 +1064,7 @@ function getPermitFolderPath(permit) {
   const communityFolder = comm === 'Sawmill Branch' ? 'Sawmill Branch' : comm;
   return 'Estela Living/Single Family Development/' + communityFolder + '/Vertical Developemnet - Construction/' + safeAddress;
 }
+async function ensureFolder(token, folderPath) {
   const parts = folderPath.split('/');
   let currentPath = '';
   for (const part of parts) {
