@@ -1065,6 +1065,15 @@ function getPermitFolderPath(permit) {
   return 'Estela Living/Single Family Development/' + communityFolder + '/Vertical Developemnet - Construction/' + safeAddress;
 }
 async function ensureFolder(token, folderPath) {
+  // First check if the full folder already exists — if so, nothing to do
+  const encodedFull = encodeURIComponent(folderPath).replace(/%2F/g, '/');
+  const existsRes = await fetch(
+    'https://graph.microsoft.com/v1.0/me/drive/root:/' + encodedFull,
+    { headers: { 'Authorization': 'Bearer ' + token } }
+  );
+  if (existsRes.ok) return; // folder exists, skip creation
+
+  // Folder missing — walk each segment and create any that don't exist yet
   const parts = folderPath.split('/');
   let currentPath = '';
   for (const part of parts) {
