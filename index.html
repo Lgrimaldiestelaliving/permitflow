@@ -1264,6 +1264,7 @@ async function openPermitFolder(permitId) {
   if (!token) { showToast('Connect to OneDrive first.'); return; }
   
   const folderPath = getPermitFolderPath(permit);
+  try {
     const driveId2 = await getEstelaLivingDriveId(token);
     await ensureFolder(token, driveId2, folderPath);
     const encodedPath = encodeURIComponent(folderPath).replace(/%2F/g, '/');
