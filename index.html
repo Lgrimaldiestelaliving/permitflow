@@ -2002,6 +2002,34 @@ function renderExpandContent(permit) {
         }).join('')}</div>` : ''}
         </div>
       ` : ''}
+      ${!isNA ? `
+        <div class="stage-rounds" style="margin-top:6px;padding-top:6px;border-top:1px dashed var(--border)">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+            <span style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px">Rounds</span>
+            <button onclick="event.stopPropagation();addStageRound('${permit.id}','${k}')" style="font-size:10px;padding:1px 7px;border:1px solid var(--border);border-radius:4px;background:none;cursor:pointer;color:var(--text-muted);line-height:1.6">+ Add Round</button>
+          </div>
+          ${(permit.stageRounds?.[k]||[]).map((r,ri) => `
+            <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:4px 6px;margin-bottom:3px;background:var(--bg);border-radius:5px;border:1px solid var(--border);font-size:11px">
+              <span style="font-weight:600;color:var(--text-muted);min-width:50px">Round ${ri+1}</span>
+              <label style="color:var(--text-muted)">Sent:</label>
+              <input type="date" value="${r.sent||}" style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
+                onchange="updateStageRound('${permit.id}','${k}',${ri},'sent',this.value)">
+              <label style="color:var(--text-muted)">Received:</label>
+              <input type="date" value="${r.received||}" style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
+                onchange="updateStageRound('${permit.id}','${k}',${ri},'received',this.value)">
+              <select style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
+                onchange="updateStageRound('${permit.id}','${k}',${ri},'result',this.value)">
+                <option value="pending"   ${r.result==='pending'   ?'selected':''}>⏳ Pending</option>
+                <option value="incorrect" ${r.result==='incorrect' ?'selected':''}>✗ Incorrect</option>
+                <option value="accepted"  ${r.result==='accepted'  ?'selected':''}>✓ Accepted</option>
+              </select>
+              <input placeholder="note" value="${r.note||}" style="flex:1;min-width:80px;font-size:11px;padding:1px 5px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
+                onblur="updateStageRound('${permit.id}','${k}',${ri},'note',this.value)">
+              <button onclick="event.stopPropagation();deleteStageRound('${permit.id}','${k}',${ri})" style="border:none;background:none;cursor:pointer;color:#dc2626;font-size:13px;padding:0 3px">&times;</button>
+            </div>
+          `).join('')}
+        </div>
+      ` : ''}
     </div>`;
   }
 
@@ -2199,6 +2227,31 @@ function toggleDateCorrection(permitId, stageKey) {
   const isHidden = inp.style.display === 'none' || inp.style.display === '';
   inp.style.display = isHidden ? 'inline-block' : 'none';
   if (isHidden) { inp.focus(); inp.select(); }
+}
+
+// ── STAGE ROUND TRACKER ──────────────────────────
+function addStageRound(permitId, stageKey) {
+  const permit = state.permits.find(p=>p.id===permitId);
+  if (!permit) return;
+  if (!permit.stageRounds) permit.stageRounds = {};
+  if (!permit.stageRounds[stageKey]) permit.stageRounds[stageKey] = [];
+  const today = new Date().toISOString().split('T')[0];
+  permit.stageRounds[stageKey].push({ sent: today, received: '', result: 'pending', note: '' });
+  saveData();
+  refreshExpandRow(permitId);
+}
+function updateStageRound(permitId, stageKey, idx, field, value) {
+  const permit = state.permits.find(p=>p.id===permitId);
+  if (!permit?.stageRounds?.[stageKey]?.[idx]) return;
+  permit.stageRounds[stageKey][idx][field] = value;
+  saveData();
+}
+function deleteStageRound(permitId, stageKey, idx) {
+  const permit = state.permits.find(p=>p.id===permitId);
+  if (!permit?.stageRounds?.[stageKey]) return;
+  permit.stageRounds[stageKey].splice(idx, 1);
+  saveData();
+  refreshExpandRow(permitId);
 }
 
 function updatePermitField(permitId, field, value) {
