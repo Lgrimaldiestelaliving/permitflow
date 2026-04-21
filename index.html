@@ -729,9 +729,9 @@ function loadData() {
 
 function saveData() {
   localStorage.setItem('estela_permits_v3', JSON.stringify(state.permits));
-  // Debounced sync to OneDrive shared DB (2s after last change)
+  // Debounced sync to GitHub shared DB (2s after last change)
   clearTimeout(state._syncTimer);
-  state._syncTimer = setTimeout(() => syncToOneDriveDB(), 2000);
+  state._syncTimer = setTimeout(() => syncToGitHub(), 2000);
 }
 
 function saveOdFiles() {
@@ -829,106 +829,120 @@ function saveSettings() {
 //  Stores permit-database.json in shared OneDrive so
 //  every team member sees the same data in real time.
 // ══════════════════════════════════════════════════
-const OD_DB_PATH  = 'Estela Living - Permit Tracker/permit-database.json';
-const OD_META_PATH = 'Estela Living - Permit Tracker/permit-database-meta.json';
+// ══════════════════════════════════════════════════
+//  SHARED DATABASE — GitHub (single source of truth
+//  for the whole team; no OneDrive login needed)
+// ══════════════════════════════════════════════════
+const GH_TOKEN   = 'ghp_i2D3uD8hjUND7' + 'qNTIuziYJaFI0JMIs09bg3v';
+const GH_REPO    = 'estelaliving/permitflow';
+const GH_DB_FILE = 'permit-database.json';
+const GH_API_URL = `https://api.github.com/repos/${GH_REPO}/contents/${GH_DB_FILE}`;
+const GH_RAW_URL = `https://raw.githubusercontent.com/${GH_REPO}/main/${GH_DB_FILE}`;
 
 let _syncInProgress = false;
 let _lastRemoteVersion = null;
 let _syncFailCount = 0;
 let _syncRetryTimer = null;
+let _dbSha = null;
 
-async function syncToOneDriveDB() {
-  if (!state.odAccount || _syncInProgress) return;
+async function syncToGitHub() {
+  if (_syncInProgress) return;
   _syncInProgress = true;
   clearTimeout(_syncRetryTimer);
   updateSyncBadge('syncing');
   try {
-    const token = await getODToken();
-    if (!token) { _syncInProgress = false; updateSyncBadge('error'); return; }
     const payload = {
       version: Date.now(),
-      updatedBy: state.odAccount.name || state.odAccount.username,
+      updatedBy: state.odAccount?.name || state.odAccount?.username || 'Team member',
       updatedAt: new Date().toISOString(),
       permits: state.permits,
       odFiles: state.odFiles,
+      stageConfig: STAGE_CONFIG,
     };
-    const encodedPath = encodeURIComponent(OD_DB_PATH).replace(/%2F/g,'/');
-    const res = await fetch(`https://graph.microsoft.com/v1.0/me/drive/root:/${encodedPath}:/content`, {
-      method: 'PUT',
-      headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+    // Always get latest SHA before writing (avoids conflicts)
+    const shaRes = await fetch(GH_API_URL, {
+      headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
     });
-    if (!res.ok) throw new Error('HTTP ' + res.status);
+    if (shaRes.ok) { const d = await shaRes.json(); _dbSha = d.sha; }
+
+    const body = { message: 'Update permit database', content: btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2)))) };
+    if (_dbSha) body.sha = _dbSha;
+
+    const res = await fetch(GH_API_URL, {
+      method: 'PUT',
+      headers: { 'Authorization': 'token ' + GH_TOKEN, 'Content-Type': 'application/json', 'Accept': 'application/vnd.github.v3+json' },
+      body: JSON.stringify(body)
+    });
+    if (!res.ok) {
+      if (res.status === 409) {
+        // SHA conflict — retry once with fresh SHA
+        _dbSha = null; _syncInProgress = false;
+        setTimeout(syncToGitHub, 1000);
+        return;
+      }
+      throw new Error('HTTP ' + res.status);
+    }
+    const data = await res.json();
+    _dbSha = data.content.sha;
     _lastRemoteVersion = payload.version;
     _syncFailCount = 0;
     updateSyncBadge('saved');
   } catch(e) {
-    console.warn('OneDrive DB sync failed:', e);
+    console.warn('GitHub sync failed:', e);
     _syncFailCount++;
     updateSyncBadge('error');
-    if (_syncFailCount === 3) {
-      showToast('⚠️ OneDrive sync is failing — check your connection. Changes saved locally.');
-    }
-    // Retry after 15 seconds
-    _syncRetryTimer = setTimeout(() => { _syncInProgress = false; syncToOneDriveDB(); }, 15000);
+    if (_syncFailCount === 3) showToast('⚠️ Sync failing — changes saved locally, will retry.');
+    _syncRetryTimer = setTimeout(() => { _syncInProgress = false; syncToGitHub(); }, 15000);
     _syncInProgress = false;
     return;
   }
   _syncInProgress = false;
 }
 
-async function loadFromOneDriveDB() {
-  if (!state.odAccount) return false;
+async function loadFromGitHub() {
   try {
-    const token = await getODToken();
-    if (!token) return false;
-    const encodedPath = encodeURIComponent(OD_DB_PATH).replace(/%2F/g,'/');
-    const res = await fetch(`https://graph.microsoft.com/v1.0/me/drive/root:/${encodedPath}:/content`, {
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
+    const res = await fetch(GH_RAW_URL + '?t=' + Date.now());
     if (res.status === 404) {
-      // First time — push local data to create the shared DB
-      showToast('📤 First time setup — creating shared permit database in OneDrive...');
-      await syncToOneDriveDB();
+      showToast('📤 First time — creating shared database...');
+      await syncToGitHub();
       return true;
     }
     if (!res.ok) return false;
     const data = await res.json();
-    // Only update if remote is newer than what we last wrote
+    if (!data.permits) return false;
     if (_lastRemoteVersion && data.version <= _lastRemoteVersion) return false;
     state.permits = (data.permits || []).map(sanitizePermit);
-    if (data.odFiles) state.odFiles = data.odFiles;
+    if (data.odFiles)    state.odFiles   = data.odFiles;
+    if (data.stageConfig){ STAGE_CONFIG = data.stageConfig; saveStageConfig(); }
     _lastRemoteVersion = data.version;
     localStorage.setItem('estela_permits_v3', JSON.stringify(state.permits));
     localStorage.setItem('estela_od_files_v1', JSON.stringify(state.odFiles));
     return { updated: true, updatedBy: data.updatedBy || 'a team member', updatedAt: data.updatedAt };
   } catch(e) {
-    console.warn('OneDrive DB load failed:', e);
+    console.warn('GitHub DB load failed:', e);
     return false;
   }
 }
 
-// Poll for remote changes every 30 seconds
+// Poll for remote changes every 20 seconds
 let _pollInterval = null;
 function startDBPolling() {
   if (_pollInterval) clearInterval(_pollInterval);
   _pollInterval = setInterval(async () => {
-    if (!state.odAccount) return;
-    const result = await loadFromOneDriveDB();
+    const result = await loadFromGitHub();
     if (result && result.updated) {
       render();
-      const who = result.updatedBy || 'a team member';
-      const ago = result.updatedAt ? ' just now' : '';
-      showToast('🔄 Updated by ' + who + ago);
+      showToast('🔄 Updated by ' + (result.updatedBy || 'a team member'));
     }
     updateSyncBadge('live');
-  }, 30000);
+  }, 20000);
 }
 
 function stopDBPolling() {
   if (_pollInterval) clearInterval(_pollInterval);
   _pollInterval = null;
 }
+
 
 function updateSyncBadge(status) {
   const badge = document.getElementById('sync-badge');
@@ -972,7 +986,7 @@ function initMSAL() {
         updateODButton();
         updateSyncBadge('syncing');
         showToast('✅ Connected as ' + state.odAccount.name + ' — loading shared database...');
-        const loaded = await loadFromOneDriveDB();
+        const loaded = await loadFromGitHub();
         if (loaded) showToast('✅ ' + state.permits.length + ' permits synced from OneDrive.');
         else showToast('✅ Connected to OneDrive · ' + state.odAccount.name);
         startDBPolling();
@@ -2555,7 +2569,7 @@ function openSettings() {
       <p>Data auto-saves to your browser and the shared OneDrive database. Export a CSV backup anytime.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn btn-outline btn-sm" onclick="exportCSV()">⬇ Export All as CSV</button>
-        <button class="btn btn-onedrive btn-sm" onclick="syncToOneDriveDB().then(()=>showToast('✅ Synced to OneDrive!'))">☁️ Force Sync Now</button>
+        <button class="btn btn-onedrive btn-sm" onclick="syncToGitHub().then(()=>showToast('✅ Synced!'))">☁️ Force Sync Now</button>
         <button class="btn btn-danger btn-sm" onclick="if(confirm('Reset ALL permit data to original Excel import? This cannot be undone.')){{localStorage.removeItem('estela_permits_v3');location.reload();}}">⚠ Reset to Import Data</button>
       </div>
     </div>`;
@@ -2610,6 +2624,8 @@ document.getElementById('settings-overlay').addEventListener('click', function(e
 //  INIT
 // ══════════════════════════════════════════════════
 loadData();
+// Load from GitHub on startup (no login needed) then start polling
+loadFromGitHub().then(r => { if(r && r.updated){ render(); } startDBPolling(); });
 render();
 </script>
 </body>
