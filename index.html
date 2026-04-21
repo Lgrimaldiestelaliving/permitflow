@@ -921,7 +921,7 @@ async function loadFromGitHub() {
     }
     state.permits = (data.permits || []).map(sanitizePermit);
     if (data.odFiles)    state.odFiles   = data.odFiles;
-    if (data.stageConfig){ STAGE_CONFIG = data.stageConfig; saveStageConfig(); }
+    if (data.stageConfig && Object.keys(data.stageConfig).length > 0){ STAGE_CONFIG = data.stageConfig; saveStageConfig(); }
     _lastRemoteVersion = data.version;
     localStorage.setItem('estela_permits_v3', JSON.stringify(state.permits));
     localStorage.setItem('estela_od_files_v1', JSON.stringify(state.odFiles));
