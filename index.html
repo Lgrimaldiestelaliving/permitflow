@@ -1201,8 +1201,24 @@ async function uploadFileToOneDrive(permitId, stageKey, file) {
       showToast('✅ ' + file.name + ' uploaded to OneDrive!');
     }
   } catch(e) {
-    showToast('❌ ' + e.message);
-    console.error('OneDrive upload error:', e);
+    // If access denied (403), fall back to saving file locally in browser storage
+    if (e.message && (e.message.includes('403') || e.message.includes('accessDenied') || e.message.includes('Access denied'))) {
+      console.warn('OneDrive write blocked, saving locally:', e.message);
+      const ok = await saveFileLocally(permitId, stageKey, file);
+      if (ok) {
+        permit.stages[stageKey] = 'complete';
+        if (!permit.stageUpdatedAt) permit.stageUpdatedAt = {};
+        permit.stageUpdatedAt[stageKey] = new Date().toISOString().split('T')[0];
+        updateOverallStatus(permit);
+        saveData();
+        showToast('📎 ' + file.name + ' saved locally (OneDrive access pending)');
+      } else {
+        showToast('❌ Could not save ' + file.name + '. File may be too large.');
+      }
+    } else {
+      showToast('❌ ' + e.message);
+      console.error('OneDrive upload error:', e);
+    }
   }
   delete state.odUploading[permitId + '_' + stageKey];
   refreshExpandRow(permitId);
