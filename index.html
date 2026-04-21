@@ -729,6 +729,7 @@ function loadData() {
 
 function saveData() {
   localStorage.setItem('estela_permits_v3', JSON.stringify(state.permits));
+  localStorage.setItem('estela_local_version', Date.now());
   // Debounced sync to GitHub shared DB (2s after last change)
   clearTimeout(state._syncTimer);
   state._syncTimer = setTimeout(() => syncToGitHub(), 2000);
@@ -911,6 +912,13 @@ async function loadFromGitHub() {
     const data = await res.json();
     if (!data.permits) return false;
     if (_lastRemoteVersion && data.version <= _lastRemoteVersion) return false;
+    // Don't overwrite if user has newer local changes
+    const localVer = parseInt(localStorage.getItem('estela_local_version') || '0');
+    if (!_lastRemoteVersion && localVer > data.version) {
+      // Local is newer — push local to GitHub instead
+      await syncToGitHub();
+      return false;
+    }
     state.permits = (data.permits || []).map(sanitizePermit);
     if (data.odFiles)    state.odFiles   = data.odFiles;
     if (data.stageConfig){ STAGE_CONFIG = data.stageConfig; saveStageConfig(); }
