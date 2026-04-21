@@ -595,7 +595,12 @@ const COMMUNITIES = ['All','Sawmill Branch','Sabana Reserve','Palm Coast Scatter
 
 function loadStageConfig() {
   const saved = localStorage.getItem('estela_stage_config_v1');
-  if (saved) { try { STAGE_CONFIG = JSON.parse(saved); } catch(e) {} }
+  if (saved) { try { STAGE_CONFIG = JSON.parse(saved); } catch(e) { STAGE_CONFIG = Object.assign({}, DEFAULT_STAGE_CONFIG); } }
+  // Self-heal: if stageConfig is empty or has no phase-1 keys, reset to defaults
+  if (!STAGE_CONFIG || Object.keys(STAGE_CONFIG).length === 0) {
+    STAGE_CONFIG = Object.assign({}, DEFAULT_STAGE_CONFIG);
+    localStorage.removeItem('estela_stage_config_v1');
+  }
 }
 function saveStageConfig() {
   localStorage.setItem('estela_stage_config_v1', JSON.stringify(STAGE_CONFIG));
