@@ -2039,10 +2039,10 @@ function renderExpandContent(permit) {
             <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:4px 6px;margin-bottom:3px;background:var(--bg);border-radius:5px;border:1px solid var(--border);font-size:11px">
               <span style="font-weight:600;color:var(--text-muted);min-width:50px">Round ${ri+1}</span>
               <label style="color:var(--text-muted)">Sent:</label>
-              <input type="date" value="${r.sent||}" style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
+              <input type="date"  value="${r.sent||''}" style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
                 onchange="updateStageRound('${permit.id}','${k}',${ri},'sent',this.value)">
               <label style="color:var(--text-muted)">Received:</label>
-              <input type="date" value="${r.received||}" style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
+              <input type="date"  value="${r.received||''}" style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
                 onchange="updateStageRound('${permit.id}','${k}',${ri},'received',this.value)">
               <select style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
                 onchange="updateStageRound('${permit.id}','${k}',${ri},'result',this.value)">
@@ -2050,7 +2050,7 @@ function renderExpandContent(permit) {
                 <option value="incorrect" ${r.result==='incorrect' ?'selected':''}>✗ Incorrect</option>
                 <option value="accepted"  ${r.result==='accepted'  ?'selected':''}>✓ Accepted</option>
               </select>
-              <input placeholder="note" value="${r.note||}" style="flex:1;min-width:80px;font-size:11px;padding:1px 5px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
+              <input placeholder="note" value="${r.note||''}" style="flex:1;min-width:80px;font-size:11px;padding:1px 5px;border:1px solid var(--border);border-radius:3px;background:var(--card)"
                 onblur="updateStageRound('${permit.id}','${k}',${ri},'note',this.value)">
               <button onclick="event.stopPropagation();deleteStageRound('${permit.id}','${k}',${ri})" style="border:none;background:none;cursor:pointer;color:#dc2626;font-size:13px;padding:0 3px">&times;</button>
             </div>
