@@ -2318,23 +2318,7 @@ function clearSelection() {
   state.selectedPermits.clear();
   render();
 }
-function getFilteredPermits() {
-  return state.permits.filter(p => {
-    if (state.community !== 'All' && p.community !== state.community) return false;
-    if (state.statusFilter !== 'all' && p.overallStatus !== state.statusFilter) return false;
-    if (state.docsFilter !== 'all' && (p.docsStatus||'collecting') !== state.docsFilter) return false;
-    if (state.marketFilter && p.market !== state.marketFilter) return false;
-    if (state.modelFilter && p.model !== state.modelFilter) return false;
-    if (state.elevationFilter && p.elevation !== state.elevationFilter) return false;
-    if (state.search) {
-      const q = state.search.toLowerCase();
-      return (p.address||'').toLowerCase().includes(q) || (p.lotNumber||'').toLowerCase().includes(q) ||
-             (p.model||'').toLowerCase().includes(q) || (p.permitNumber||'').toLowerCase().includes(q) ||
-             (p.community||'').toLowerCase().includes(q) || (p.elevation||'').toLowerCase().includes(q);
-    }
-    return true;
-  });
-}
+
 function bulkDelete() {
   const count = state.selectedPermits.size;
   if (!confirm(`Delete ${count} selected permit${count>1?'s':''}? This cannot be undone.`)) return;
