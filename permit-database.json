@@ -1,7 +1,7 @@
 {
-  "version": 1777492392569,
+  "version": 1777492700258,
   "updatedBy": "Team member",
-  "updatedAt": "2026-04-29T19:53:12.569Z",
+  "updatedAt": "2026-04-29T19:58:20.258Z",
   "permits": [
     {
       "id": "permit-1",
@@ -313,7 +313,7 @@
       "permitNumber": "",
       "releaseDate": "2026-01-20",
       "stages": {
-        "architecture": "complete",
+        "architecture": "requested",
         "sitePlan": "complete",
         "trussEng": "complete",
         "energyCalcs": "complete",
@@ -345,7 +345,9 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "architecture": "2026-04-29"
+      },
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
       "drawingReview": {
@@ -355,7 +357,11 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "applied"
+      "permitStatus": "applied",
+      "stageRequestedAt": {
+        "architecture": "2026-04-29"
+      },
+      "stageCompletedAt": {}
     },
     {
       "id": "permit-7",
