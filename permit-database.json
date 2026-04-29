@@ -1,7 +1,7 @@
 {
-  "version": 1777494660103,
-  "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-04-29T20:31:00.103Z",
+  "version": 1777496743333,
+  "updatedBy": "Team member",
+  "updatedAt": "2026-04-29T21:05:43.333Z",
   "permits": [
     {
       "id": "permit-1",
@@ -110,7 +110,7 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {},
-      "stageLastModified": "2026-04-08",
+      "stageLastModified": "2026-04-29",
       "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
@@ -119,7 +119,10 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "applied"
+      "permitStatus": "applied",
+      "customFields": {
+        "cf_mokjmix0": ""
+      }
     },
     {
       "id": "permit-3",
@@ -10996,7 +10999,7 @@
       "plan": "",
       "garage": "3 Car - RH",
       "elevation": "A2 Stone/Stucco",
-      "releaseDate": "",
+      "releaseDate": null,
       "permitNumber": "",
       "permitFee": "",
       "utilities": "",
@@ -11014,6 +11017,12 @@
       "stageCompletedAt": {
         "architecture": "2026-04-29",
         "trussEng": "2026-04-29"
+      },
+      "drawingReview": {
+        "checks": {},
+        "notes": "",
+        "completedAt": null,
+        "completedBy": ""
       }
     },
     {
@@ -11081,7 +11090,7 @@
       "plan": "",
       "garage": "Left Hand",
       "elevation": "A2 Stone/Stucco",
-      "releaseDate": "",
+      "releaseDate": null,
       "permitNumber": "",
       "permitFee": "",
       "utilities": "",
@@ -11098,6 +11107,12 @@
       },
       "stageCompletedAt": {
         "architecture": "2026-04-29"
+      },
+      "drawingReview": {
+        "checks": {},
+        "notes": "",
+        "completedAt": null,
+        "completedBy": ""
       }
     }
   ],
