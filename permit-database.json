@@ -1,7 +1,7 @@
 {
-  "version": 1777492720062,
+  "version": 1777492726384,
   "updatedBy": "Team member",
-  "updatedAt": "2026-04-29T19:58:40.062Z",
+  "updatedAt": "2026-04-29T19:58:46.384Z",
   "permits": [
     {
       "id": "permit-1",
@@ -356,7 +356,8 @@
           "architecture_garage": true,
           "architecture_location": true,
           "architecture_modelElev": true,
-          "architecture_garageCars": true
+          "architecture_garageCars": true,
+          "architecture_options": true
         },
         "notes": "",
         "completedAt": null,
