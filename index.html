@@ -758,6 +758,7 @@ function loadData() {
   else { state.permits = JSON.parse(JSON.stringify(INITIAL_DATA)); saveData(); }
   loadStageConfig();
   loadReviewConfig();
+  loadCustomFields();
 
   // Sanitize NaT / bad date values from all permits
   state.permits = state.permits.map(sanitizePermit);
@@ -1835,11 +1836,13 @@ function renderReportsView(el, alerts) {
   const avgTotal   = timeline.length ? Math.round(timeline.reduce((a,x)=>a+x.total,0)/timeline.length) : 0;
   const comStats   = COMMUNITIES.filter(c=>c!=='All').map(c=>{
     const ps = all.filter(p=>p.community===c); if (!ps.length) return null;
-    const wd = ps.map(p=>getProcessDays(p)).filter(d=>d!==null);
-    const avg = wd.length ? Math.round(wd.reduce((a,b)=>a+b,0)/wd.length) : null;
+    const s2pData = ps.map(p=>getSubmitToPermitDays(p)).filter(d=>d!==null);
+    const p2cData = ps.map(p=>getPermitToCODays(p)).filter(d=>d!==null);
+    const s2p_avg = s2pData.length ? Math.round(s2pData.reduce((a,b)=>a+b,0)/s2pData.length) : null;
+    const p2c_avg = p2cData.length ? Math.round(p2cData.reduce((a,b)=>a+b,0)/p2cData.length) : null;
     return { c, total:ps.length, active:ps.filter(p=>p.overallStatus==='active').length,
       sub:ps.filter(p=>p.overallStatus==='submitted').length, perm:ps.filter(p=>p.overallStatus==='permitted').length,
-      co:ps.filter(p=>p.overallStatus==='co').length, avg, alerts:alerts.filter(a=>a.permit.community===c).length };
+      co:ps.filter(p=>p.overallStatus==='co').length, s2p_avg, p2c_avg, alerts:alerts.filter(a=>a.permit.community===c).length };
   }).filter(Boolean);
   const TABS = {summary:'Summary',aging:'Under Review',timeline:'Timeline',community:'By Community'};
   const tabsHtml = Object.entries(TABS).map(([k,lbl])=>
@@ -1854,7 +1857,7 @@ function renderReportsView(el, alerts) {
         <div class="kpi-mini"><div class="kpi-mini-val" style="color:#16a34a">${permitted.length+coList.length}</div><div class="kpi-mini-lbl">Permitted / CO</div></div>
         <div class="kpi-mini"><div class="kpi-mini-val" style="color:${over60>0?'#dc2626':'#64748b'}">${over60}</div><div class="kpi-mini-lbl">Waiting >60d</div></div>
       </div>
-      <table class="report-table"><thead><tr><th>Community</th><th>Total</th><th>Active</th><th>Submitted</th><th>Permitted</th><th>CO</th><th>Avg Days</th><th>Alerts</th></tr></thead>
+      <table class="report-table"><thead><tr><th>Community</th><th>Total</th><th>Active</th><th>At City</th><th>Permitted</th><th>CO</th><th style="color:#2563eb">Submit&rarr;Permit</th><th style="color:#f59e0b">Permit&rarr;CO</th><th>Alerts</th></tr></thead>
         <tbody>
           ${comStats.map(cs=>`<tr>
             <td style="font-weight:600;cursor:pointer" onclick="setView('permits');filterCommunity('${cs.c}')">${cs.c}</td>
@@ -1863,10 +1866,11 @@ function renderReportsView(el, alerts) {
             <td><span class="status-badge status-submitted">${cs.sub}</span></td>
             <td><span class="status-badge status-permitted">${cs.perm}</span></td>
             <td><span class="status-badge status-co">${cs.co}</span></td>
-            <td>${cs.avg!==null?`<span class="dur-pill ${durClass(cs.avg)}">${cs.avg}d</span>`:'?'}</td>
+            <td>${cs.s2p_avg!==null?`<span class="dur-pill ${durClass(cs.s2p_avg)}">${cs.s2p_avg}d</span>`:`<span style="color:var(--text-muted)">&#8212;</span>`}</td>
+            <td>${cs.p2c_avg!==null?`<span class="dur-pill ${durClass(cs.p2c_avg)}">${cs.p2c_avg}d</span>`:`<span style="color:var(--text-muted)">&#8212;</span>`}</td>
             <td>${cs.alerts?`<span class="status-badge" style="background:#fee2e2;color:#b91c1c">${cs.alerts}</span>`:'?'}</td>
           </tr>`).join('')}
-          <tr style="font-weight:700;border-top:2px solid var(--border)"><td>TOTAL</td><td>${all.length}</td><td>${active.length}</td><td>${submitted.length}</td><td>${permitted.length}</td><td>${coList.length}</td><td>${avgTotal?`<span class="dur-pill ${durClass(avgTotal)}">${avgTotal}d avg</span>`:'?'}</td><td>${alerts.length}</td></tr>
+          ${(()=>{ const as=all.map(p=>getSubmitToPermitDays(p)).filter(d=>d!==null); const ap=all.map(p=>getPermitToCODays(p)).filter(d=>d!==null); const ta=as.length?Math.round(as.reduce((a,b)=>a+b,0)/as.length):null; const tp=ap.length?Math.round(ap.reduce((a,b)=>a+b,0)/ap.length):null; return `<tr style="font-weight:700;border-top:2px solid var(--border)"><td>TOTAL</td><td>${all.length}</td><td>${active.length}</td><td>${submitted.length}</td><td>${permitted.length}</td><td>${coList.length}</td><td>${ta!==null?'<span class="dur-pill '+durClass(ta)+'">'+ta+'d avg</span>':'&#8212;'}</td><td>${tp!==null?'<span class="dur-pill '+durClass(tp)+'">'+tp+'d avg</span>':'&#8212;'}</td><td>${alerts.length}</td></tr>`; })()}
         </tbody></table>
       <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
         <button class="btn btn-sm btn-outline" onclick="exportSummaryCSV()">Export CSV</button>
@@ -2947,6 +2951,79 @@ async function createAllFolders() {
 // ══════════════════════════════════════════════════
 //  MODAL - ADD/EDIT
 // ══════════════════════════════════════════════════
+
+let CUSTOM_PERMIT_FIELDS = [];
+
+function loadCustomFields() {
+  try {
+    const saved = localStorage.getItem('estela_custom_fields_v1');
+    if (saved) {
+      const parsed = JSON.parse(saved);
+      if (Array.isArray(parsed) && parsed.length) CUSTOM_PERMIT_FIELDS = parsed;
+    }
+  } catch(e) {}
+}
+
+function saveCustomFields() {
+  localStorage.setItem('estela_custom_fields_v1', JSON.stringify(CUSTOM_PERMIT_FIELDS));
+}
+
+function renderCustomFieldsManager() {
+  return `<div class="settings-card" id="custom-fields-card">
+    <h4>&#9881; Custom Permit Fields</h4>
+    <p style="margin-bottom:12px">Add any fields you need on every permit (e.g. Project Manager, Sales Rep, HOA Status). They appear in the Add/Edit form and on each permit card.</p>
+    <div id="cf-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px">
+      ${CUSTOM_PERMIT_FIELDS.length === 0
+        ? '<div style="font-size:12px;color:var(--text-muted);padding:8px 0">No custom fields yet.</div>'
+        : CUSTOM_PERMIT_FIELDS.map((f,i)=>`<div style="display:flex;align-items:center;gap:8px">
+            <input style="flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)" value="${f.label}" onchange="CUSTOM_PERMIT_FIELDS[${i}].label=this.value;saveCustomFields()">
+            <button style="padding:5px 10px;background:#fee2e2;color:#dc2626;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer" onclick="if(confirm('Remove \\'${f.label}\\'?')){CUSTOM_PERMIT_FIELDS.splice(${i},1);saveCustomFields();openSettings()}">&#10005;</button>
+          </div>`).join('')}
+    </div>
+    <div style="display:flex;gap:8px">
+      <input id="cf-new-label" class="form-input" style="flex:1;font-size:13px" placeholder="New field label (e.g. Project Manager)">
+      <button class="btn btn-accent btn-sm" onclick="(()=>{const lbl=document.getElementById('cf-new-label').value.trim();if(!lbl)return;CUSTOM_PERMIT_FIELDS.push({key:'cf_'+Date.now().toString(36),label:lbl});saveCustomFields();openSettings()})()">+ Add Field</button>
+    </div>
+  </div>`;
+}
+
+function renderCustomFieldsInForm(permit) {
+  if (!CUSTOM_PERMIT_FIELDS.length) {
+    return `<div style="font-size:12px;color:var(--text-muted);margin-top:8px">
+      No custom fields defined. <a href="#" style="color:#2d5a8e" onclick="closeModal();openSettings();return false">Add custom fields in Settings &#8599;</a>
+    </div>`;
+  }
+  return CUSTOM_PERMIT_FIELDS.map(f => {
+    const val = permit && permit.customFields ? (permit.customFields[f.key]||'') : '';
+    return `<div class="form-field">
+      <label class="form-label">${f.label}</label>
+      <input class="form-input" id="cf-${f.key}" value="${val}" placeholder="${f.label}">
+    </div>`;
+  }).join('');
+}
+
+function saveCustomFieldValues(permit) {
+  if (!CUSTOM_PERMIT_FIELDS.length) return;
+  if (!permit.customFields) permit.customFields = {};
+  CUSTOM_PERMIT_FIELDS.forEach(f => {
+    const el = document.getElementById('cf-' + f.key);
+    if (el) permit.customFields[f.key] = el.value;
+  });
+}
+
+function renderCustomFieldsInCard(permit) {
+  if (!CUSTOM_PERMIT_FIELDS.length) return '';
+  const cf = permit.customFields || {};
+  const filled = CUSTOM_PERMIT_FIELDS.filter(f => cf[f.key]);
+  if (!filled.length) return '';
+  return `<div style="margin-top:10px;padding:10px 14px;background:var(--bg);border:1px solid var(--border);border-radius:8px">
+    <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Additional Info</div>
+    <div style="display:flex;flex-wrap:wrap;gap:12px">
+      ${filled.map(f=>`<div style="font-size:12px"><span style="color:var(--text-muted);font-weight:600">${f.label}:</span> <span style="font-weight:700">${cf[f.key]}</span></div>`).join('')}
+    </div>
+  </div>`;
+}
+
 function openAddModal() {
   state.editingId = null;
   document.getElementById('modal-title').textContent = 'Add New Permit';
@@ -3012,6 +3089,7 @@ function buildModalForm(permit) {
     <div class="form-field" style="grid-column:1/-1"><label class="form-label">Options / Special Features</label><input class="form-input" id="f-options" value="${v('options')}"></div>
     <div class="form-field" style="grid-column:1/-1"><label class="form-label">Notes</label><textarea class="form-input" id="f-notes" rows="2">${v('notes')}</textarea></div>
   </div>
+  ${CUSTOM_PERMIT_FIELDS.length ? `<div style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">&#9881; Custom Fields</div><div class="form-grid">${renderCustomFieldsInForm(permit)}</div></div>` : `<div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:6px;border:1px dashed var(--border);font-size:12px;color:var(--text-muted)">No custom fields yet — <a href="#" style="color:#2d5a8e" onclick="closeModal();openSettings();return false">add them in Settings &#8599;</a></div>`}
   ${!permit ? `<div class="form-section">
     <div class="form-section-title">Initial Stage Status</div>
     <div class="form-grid">
@@ -3035,12 +3113,14 @@ function saveModal() {
     if (permit) {
       fields.forEach(f => { const el = document.getElementById('f-'+f); if(el) permit[f]=el.value; });
       const brEl = document.getElementById('f-buildersRisk'); if(brEl) permit.buildersRisk = brEl.checked;
+      saveCustomFieldValues(permit);
       permit.stageLastModified = today;
     }
   } else {
     const newPermit = { id:'permit-'+Date.now(), overallStatus:'active', stageLastModified:today, stageUpdatedAt:{}, stageDates:{}, buildersRisk:false, stages:{} };
     fields.forEach(f => { const el = document.getElementById('f-'+f); if(el) newPermit[f]=el.value||''; });
     const brEl = document.getElementById('f-buildersRisk'); if(brEl) newPermit.buildersRisk = brEl.checked;
+    saveCustomFieldValues(newPermit);
     for (const k of Object.keys(STAGE_CONFIG)) {
       const sel = document.getElementById('fs-'+k);
       newPermit.stages[k] = sel ? sel.value : 'not-started';
@@ -3108,6 +3188,7 @@ function openSettings() {
       <p style="margin-bottom:8px">Every team member who signs in sees the same permits live. The portal syncs every 30 seconds and shows a <strong>● Live</strong> badge when up to date.</p>
       <p style="font-size:12px;color:var(--warning)">⚠ Everyone needs OneDrive access to the shared <em>Estela Living - Permit Tracker</em> folder. If someone sees old data, have them disconnect and reconnect OneDrive.</p>
     </div>
+    ${renderCustomFieldsManager()}
     <div class="settings-card">
       <h4>💾 Data Management</h4>
       <p>Data auto-saves to your browser and the shared OneDrive database. Export a CSV backup anytime.</p>
