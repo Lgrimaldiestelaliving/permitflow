@@ -400,6 +400,14 @@ td.address-cell { min-width:200px; }
 .info-value { font-size:13px; font-weight:500; }
 .info-input { font-size:13px; border:1px solid var(--border); border-radius:6px; padding:4px 8px; background:var(--card); outline:none; width:100%; }
 .info-input:focus { border-color:var(--primary-light); }
+.review-badge { display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700; }
+.review-complete { background:#dcfce7;color:#15803d; }
+.review-partial  { background:#fef3c7;color:#92400e; }
+.review-none     { background:#f1f5f9;color:#64748b; }
+.review-badge { display:inline-flex;align-items:center;gap:3px;padding:2px 7px;border-radius:10px;font-size:10px;font-weight:700; }
+.review-complete { background:#dcfce7;color:#15803d; }
+.review-partial  { background:#fef3c7;color:#92400e; }
+.review-none     { background:#f1f5f9;color:#64748b; }
 .expand-actions { margin-top:12px; display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
 .bulk-bar { display:flex; align-items:center; justify-content:space-between; padding:10px 16px; background:#1e3a5f; color:#fff; border-radius:10px; margin-bottom:10px; }
 .bulk-count { font-weight:700; font-size:13px; }
@@ -730,6 +738,7 @@ function sanitizePermit(p) {
    'options','notes','permitNumber','permitFee','utilities'].forEach(f => {
     if (p[f] !== undefined) p[f] = sanitizeTextVal(p[f]);
   });
+  if (!p.drawingReview) p.drawingReview = { checks:{}, notes:'', completedAt:null, completedBy:'' };
   return p;
 }
 
@@ -2352,6 +2361,7 @@ function renderExpandContent(permit) {
       </div>
     </div>
     
+    <div id="checklist-${permit.id}">${renderDrawingChecklist(permit)}</div>
     <div class="expand-actions">
       <button class="btn btn-outline btn-sm" onclick="toggleRow('${permit.id}')">▲ Collapse</button>
       <button class="btn btn-accent btn-sm" onclick="openEditModal('${permit.id}')">✏️ Full Edit</button>
@@ -2362,6 +2372,195 @@ function renderExpandContent(permit) {
 }
 
 // ══════════════════════════════════════════════════
+
+// ══════════════════════════════════════════════════
+//  DRAWING REVIEW CHECKLIST
+// ══════════════════════════════════════════════════
+
+const REVIEW_DOCS = [
+  { key:'architecture',  label:'Architectural Plans' },
+  { key:'sitePlan',      label:'Site Plan' },
+  { key:'trussEng',      label:'Truss Engineering' },
+  { key:'energyCalcs',   label:'Energy Calculations' },
+  { key:'soilTest',      label:'Soil Test' },
+  { key:'structuralEng', label:'Structural Engineering' },
+  { key:'landscape',     label:'Landscape Plans' },
+];
+
+const REVIEW_FIELDS = [
+  { key:'address',     label:'Address' },
+  { key:'garage',      label:'Garage Orientation' },
+  { key:'location',    label:'Location (Market)' },
+  { key:'modelElev',   label:'Model & Elevation' },
+  { key:'garageCars',  label:'2 or 3 Car Garage' },
+  { key:'options',     label:'Options / Specials' },
+];
+
+function getReviewStats(permit) {
+  const dr = permit.drawingReview || {};
+  const checks = dr.checks || {};
+  // Only count docs that are active (not n/a) in this permit
+  const activeDocs = REVIEW_DOCS.filter(d => (permit.stages[d.key] || 'not-started') !== 'n/a');
+  const total = activeDocs.length * REVIEW_FIELDS.length;
+  const done  = activeDocs.reduce((sum, d) =>
+    sum + REVIEW_FIELDS.filter(f => checks[d.key + '_' + f.key]).length, 0);
+  return { done, total, activeDocs, complete: dr.completedAt || false };
+}
+
+function renderDrawingChecklist(permit) {
+  const dr = permit.drawingReview || {};
+  const checks = dr.checks || {};
+  const { done, total, activeDocs } = getReviewStats(permit);
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+  const isComplete = !!dr.completedAt;
+
+  // Expected values reference card
+  const garageSize = (permit.garage || '').includes('3') ? '3 Car' : '2 Car';
+  const refs = [
+    { label:'Address',         val: permit.address || '—' },
+    { label:'Market/Location', val: permit.market || '—' },
+    { label:'Model',           val: permit.model || '—' },
+    { label:'Elevation',       val: permit.elevation || '—' },
+    { label:'Garage',          val: (permit.garage || '—') + ' (' + garageSize + ')' },
+    { label:'Options',         val: permit.options || 'None' },
+  ];
+
+  return `<div style="margin-top:16px;border:2px solid #2d5a8e;border-radius:12px;overflow:hidden">
+
+    <!-- Header -->
+    <div style="background:#2d5a8e;padding:12px 16px;display:flex;align-items:center;justify-content:space-between">
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:16px">📋</span>
+        <span style="font-size:13px;font-weight:700;color:#fff">Pre-Submission Drawing Review</span>
+        ${isComplete
+          ? `<span style="background:#16a34a;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">✓ COMPLETE</span>`
+          : `<span style="background:rgba(255,255,255,0.2);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">${done}/${total} checked</span>`}
+      </div>
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="width:120px;height:6px;background:rgba(255,255,255,0.2);border-radius:3px;overflow:hidden">
+          <div style="width:${pct}%;height:6px;background:${pct===100?'#4ade80':'#fbbf24'};border-radius:3px;transition:width .3s"></div>
+        </div>
+        <span style="font-size:11px;color:rgba(255,255,255,0.8)">${pct}%</span>
+      </div>
+    </div>
+
+    <div style="padding:16px;background:var(--card)">
+
+      <!-- Reference values -->
+      <div style="background:#f0f7ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px;margin-bottom:14px">
+        <div style="font-size:10px;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Expected Values — verify each drawing matches these</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">
+          ${refs.map(r=>`<div style="font-size:11px"><span style="color:#64748b;font-weight:600">${r.label}:</span> <span style="font-weight:700;color:#1e293b">${r.val}</span></div>`).join('')}
+        </div>
+      </div>
+
+      <!-- Checklist matrix -->
+      <div style="overflow-x:auto">
+        <table style="width:100%;border-collapse:collapse;font-size:12px">
+          <thead>
+            <tr style="background:var(--bg)">
+              <th style="padding:8px 10px;text-align:left;border:1px solid var(--border);font-size:11px;font-weight:700;color:var(--text-muted);min-width:140px">Document</th>
+              ${REVIEW_FIELDS.map(f=>`<th style="padding:6px 8px;text-align:center;border:1px solid var(--border);font-size:10px;font-weight:700;color:var(--text-muted);white-space:nowrap">${f.label}</th>`).join('')}
+              <th style="padding:6px 8px;text-align:center;border:1px solid var(--border);font-size:10px;font-weight:700;color:var(--text-muted)">All ✓</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${REVIEW_DOCS.map(doc => {
+              const isNA = (permit.stages[doc.key] || 'not-started') === 'n/a';
+              const rowChecks = REVIEW_FIELDS.map(f => checks[doc.key + '_' + f.key] ? 1 : 0);
+              const rowDone = rowChecks.reduce((a,b)=>a+b,0);
+              const rowAll = rowDone === REVIEW_FIELDS.length;
+              return `<tr style="${isNA ? 'opacity:0.35;' : ''}background:${rowAll&&!isNA?'#f0fdf4':'var(--card)'}">
+                <td style="padding:7px 10px;border:1px solid var(--border);font-weight:600;white-space:nowrap">
+                  ${doc.label}
+                  ${isNA ? '<span style="font-size:9px;color:#94a3b8;margin-left:4px">N/A</span>' : ''}
+                </td>
+                ${REVIEW_FIELDS.map(f => {
+                  const key = doc.key + '_' + f.key;
+                  const checked = !!checks[key];
+                  return `<td style="padding:4px;text-align:center;border:1px solid var(--border)">
+                    <input type="checkbox" ${checked?'checked':''} ${isNA?'disabled':''}
+                      style="width:16px;height:16px;cursor:${isNA?'default':'pointer'};accent-color:#2d5a8e"
+                      onchange="toggleDrawingCheck('${permit.id}','${key}',this.checked)">
+                  </td>`;
+                }).join('')}
+                <td style="padding:4px;text-align:center;border:1px solid var(--border)">
+                  ${!isNA ? `<span style="font-size:13px">${rowAll ? '✅' : rowDone > 0 ? '⏳' : '○'}</span>` : '<span style="color:#94a3b8">—</span>'}
+                </td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Notes + Complete -->
+      <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">
+        <div style="flex:1;min-width:200px">
+          <label style="font-size:11px;font-weight:700;color:var(--text-muted);display:block;margin-bottom:4px">Review Notes</label>
+          <textarea rows="2" placeholder="Add any notes about discrepancies found..."
+            style="width:100%;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:12px;background:var(--bg);color:var(--text);resize:vertical"
+            onblur="updateDrawingNotes('${permit.id}',this.value)">${dr.notes||''}</textarea>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;padding-top:18px">
+          ${isComplete
+            ? `<div style="font-size:11px;color:#15803d;font-weight:600">✓ Reviewed by ${dr.completedBy||'team'}<br><span style="font-weight:400;color:var(--text-muted)">${fmtDate(dr.completedAt)}</span></div>
+               <button class="btn btn-sm btn-outline" onclick="undoDrawingReview('${permit.id}')">Reopen Review</button>`
+            : `<div style="font-size:11px;color:var(--text-muted)">Reviewer name:</div>
+               <input id="reviewer-${permit.id}" class="form-input" placeholder="Your name" style="font-size:12px;padding:5px 8px;width:140px" value="${dr.pendingReviewer||''}">
+               <button class="btn btn-sm btn-accent" onclick="completeDrawingReview('${permit.id}')" ${pct<100?'style="opacity:0.6"':''}>
+                 ${pct===100 ? '✓ Mark Review Complete' : `Complete (${pct}% done)`}
+               </button>`}
+        </div>
+      </div>
+    </div>
+  </div>`;
+}
+
+function toggleDrawingCheck(permitId, key, val) {
+  const p = state.permits.find(x=>x.id===permitId);
+  if (!p) return;
+  if (!p.drawingReview) p.drawingReview = { checks:{}, notes:'', completedAt:null, completedBy:'' };
+  if (!p.drawingReview.checks) p.drawingReview.checks = {};
+  p.drawingReview.checks[key] = val;
+  // Re-render just the checklist portion
+  const el = document.getElementById('checklist-' + permitId);
+  if (el) el.innerHTML = renderDrawingChecklist(p);
+  saveData();
+}
+
+function updateDrawingNotes(permitId, notes) {
+  const p = state.permits.find(x=>x.id===permitId);
+  if (!p) return;
+  if (!p.drawingReview) p.drawingReview = { checks:{}, notes:'', completedAt:null, completedBy:'' };
+  p.drawingReview.notes = notes;
+  saveData();
+}
+
+function completeDrawingReview(permitId) {
+  const p = state.permits.find(x=>x.id===permitId);
+  if (!p) return;
+  if (!p.drawingReview) p.drawingReview = { checks:{}, notes:'', completedAt:null, completedBy:'' };
+  const nameEl = document.getElementById('reviewer-' + permitId);
+  const name = nameEl ? nameEl.value.trim() : '';
+  p.drawingReview.completedAt = new Date().toISOString().split('T')[0];
+  p.drawingReview.completedBy = name || 'Team';
+  const el = document.getElementById('checklist-' + permitId);
+  if (el) el.innerHTML = renderDrawingChecklist(p);
+  saveData();
+  showToast('✅ Drawing review marked complete!');
+}
+
+function undoDrawingReview(permitId) {
+  const p = state.permits.find(x=>x.id===permitId);
+  if (!p || !p.drawingReview) return;
+  p.drawingReview.completedAt = null;
+  p.drawingReview.completedBy = '';
+  const el = document.getElementById('checklist-' + permitId);
+  if (el) el.innerHTML = renderDrawingChecklist(p);
+  saveData();
+}
+
+
 //  INLINE UPDATES
 // ══════════════════════════════════════════════════
 function updateStageField(permitId, stage, field, value) {
