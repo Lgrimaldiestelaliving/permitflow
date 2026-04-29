@@ -1,7 +1,7 @@
 {
-  "version": 1777492327437,
+  "version": 1777492392569,
   "updatedBy": "Team member",
-  "updatedAt": "2026-04-29T19:52:07.437Z",
+  "updatedAt": "2026-04-29T19:53:12.569Z",
   "permits": [
     {
       "id": "permit-1",
@@ -53,17 +53,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
-        "checks": {
-          "architecture_address": false,
-          "architecture_garage": false
-        },
+        "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-2",
@@ -115,14 +112,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
-      "docsStatus": "collecting",
-      "permitStatus": "applied",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "applied"
     },
     {
       "id": "permit-3",
@@ -174,14 +171,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
-      "docsStatus": "collecting",
-      "permitStatus": "applied",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "applied"
     },
     {
       "id": "permit-4",
@@ -233,14 +230,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
-      "docsStatus": "collecting",
-      "permitStatus": "applied",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "applied"
     },
     {
       "id": "permit-5",
@@ -292,14 +289,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
-      "docsStatus": "collecting",
-      "permitStatus": "applied",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "applied"
     },
     {
       "id": "permit-6",
@@ -351,14 +348,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
-      "docsStatus": "collecting",
-      "permitStatus": "applied",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "applied"
     },
     {
       "id": "permit-7",
@@ -410,14 +407,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-8",
@@ -469,14 +466,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-9",
@@ -528,14 +525,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-10",
@@ -587,14 +584,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-11",
@@ -646,14 +643,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-12",
@@ -705,14 +702,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-13",
@@ -764,14 +761,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-14",
@@ -823,14 +820,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-15",
@@ -882,14 +879,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-16",
@@ -941,14 +938,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-17",
@@ -1000,14 +997,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-18",
@@ -1059,14 +1056,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-19",
@@ -1118,14 +1115,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-20",
@@ -1177,14 +1174,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-21",
@@ -1236,14 +1233,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-22",
@@ -1295,14 +1292,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-23",
@@ -1354,14 +1351,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-24",
@@ -1413,14 +1410,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-25",
@@ -1472,14 +1469,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-26",
@@ -1531,14 +1528,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-27",
@@ -1590,14 +1587,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-28",
@@ -1649,14 +1646,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-29",
@@ -1708,14 +1705,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-30",
@@ -1767,14 +1764,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-31",
@@ -1826,14 +1823,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-32",
@@ -1885,14 +1882,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-33",
@@ -1944,14 +1941,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-34",
@@ -2003,14 +2000,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-35",
@@ -2062,14 +2059,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
-      "docsStatus": "collecting",
-      "permitStatus": "applied",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "applied"
     },
     {
       "id": "permit-36",
@@ -2121,14 +2118,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-37",
@@ -2180,14 +2177,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-38",
@@ -2239,14 +2236,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-39",
@@ -2298,14 +2295,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-40",
@@ -2357,14 +2354,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-41",
@@ -2416,14 +2413,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-42",
@@ -2475,14 +2472,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-43",
@@ -2534,14 +2531,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-44",
@@ -2593,14 +2590,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
-      "docsStatus": "collecting",
-      "permitStatus": "applied",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "applied"
     },
     {
       "id": "permit-45",
@@ -2652,14 +2649,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
-      "docsStatus": "collecting",
-      "permitStatus": "applied",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "applied"
     },
     {
       "id": "permit-46",
@@ -2711,14 +2708,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-47",
@@ -2770,14 +2767,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-48",
@@ -2829,14 +2826,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-49",
@@ -2888,14 +2885,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-50",
@@ -2947,14 +2944,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-51",
@@ -3006,14 +3003,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-52",
@@ -3065,14 +3062,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-53",
@@ -3124,14 +3121,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-54",
@@ -3183,14 +3180,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-55",
@@ -3242,14 +3239,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-56",
@@ -3301,14 +3298,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-57",
@@ -3360,14 +3357,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-58",
@@ -3419,14 +3416,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-59",
@@ -3478,14 +3475,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-60",
@@ -3537,14 +3534,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-61",
@@ -3596,14 +3593,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-62",
@@ -3655,14 +3652,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-63",
@@ -3714,14 +3711,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-64",
@@ -3773,14 +3770,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-65",
@@ -3832,14 +3829,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-66",
@@ -3891,14 +3888,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-67",
@@ -3950,14 +3947,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-68",
@@ -4009,14 +4006,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-69",
@@ -4068,14 +4065,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-70",
@@ -4127,14 +4124,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-71",
@@ -4186,14 +4183,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-72",
@@ -4245,14 +4242,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-73",
@@ -4304,14 +4301,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-74",
@@ -4363,14 +4360,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-75",
@@ -4422,14 +4419,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-76",
@@ -4481,14 +4478,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-77",
@@ -4540,14 +4537,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-78",
@@ -4599,14 +4596,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-79",
@@ -4658,14 +4655,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-80",
@@ -4717,14 +4714,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-81",
@@ -4776,14 +4773,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-82",
@@ -4835,14 +4832,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-83",
@@ -4894,14 +4891,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-84",
@@ -4953,14 +4950,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-85",
@@ -5012,14 +5009,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-86",
@@ -5071,14 +5068,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-87",
@@ -5130,14 +5127,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-88",
@@ -5189,14 +5186,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-89",
@@ -5248,14 +5245,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-90",
@@ -5307,14 +5304,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-91",
@@ -5366,14 +5363,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-92",
@@ -5425,14 +5422,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-93",
@@ -5484,14 +5481,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-94",
@@ -5543,14 +5540,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-95",
@@ -5602,14 +5599,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-96",
@@ -5661,14 +5658,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-97",
@@ -5720,14 +5717,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-98",
@@ -5779,14 +5776,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-99",
@@ -5838,14 +5835,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-100",
@@ -5897,14 +5894,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-101",
@@ -5956,14 +5953,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-102",
@@ -6015,14 +6012,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-103",
@@ -6074,14 +6071,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-104",
@@ -6133,14 +6130,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-105",
@@ -6192,14 +6189,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-106",
@@ -6251,14 +6248,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-107",
@@ -6310,14 +6307,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-108",
@@ -6369,14 +6366,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-109",
@@ -6428,14 +6425,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-110",
@@ -6487,14 +6484,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-111",
@@ -6546,14 +6543,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-112",
@@ -6605,14 +6602,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-113",
@@ -6664,14 +6661,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-114",
@@ -6723,14 +6720,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-115",
@@ -6782,14 +6779,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-116",
@@ -6841,14 +6838,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-117",
@@ -6900,14 +6897,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-118",
@@ -6959,14 +6956,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-119",
@@ -7018,14 +7015,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-120",
@@ -7077,14 +7074,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-121",
@@ -7136,14 +7133,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-122",
@@ -7195,14 +7192,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-123",
@@ -7254,14 +7251,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-124",
@@ -7313,14 +7310,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-125",
@@ -7372,14 +7369,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-126",
@@ -7431,14 +7428,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-127",
@@ -7490,14 +7487,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-128",
@@ -7549,14 +7546,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-129",
@@ -7608,14 +7605,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-130",
@@ -7667,14 +7664,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-131",
@@ -7726,14 +7723,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-132",
@@ -7785,14 +7782,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-133",
@@ -7844,14 +7841,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-134",
@@ -7903,14 +7900,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-135",
@@ -7962,14 +7959,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-136",
@@ -8021,14 +8018,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-137",
@@ -8080,14 +8077,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-138",
@@ -8139,14 +8136,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-139",
@@ -8198,14 +8195,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-140",
@@ -8257,14 +8254,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-141",
@@ -8316,14 +8313,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-142",
@@ -8375,14 +8372,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-143",
@@ -8434,14 +8431,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-144",
@@ -8493,14 +8490,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-145",
@@ -8552,14 +8549,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-146",
@@ -8611,14 +8608,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-147",
@@ -8670,14 +8667,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-148",
@@ -8729,14 +8726,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-149",
@@ -8788,14 +8785,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-150",
@@ -8847,14 +8844,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-151",
@@ -8906,14 +8903,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-152",
@@ -8965,14 +8962,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-153",
@@ -9024,14 +9021,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-154",
@@ -9083,14 +9080,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-155",
@@ -9142,14 +9139,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-156",
@@ -9201,14 +9198,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-157",
@@ -9260,14 +9257,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-158",
@@ -9319,14 +9316,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-159",
@@ -9378,14 +9375,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-160",
@@ -9437,14 +9434,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-161",
@@ -9496,14 +9493,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-162",
@@ -9555,14 +9552,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-163",
@@ -9614,14 +9611,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-164",
@@ -9673,14 +9670,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-165",
@@ -9732,14 +9729,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-166",
@@ -9791,14 +9788,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-167",
@@ -9850,14 +9847,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-168",
@@ -9909,14 +9906,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-169",
@@ -9968,14 +9965,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-170",
@@ -10027,14 +10024,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-171",
@@ -10086,14 +10083,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-172",
@@ -10145,14 +10142,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-173",
@@ -10204,14 +10201,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-174",
@@ -10263,14 +10260,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-175",
@@ -10322,14 +10319,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-176",
@@ -10381,14 +10378,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-177",
@@ -10440,14 +10437,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
-      "docsStatus": "collecting",
-      "permitStatus": "applied",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "applied"
     },
     {
       "id": "permit-178",
@@ -10499,14 +10496,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-179",
@@ -10558,14 +10555,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-180",
@@ -10617,14 +10614,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-181",
@@ -10676,14 +10673,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-182",
@@ -10735,14 +10732,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-183",
@@ -10794,14 +10791,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-184",
@@ -10853,14 +10850,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-185",
@@ -10912,14 +10909,14 @@
       "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
-      "docsStatus": "collecting",
-      "permitStatus": "issued",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
-      }
+      },
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     }
   ],
   "odFiles": {},
