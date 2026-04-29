@@ -1,7 +1,7 @@
 {
-  "version": 1777488239628,
+  "version": 1777488326911,
   "updatedBy": "Team member",
-  "updatedAt": "2026-04-29T18:43:59.628Z",
+  "updatedAt": "2026-04-29T18:45:26.911Z",
   "permits": [
     {
       "id": "permit-1",
@@ -2693,7 +2693,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 4/",
+        "submitted": null,
         "permitIssued": "2025-06-02"
       },
       "notes": "",
@@ -2746,7 +2746,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 4/",
+        "submitted": null,
         "permitIssued": "2025-05-21"
       },
       "notes": "",
@@ -2799,7 +2799,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 4/",
+        "submitted": null,
         "permitIssued": "2025-05-30"
       },
       "notes": "",
@@ -2852,7 +2852,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 4/",
+        "submitted": null,
         "permitIssued": "2025-06-18"
       },
       "notes": "",
@@ -2905,7 +2905,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 4/",
+        "submitted": null,
         "permitIssued": "2025-05-08"
       },
       "notes": "",
@@ -2958,7 +2958,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 4/",
+        "submitted": null,
         "permitIssued": "2025-05-08"
       },
       "notes": "",
@@ -3011,7 +3011,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 5/",
+        "submitted": null,
         "permitIssued": "2025-05-27"
       },
       "notes": "",
@@ -3064,7 +3064,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 5/",
+        "submitted": null,
         "permitIssued": "2025-06-18"
       },
       "notes": "",
@@ -3117,7 +3117,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 5/",
+        "submitted": null,
         "permitIssued": "2025-06-16"
       },
       "notes": "",
@@ -3170,7 +3170,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 5/",
+        "submitted": null,
         "permitIssued": "2025-06-10"
       },
       "notes": "",
@@ -3223,7 +3223,7 @@
         "co": "not-started"
       },
       "stageDates": {
-        "submitted": "Applied 5/",
+        "submitted": null,
         "permitIssued": "2025-06-02"
       },
       "notes": "",
