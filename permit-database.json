@@ -1,7 +1,7 @@
 {
-  "version": 1777494348421,
+  "version": 1777494359088,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-04-29T20:25:48.421Z",
+  "updatedAt": "2026-04-29T20:25:59.088Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11047,7 +11047,7 @@
       "stageDates": {},
       "buildersRisk": false,
       "stages": {
-        "architecture": "not-started",
+        "architecture": "complete",
         "sitePlan": "not-started",
         "trussEng": "not-started",
         "energyCalcs": "not-started",
@@ -11087,7 +11087,13 @@
       "options": "",
       "notes": "",
       "docsStatus": "collecting",
-      "permitStatus": "presubmit"
+      "permitStatus": "presubmit",
+      "stageRequestedAt": {
+        "architecture": "2026-04-29"
+      },
+      "stageCompletedAt": {
+        "architecture": "2026-04-29"
+      }
     }
   ],
   "odFiles": {},
