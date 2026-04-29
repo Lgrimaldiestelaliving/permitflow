@@ -757,6 +757,7 @@ function loadData() {
   if (saved) { try { state.permits = JSON.parse(saved); } catch(e) { state.permits = JSON.parse(JSON.stringify(INITIAL_DATA)); } }
   else { state.permits = JSON.parse(JSON.stringify(INITIAL_DATA)); saveData(); }
   loadStageConfig();
+  loadReviewConfig();
 
   // Sanitize NaT / bad date values from all permits
   state.permits = state.permits.map(sanitizePermit);
@@ -1830,7 +1831,7 @@ function renderReportsView(el, alerts) {
   const agingList  = submitted.map(p=>({p, d:getCityDays(p)||0})).sort((a,b)=>b.d-a.d);
   const maxCity    = agingList.length ? agingList[0].d : 90;
   const avgCity    = submitted.length ? Math.round(submitted.map(p=>getCityDays(p)||0).reduce((a,b)=>a+b,0)/submitted.length) : 0;
-  const timeline   = all.map(p=>({p, total:getProcessDays(p), city:getCityDays(p)})).filter(x=>x.total!==null).sort((a,b)=>b.total-a.total);
+  const timeline = all.map(p=>({p, total:getProcessDays(p), s2p:getSubmitToPermitDays(p), p2c:getPermitToCODays(p)})).filter(x=>x.total!==null).sort((a,b)=>b.total-a.total);
   const avgTotal   = timeline.length ? Math.round(timeline.reduce((a,x)=>a+x.total,0)/timeline.length) : 0;
   const comStats   = COMMUNITIES.filter(c=>c!=='All').map(c=>{
     const ps = all.filter(p=>p.community===c); if (!ps.length) return null;
@@ -1885,14 +1886,16 @@ function renderReportsView(el, alerts) {
       <button class="btn btn-sm btn-outline" style="margin-top:12px" onclick="exportAgingCSV()">Export CSV</button>`;
   }
   if (tab==='timeline') {
-    body = `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:18px">
+    body = `<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:18px">
         <div class="kpi-mini"><div class="kpi-mini-val">${timeline.length}</div><div class="kpi-mini-lbl">Permits tracked</div></div>
-        <div class="kpi-mini"><div class="kpi-mini-val" style="color:${avgTotal>90?'#dc2626':avgTotal>60?'#c2410c':avgTotal>30?'#d97706':'#16a34a'}">${avgTotal}d</div><div class="kpi-mini-lbl">Avg Duration</div></div>
+        <div class="kpi-mini"><div class="kpi-mini-val" style="color:${avgTotal>90?'#dc2626':avgTotal>60?'#c2410c':avgTotal>30?'#d97706':'#16a34a'}">${avgTotal}d</div><div class="kpi-mini-lbl">Avg Total Days</div></div>
+        <div class="kpi-mini"><div class="kpi-mini-val" style="color:${(()=>{const vs=timeline.map(x=>x.s2p).filter(v=>v!==null);const a=vs.length?Math.round(vs.reduce((s,v)=>s+v,0)/vs.length):0;return a>60?'#dc2626':a>30?'#d97706':'#16a34a'})()} ">${(()=>{const vs=timeline.map(x=>x.s2p).filter(v=>v!==null);return vs.length?Math.round(vs.reduce((s,v)=>s+v,0)/vs.length)+'d':'—'})()}</div><div class="kpi-mini-lbl">Avg Submit&rarr;Permit</div></div>
+        <div class="kpi-mini"><div class="kpi-mini-val" style="color:${(()=>{const vs=timeline.map(x=>x.p2c).filter(v=>v!==null);const a=vs.length?Math.round(vs.reduce((s,v)=>s+v,0)/vs.length):0;return a>180?'#dc2626':a>90?'#d97706':'#16a34a'})()} ">${(()=>{const vs=timeline.map(x=>x.p2c).filter(v=>v!==null);return vs.length?Math.round(vs.reduce((s,v)=>s+v,0)/vs.length)+'d':'—'})()}</div><div class="kpi-mini-lbl">Avg Permit&rarr;CO</div></div>
         <div class="kpi-mini"><div class="kpi-mini-val" style="color:#dc2626">${timeline.filter(x=>x.total>90).length}</div><div class="kpi-mini-lbl">&gt;90 Days</div></div>
         <div class="kpi-mini"><div class="kpi-mini-val" style="color:#16a34a">${timeline.filter(x=>x.total<=30).length}</div><div class="kpi-mini-lbl">&lt;=30 Days</div></div>
       </div>
       <table class="report-table"><thead><tr><th>Address</th><th>Community</th><th>Status</th><th>Release Date</th><th>Total Days</th><th>Submit&rarr;Permit</th><th>Permit&rarr;CO</th><th>Permit #</th></tr></thead>
-        <tbody>${timeline.map(({p,total,city})=>`<tr><td style="font-weight:600;cursor:pointer" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">${p.address.split(',')[0]}</td><td style="font-size:12px">${p.community}</td><td><span class="status-badge status-${p.overallStatus}">${STATUS_LABELS[p.overallStatus]||p.overallStatus}</span></td><td style="font-size:12px;color:var(--text-muted)">${fmtDate(p.releaseDate)}</td><td><span class="dur-pill ${durClass(total)}">${total}d</span></td><td>${city!==null?`<span class="dur-pill ${durClass(city)}">${city}d</span>`:'?'}</td><td style="font-size:12px;font-family:monospace">${p.permitNumber||'?'}</td></tr>`).join('')}</tbody>
+        <tbody>${timeline.map(({p,total,s2p,p2c})=>`<tr><td style="font-weight:600;cursor:pointer" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">${p.address.split(',')[0]}</td><td style="font-size:12px">${p.community}</td><td><span class="status-badge status-${p.overallStatus}">${STATUS_LABELS[p.overallStatus]||p.overallStatus}</span></td><td style="font-size:12px;color:var(--text-muted)">${fmtDate(p.releaseDate)}</td><td><span class="dur-pill ${durClass(total)}">${total}d</span></td><td>${s2p!==null?`<span class="dur-pill ${durClass(s2p)}">${s2p}d</span>`:`<span style="color:var(--text-muted)">&#8212;</span>`}</td><td>${p2c!==null?`<span class="dur-pill ${durClass(p2c)}">${p2c}d</span>`:`<span style="color:var(--text-muted);font-size:11px">${['permitted','co'].includes(p.overallStatus)?'in&nbsp;progress':'&#8212;'}</span>`}</td><td style="font-size:12px;font-family:monospace">${p.permitNumber||'?'}</td></tr>`).join('')}</tbody>
       </table>
       <button class="btn btn-sm btn-outline" style="margin-top:12px" onclick="exportTimelineCSV()">Export CSV</button>`;
   }
@@ -2432,7 +2435,7 @@ function renderExpandContent(permit) {
 //  DRAWING REVIEW CHECKLIST
 // ══════════════════════════════════════════════════
 
-const REVIEW_DOCS = [
+let REVIEW_DOCS = [
   { key:'architecture',  label:'Architectural Plans' },
   { key:'sitePlan',      label:'Site Plan' },
   { key:'trussEng',      label:'Truss Engineering' },
@@ -2442,7 +2445,7 @@ const REVIEW_DOCS = [
   { key:'landscape',     label:'Landscape Plans' },
 ];
 
-const REVIEW_FIELDS = [
+let REVIEW_FIELDS = [
   { key:'address',     label:'Address' },
   { key:'garage',      label:'Garage Orientation' },
   { key:'location',    label:'Location (Market)' },
@@ -2450,6 +2453,73 @@ const REVIEW_FIELDS = [
   { key:'garageCars',  label:'2 or 3 Car Garage' },
   { key:'options',     label:'Options / Specials' },
 ];
+
+
+function loadReviewConfig() {
+  try {
+    const saved = localStorage.getItem('estela_review_config_v1');
+    if (saved) {
+      const cfg = JSON.parse(saved);
+      if (Array.isArray(cfg.docs) && cfg.docs.length) REVIEW_DOCS = cfg.docs;
+      if (Array.isArray(cfg.fields) && cfg.fields.length) REVIEW_FIELDS = cfg.fields;
+    }
+  } catch(e) {}
+}
+
+function saveReviewConfig() {
+  localStorage.setItem('estela_review_config_v1', JSON.stringify({ docs: REVIEW_DOCS, fields: REVIEW_FIELDS }));
+}
+
+function slugify(str) {
+  return str.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
+}
+
+function renderChecklistManage(permitId) {
+  const el = document.getElementById('checklist-' + permitId);
+  if (!el) return;
+  el.innerHTML = `<div style="margin-top:16px;border:2px solid #2d5a8e;border-radius:12px;overflow:hidden">
+    <div style="background:#2d5a8e;padding:12px 16px;display:flex;align-items:center;justify-content:space-between">
+      <span style="font-size:13px;font-weight:700;color:#fff">&#9881; Manage Checklist</span>
+      <button class="btn btn-sm" style="background:rgba(255,255,255,0.2);color:#fff;border:none" onclick="(()=>{const p=state.permits.find(x=>x.id==='${permitId}');const cel=document.getElementById('checklist-${permitId}');if(cel&&p)cel.innerHTML=renderDrawingChecklist(p)})()">&#8592; Back to Checklist</button>
+    </div>
+    <div style="padding:16px;background:var(--card);display:grid;grid-template-columns:1fr 1fr;gap:20px">
+
+      <!-- Documents column -->
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Documents to Review</div>
+        <div id="rc-docs-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+          ${REVIEW_DOCS.map((d,i)=>`<div style="display:flex;align-items:center;gap:6px">
+            <input style="flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:5px;font-size:12px;background:var(--bg);color:var(--text)" value="${d.label}" onchange="REVIEW_DOCS[${i}].label=this.value;saveReviewConfig()">
+            <button style="flex-shrink:0;padding:4px 8px;background:#fee2e2;color:#dc2626;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer" onclick="if(confirm('Remove \'${d.label}\'?')){REVIEW_DOCS.splice(${i},1);saveReviewConfig();renderChecklistManage('${permitId}')}">&#10005;</button>
+          </div>`).join('')}
+        </div>
+        <div style="display:flex;gap:6px">
+          <input id="rc-new-doc" style="flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:5px;font-size:12px;background:var(--bg);color:var(--text)" placeholder="New document name...">
+          <button class="btn btn-sm btn-accent" onclick="(()=>{const v=document.getElementById('rc-new-doc').value.trim();if(!v)return;REVIEW_DOCS.push({key:slugify(v)+'_'+Date.now().toString(36),label:v});saveReviewConfig();renderChecklistManage('${permitId}')})()">+ Add</button>
+        </div>
+      </div>
+
+      <!-- Fields column -->
+      <div>
+        <div style="font-size:12px;font-weight:700;color:#1d4ed8;text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Fields to Check</div>
+        <div id="rc-fields-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">
+          ${REVIEW_FIELDS.map((f,i)=>`<div style="display:flex;align-items:center;gap:6px">
+            <input style="flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:5px;font-size:12px;background:var(--bg);color:var(--text)" value="${f.label}" onchange="REVIEW_FIELDS[${i}].label=this.value;saveReviewConfig()">
+            <button style="flex-shrink:0;padding:4px 8px;background:#fee2e2;color:#dc2626;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer" onclick="if(confirm('Remove \'${f.label}\'?')){REVIEW_FIELDS.splice(${i},1);saveReviewConfig();renderChecklistManage('${permitId}')}">&#10005;</button>
+          </div>`).join('')}
+        </div>
+        <div style="display:flex;gap:6px">
+          <input id="rc-new-field" style="flex:1;padding:5px 8px;border:1px solid var(--border);border-radius:5px;font-size:12px;background:var(--bg);color:var(--text)" placeholder="New field name...">
+          <button class="btn btn-sm btn-accent" onclick="(()=>{const v=document.getElementById('rc-new-field').value.trim();if(!v)return;REVIEW_FIELDS.push({key:slugify(v)+'_'+Date.now().toString(36),label:v});saveReviewConfig();renderChecklistManage('${permitId}')})()">+ Add</button>
+        </div>
+      </div>
+
+    </div>
+    <div style="padding:10px 16px;background:var(--bg-subtle,#f8fafc);border-top:1px solid var(--border);font-size:11px;color:var(--text-muted)">
+      Changes are saved automatically to this browser. Use &#8592; Back when done.
+    </div>
+  </div>`;
+}
 
 function getReviewStats(permit) {
   const dr = permit.drawingReview || {};
@@ -2491,6 +2561,7 @@ function renderDrawingChecklist(permit) {
           ? `<span style="background:#16a34a;color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">✓ COMPLETE</span>`
           : `<span style="background:rgba(255,255,255,0.2);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px">${done}/${total} checked</span>`}
       </div>
+      <button style="background:rgba(255,255,255,0.15);color:#fff;border:1px solid rgba(255,255,255,0.3);border-radius:6px;padding:4px 10px;font-size:11px;font-weight:700;cursor:pointer" onclick="renderChecklistManage('${permit.id}')">&#9881; Manage</button>
       <div style="display:flex;align-items:center;gap:8px">
         <div style="width:120px;height:6px;background:rgba(255,255,255,0.2);border-radius:3px;overflow:hidden">
           <div style="width:${pct}%;height:6px;background:${pct===100?'#4ade80':'#fbbf24'};border-radius:3px;transition:width .3s"></div>
