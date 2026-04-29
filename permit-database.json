@@ -1,7 +1,7 @@
 {
-  "version": 1777486079515,
+  "version": 1777488239628,
   "updatedBy": "Team member",
-  "updatedAt": "2026-04-29T18:07:59.515Z",
+  "updatedAt": "2026-04-29T18:43:59.628Z",
   "permits": [
     {
       "id": "permit-1",
@@ -368,15 +368,11 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {
-        "landscape": "2026-04-29"
-      },
+      "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
       "docsStatus": "collecting",
-      "permitStatus": "presubmit",
-      "stageRequestedAt": {},
-      "stageCompletedAt": {}
+      "permitStatus": "presubmit"
     },
     {
       "id": "permit-8",
