@@ -1886,16 +1886,69 @@ function renderReportsView(el, alerts) {
       <button class="btn btn-sm btn-outline" style="margin-top:12px" onclick="exportAgingCSV()">Export CSV</button>`;
   }
   if (tab==='timeline') {
-    body = `<div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-bottom:18px">
-        <div class="kpi-mini"><div class="kpi-mini-val">${timeline.length}</div><div class="kpi-mini-lbl">Permits tracked</div></div>
-        <div class="kpi-mini"><div class="kpi-mini-val" style="color:${avgTotal>90?'#dc2626':avgTotal>60?'#c2410c':avgTotal>30?'#d97706':'#16a34a'}">${avgTotal}d</div><div class="kpi-mini-lbl">Avg Total Days</div></div>
-        <div class="kpi-mini"><div class="kpi-mini-val" style="color:${(()=>{const vs=timeline.map(x=>x.s2p).filter(v=>v!==null);const a=vs.length?Math.round(vs.reduce((s,v)=>s+v,0)/vs.length):0;return a>60?'#dc2626':a>30?'#d97706':'#16a34a'})()} ">${(()=>{const vs=timeline.map(x=>x.s2p).filter(v=>v!==null);return vs.length?Math.round(vs.reduce((s,v)=>s+v,0)/vs.length)+'d':'—'})()}</div><div class="kpi-mini-lbl">Avg Submit&rarr;Permit</div></div>
-        <div class="kpi-mini"><div class="kpi-mini-val" style="color:${(()=>{const vs=timeline.map(x=>x.p2c).filter(v=>v!==null);const a=vs.length?Math.round(vs.reduce((s,v)=>s+v,0)/vs.length):0;return a>180?'#dc2626':a>90?'#d97706':'#16a34a'})()} ">${(()=>{const vs=timeline.map(x=>x.p2c).filter(v=>v!==null);return vs.length?Math.round(vs.reduce((s,v)=>s+v,0)/vs.length)+'d':'—'})()}</div><div class="kpi-mini-lbl">Avg Permit&rarr;CO</div></div>
-        <div class="kpi-mini"><div class="kpi-mini-val" style="color:#dc2626">${timeline.filter(x=>x.total>90).length}</div><div class="kpi-mini-lbl">&gt;90 Days</div></div>
-        <div class="kpi-mini"><div class="kpi-mini-val" style="color:#16a34a">${timeline.filter(x=>x.total<=30).length}</div><div class="kpi-mini-lbl">&lt;=30 Days</div></div>
+    const s2pVals = timeline.map(x=>x.s2p).filter(v=>v!==null);
+    const p2cVals = timeline.map(x=>x.p2c).filter(v=>v!==null);
+    const avgS2P  = s2pVals.length ? Math.round(s2pVals.reduce((a,b)=>a+b,0)/s2pVals.length) : null;
+    const avgP2C  = p2cVals.length ? Math.round(p2cVals.reduce((a,b)=>a+b,0)/p2cVals.length) : null;
+    const minS2P  = s2pVals.length ? Math.min(...s2pVals) : null;
+    const maxS2P  = s2pVals.length ? Math.max(...s2pVals) : null;
+    const minP2C  = p2cVals.length ? Math.min(...p2cVals) : null;
+    const maxP2C  = p2cVals.length ? Math.max(...p2cVals) : null;
+    body = `
+      <!-- Two phase timing cards -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px">
+
+        <div style="border:2px solid #2563eb;border-radius:12px;overflow:hidden">
+          <div style="background:#2563eb;padding:10px 16px">
+            <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.8);text-transform:uppercase;letter-spacing:.5px">Phase 1 · City Review</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.7);margin-top:2px">From date submitted to city → permit issued</div>
+          </div>
+          <div style="padding:16px;background:var(--card)">
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">
+              <span style="font-size:42px;font-weight:800;color:${avgS2P===null?'#94a3b8':avgS2P>60?'#dc2626':avgS2P>30?'#d97706':'#16a34a'}">${avgS2P!==null?avgS2P+'d':'—'}</span>
+              <span style="font-size:14px;color:var(--text-muted)">average</span>
+            </div>
+            <div style="display:flex;gap:16px;font-size:12px;color:var(--text-muted)">
+              ${minS2P!==null?`<span>Best: <strong style="color:#16a34a">${minS2P}d</strong></span><span>Worst: <strong style="color:#dc2626">${maxS2P}d</strong></span>`:'<span>No completed data yet</span>'}
+              <span style="margin-left:auto">${s2pVals.length} permit${s2pVals.length!==1?'s':''}</span>
+            </div>
+          </div>
+        </div>
+
+        <div style="border:2px solid #f59e0b;border-radius:12px;overflow:hidden">
+          <div style="background:#f59e0b;padding:10px 16px">
+            <div style="font-size:11px;font-weight:700;color:rgba(255,255,255,0.9);text-transform:uppercase;letter-spacing:.5px">Phase 2 · Construction to CO</div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.8);margin-top:2px">From permit issued → certificate of occupancy</div>
+          </div>
+          <div style="padding:16px;background:var(--card)">
+            <div style="display:flex;align-items:baseline;gap:8px;margin-bottom:8px">
+              <span style="font-size:42px;font-weight:800;color:${avgP2C===null?'#94a3b8':avgP2C>180?'#dc2626':avgP2C>90?'#d97706':'#16a34a'}">${avgP2C!==null?avgP2C+'d':'—'}</span>
+              <span style="font-size:14px;color:var(--text-muted)">average</span>
+            </div>
+            <div style="display:flex;gap:16px;font-size:12px;color:var(--text-muted)">
+              ${minP2C!==null?`<span>Best: <strong style="color:#16a34a">${minP2C}d</strong></span><span>Worst: <strong style="color:#dc2626">${maxP2C}d</strong></span>`:'<span>No completed data yet</span>'}
+              <span style="margin-left:auto">${p2cVals.length} permit${p2cVals.length!==1?'s':''}</span>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <table class="report-table"><thead><tr><th>Address</th><th>Community</th><th>Status</th><th>Release Date</th><th>Total Days</th><th>Submit&rarr;Permit</th><th>Permit&rarr;CO</th><th>Permit #</th></tr></thead>
-        <tbody>${timeline.map(({p,total,s2p,p2c})=>`<tr><td style="font-weight:600;cursor:pointer" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">${p.address.split(',')[0]}</td><td style="font-size:12px">${p.community}</td><td><span class="status-badge status-${p.overallStatus}">${STATUS_LABELS[p.overallStatus]||p.overallStatus}</span></td><td style="font-size:12px;color:var(--text-muted)">${fmtDate(p.releaseDate)}</td><td><span class="dur-pill ${durClass(total)}">${total}d</span></td><td>${s2p!==null?`<span class="dur-pill ${durClass(s2p)}">${s2p}d</span>`:`<span style="color:var(--text-muted)">&#8212;</span>`}</td><td>${p2c!==null?`<span class="dur-pill ${durClass(p2c)}">${p2c}d</span>`:`<span style="color:var(--text-muted);font-size:11px">${['permitted','co'].includes(p.overallStatus)?'in&nbsp;progress':'&#8212;'}</span>`}</td><td style="font-size:12px;font-family:monospace">${p.permitNumber||'?'}</td></tr>`).join('')}</tbody>
+
+      <!-- Detail table -->
+      <table class="report-table"><thead><tr>
+        <th>Address</th><th>Community</th><th>Status</th>
+        <th style="color:#2563eb">Submit &#8594; Permit</th>
+        <th style="color:#f59e0b">Permit &#8594; CO</th>
+        <th>Permit #</th>
+      </tr></thead>
+        <tbody>${timeline.map(({p,s2p,p2c})=>`<tr>
+          <td style="font-weight:600;cursor:pointer" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">${p.address.split(',')[0]}</td>
+          <td style="font-size:12px">${p.community}</td>
+          <td><span class="status-badge status-${p.overallStatus}">${STATUS_LABELS[p.overallStatus]||p.overallStatus}</span></td>
+          <td>${s2p!==null?`<span class="dur-pill ${durClass(s2p)}">${s2p}d</span>`:'<span style="color:var(--text-muted)">pending</span>'}</td>
+          <td>${p2c!==null?`<span class="dur-pill ${durClass(p2c)}">${p2c}d</span>`:`<span style="color:var(--text-muted);font-size:11px">${['permitted','co'].includes(p.overallStatus)?'in progress':'—'}</span>`}</td>
+          <td style="font-size:12px;font-family:monospace">${p.permitNumber||'—'}</td>
+        </tr>`).join('')}</tbody>
       </table>
       <button class="btn btn-sm btn-outline" style="margin-top:12px" onclick="exportTimelineCSV()">Export CSV</button>`;
   }
