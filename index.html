@@ -258,6 +258,7 @@ thead th.stage-group { text-align:center; border-left:2px solid var(--border); }
 .phase-1 { background:#3b82f6; }
 .phase-2 { background:#8b5cf6; }
 .phase-3 { background:#10b981; }
+.phase-4 { background:#f59e0b; }
 tbody tr { border-bottom:1px solid var(--border); transition:background 0.1s; cursor:pointer; }
 tbody tr:hover { background:#f8fafc; }
 tbody tr.has-alert { background:#fff7ed; }
@@ -619,8 +620,10 @@ const DEFAULT_STAGE_CONFIG = {
   planReview:      { label:'Plan Review Comments',phase:3, sla:5,  folder:'Plan Review' },
   resubmittal:     { label:'Resubmittal',         phase:3, sla:3,  folder:'Resubmittal' },
   permitIssued:    { label:'Permit Issued',       phase:3, sla:10, folder:'Permits' },
-  inspections:     { label:'Inspections',         phase:3, sla:5,  folder:'Inspections' },
-  co:              { label:'Certificate of Occ.', phase:3, sla:5,  folder:'CO' },
+  inspections:     { label:'Inspections',         phase:4, sla:5,  folder:'Inspections' },
+  co:              { label:'Certificate of Occ.', phase:4, sla:5,  folder:'CO' },
+  powerService:    { label:'Power Service',       phase:4, sla:14, folder:'Power Service' },
+  utilityConn:     { label:'Utility Connections',  phase:4, sla:14, folder:'Utilities' },
 };
 
 let STAGE_CONFIG = Object.assign({}, DEFAULT_STAGE_CONFIG);
@@ -635,9 +638,16 @@ function loadStageConfig() {
     STAGE_CONFIG = Object.assign({}, DEFAULT_STAGE_CONFIG);
     localStorage.removeItem('estela_stage_config_v1');
   }
+  migrateStageConfig();
 }
 function saveStageConfig() {
   localStorage.setItem('estela_stage_config_v1', JSON.stringify(STAGE_CONFIG));
+}
+function migrateStageConfig() {
+  if (STAGE_CONFIG.inspections && STAGE_CONFIG.inspections.phase === 3) STAGE_CONFIG.inspections.phase = 4;
+  if (STAGE_CONFIG.co && STAGE_CONFIG.co.phase === 3) STAGE_CONFIG.co.phase = 4;
+  if (!STAGE_CONFIG.powerService) STAGE_CONFIG.powerService = { label:'Power Service', phase:4, sla:14, folder:'Power Service' };
+  if (!STAGE_CONFIG.utilityConn) STAGE_CONFIG.utilityConn = { label:'Utility Connections', phase:4, sla:14, folder:'Utilities' };
 }
 function addStage(phase) {
   const label = (document.getElementById('new-stage-label-'+phase).value || '').trim();
@@ -1419,6 +1429,23 @@ function daysSince(dateStr) {
   if (!dateStr) return 0;
   return Math.floor((new Date() - new Date(dateStr)) / 86400000);
 }
+
+function getSubmitToPermitDays(permit) {
+  const sub = (permit.stageRequestedAt||{}).submitted || (permit.stageCompletedAt||{}).submitted || (permit.stageDates||{}).submitted;
+  if (!sub) return null;
+  const issued = (permit.stageCompletedAt||{}).permitIssued || (permit.stageDates||{}).permitIssued;
+  if (issued) return Math.max(0, Math.floor((new Date(issued) - new Date(sub)) / 86400000));
+  if (permit.overallStatus === 'submitted') return daysSince(sub);
+  return null;
+}
+function getPermitToCODays(permit) {
+  const issued = (permit.stageCompletedAt||{}).permitIssued || (permit.stageDates||{}).permitIssued;
+  if (!issued) return null;
+  const coDate = (permit.stageCompletedAt||{}).co;
+  if (coDate) return Math.max(0, Math.floor((new Date(coDate) - new Date(issued)) / 86400000));
+  if (['permitted','co'].includes(permit.overallStatus)) return daysSince(issued);
+  return null;
+}
 function getProcessDays(permit) {
   if (!permit.releaseDate) return null;
   const issued = (permit.stageCompletedAt||{}).permitIssued || (permit.stageDates||{}).permitIssued;
@@ -1864,7 +1891,7 @@ function renderReportsView(el, alerts) {
         <div class="kpi-mini"><div class="kpi-mini-val" style="color:#dc2626">${timeline.filter(x=>x.total>90).length}</div><div class="kpi-mini-lbl">&gt;90 Days</div></div>
         <div class="kpi-mini"><div class="kpi-mini-val" style="color:#16a34a">${timeline.filter(x=>x.total<=30).length}</div><div class="kpi-mini-lbl">&lt;=30 Days</div></div>
       </div>
-      <table class="report-table"><thead><tr><th>Address</th><th>Community</th><th>Status</th><th>Release Date</th><th>Total Days</th><th>Days at City</th><th>Permit #</th></tr></thead>
+      <table class="report-table"><thead><tr><th>Address</th><th>Community</th><th>Status</th><th>Release Date</th><th>Total Days</th><th>Submit&rarr;Permit</th><th>Permit&rarr;CO</th><th>Permit #</th></tr></thead>
         <tbody>${timeline.map(({p,total,city})=>`<tr><td style="font-weight:600;cursor:pointer" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">${p.address.split(',')[0]}</td><td style="font-size:12px">${p.community}</td><td><span class="status-badge status-${p.overallStatus}">${STATUS_LABELS[p.overallStatus]||p.overallStatus}</span></td><td style="font-size:12px;color:var(--text-muted)">${fmtDate(p.releaseDate)}</td><td><span class="dur-pill ${durClass(total)}">${total}d</span></td><td>${city!==null?`<span class="dur-pill ${durClass(city)}">${city}d</span>`:'?'}</td><td style="font-size:12px;font-family:monospace">${p.permitNumber||'?'}</td></tr>`).join('')}</tbody>
       </table>
       <button class="btn btn-sm btn-outline" style="margin-top:12px" onclick="exportTimelineCSV()">Export CSV</button>`;
@@ -2051,6 +2078,7 @@ function renderTableCore(permits, allAlerts, compact) {
         <th class="stage-group" style="border-left:2px solid var(--border)"><span class="stage-header phase-1">Pre-Permit Docs</span></th>
         <th class="stage-group" style="border-left:2px solid var(--border)"><span class="stage-header phase-2">Submission</span></th>
         <th class="stage-group" style="border-left:2px solid var(--border)"><span class="stage-header phase-3">Post-Submit</span></th>
+              <th class="stage-group" style="border-left:2px solid var(--border)"><span class="stage-header phase-4">Constr.</span></th>
         <th>Alerts</th>
         <th style="white-space:nowrap">? Days</th><th>Permit #</th>
         <th></th>
@@ -2106,13 +2134,18 @@ function renderPermitRow(permit, allAlerts, compact) {
           ${stageKeys.filter(k=>STAGE_CONFIG[k].phase===3).map(k=>statusDot(permit.stages[k],k,permit.id,permit.stageUpdatedAt?.[k])).join('')}
         </div>
       </td>
+      <td class="stage-col" style="border-left:2px solid var(--border)">
+        <div style="display:flex;gap:2px;justify-content:center">
+          ${stageKeys.filter(k=>STAGE_CONFIG[k].phase===4).map(k=>statusDot(permit.stages[k],k,permit.id,permit.stageUpdatedAt?.[k])).join('')}
+        </div>
+      </td>
       <td>${pAlerts.length?`<span class="days-pill ${hasCritical?'days-danger':'days-warn'}">${hasCritical?'🚨':'⚠️'} ${pAlerts.length}</span>`:'<span class="days-pill days-ok">✓ OK</span>'}</td>
       <td style="font-size:11px;line-height:1.6">${(()=>{const pd=getProcessDays(permit);const cd=getCityDays(permit);let o="";if(pd!==null)o+=`<span class="dur-pill ${durClass(pd)}" title="Days since release">${pd}d</span>`;if(cd!==null)o+=`<br><span class="dur-pill ${durClass(cd)}" title="Days at city">${cd}d city</span>`;return o||'<span class="dur-pill dur-gray">?</span>';})()}</td>
       <td style="font-size:12px;color:var(--text-muted)">${permit.permitNumber||'—'}</td>
       <td><button class="btn btn-sm btn-outline" onclick="event.stopPropagation();openEditModal('${permit.id}')">Edit</button></td>
     </tr>`;
   if (isExpanded) {
-    rows += `<tr class="expand-row" id="expand-${permit.id}"><td colspan="${compact?12:13}">${renderExpandContent(permit)}</td></tr>`;
+    rows += `<tr class="expand-row" id="expand-${permit.id}"><td colspan="${compact?13:14}">${renderExpandContent(permit)}</td></tr>`;
   }
   return rows;
 }
@@ -2355,9 +2388,31 @@ function renderExpandContent(permit) {
           ${phase2.map(stageRowHtml).join('')}
         </div>
         <div class="phase-block">
-          <div class="phase-title phase-3">Phase 3 · Post-Submission</div>
+          <div class="phase-title phase-3">Phase 3 · City Review</div>
           ${phase3.map(stageRowHtml).join('')}
         </div>
+
+        ${(()=>{
+          const phase4 = stageKeys.filter(k=>STAGE_CONFIG[k].phase===4);
+          if (!phase4.length) return '';
+          const s2p = getSubmitToPermitDays(permit);
+          const p2c = getPermitToCODays(permit);
+          const issued = (permit.stageCompletedAt||{}).permitIssued || (permit.stageDates||{}).permitIssued;
+          let timing = '';
+          if (issued) {
+            timing = '<div style="margin-bottom:8px;padding:8px 14px;background:#fef3c7;border:1px solid #fbbf24;border-radius:8px;display:flex;gap:20px;flex-wrap:wrap;font-size:12px">'
+              + '<span style="font-weight:700;color:#92400e">Phase Timing</span>';
+            if (s2p !== null) timing += '<span>Submit → Permit: <strong style="color:' + (s2p>60?'#dc2626':s2p>30?'#d97706':'#16a34a') + '">' + s2p + 'd</strong></span>';
+            if (p2c !== null) timing += '<span>Permit → CO: <strong style="color:' + (p2c>180?'#dc2626':p2c>90?'#d97706':'#16a34a') + '">' + p2c + 'd</strong></span>';
+            else timing += '<span style="color:#64748b">Permit → CO: in progress</span>';
+            timing += '</div>';
+          }
+          return '<div style="margin-top:10px">' + timing
+            + '<div class="phase-block"><div class="phase-title phase-4">Phase 4 · Construction &amp; CO</div>'
+            + phase4.map(stageRowHtml).join('')
+            + '</div></div>';
+        })()}
+
       </div>
     </div>
     
