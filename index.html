@@ -759,6 +759,7 @@ function loadData() {
   loadStageConfig();
   loadReviewConfig();
   loadCustomFields();
+  loadOptionsList();
 
   // Sanitize NaT / bad date values from all permits
   state.permits = state.permits.map(sanitizePermit);
@@ -2409,14 +2410,16 @@ function renderExpandContent(permit) {
       </div>
       <div class="info-field" style="grid-column:1/-1">
         <span class="info-label">Options / Special Features</span>
-        <input class="info-input" value="${permit.options||''}" placeholder="Double doors, extra windows, etc."
-               onchange="updatePermitField('${permit.id}','options',this.value)">
+        \${renderOptionsPicker(permit.id, permit, 'inline')}
       </div>
       <div class="info-field" style="grid-column:1/-1">
         <span class="info-label">Notes</span>
         <input class="info-input" value="${permit.notes||''}" placeholder="Add notes..."
                onchange="updatePermitField('${permit.id}','notes',this.value)">
       </div>
+    <div id="custom-fields-sect-${permit.id}" style="display:contents">
+      ${renderInlineCustomFields(permit)}
+    </div>
     </div>
     
     ${odConnected ? `
@@ -2954,6 +2957,156 @@ async function createAllFolders() {
 
 let CUSTOM_PERMIT_FIELDS = [];
 
+
+// ── OPTIONS MULTI-SELECT ──────────────────────────────────────────────────
+let OPTIONS_LIST = [
+  'Double Front Doors','3-Car Garage','Bay Window','Fireplace',
+  'Extended Patio / Lanai','Sunroom','Bonus Room','Study / Home Office',
+  'Gourmet Kitchen','Extended Master Suite','Screen Enclosure',
+  'Summer Kitchen','Tray Ceilings','Coffered Ceilings','Flex Room',
+  'Covered Porch','Mud Room','Extra Windows','Upgraded Flooring','Solar'
+];
+
+function loadOptionsList() {
+  try {
+    const s = localStorage.getItem('estela_options_list_v1');
+    if (s) { const p = JSON.parse(s); if (Array.isArray(p) && p.length) OPTIONS_LIST = p; }
+  } catch(e) {}
+}
+
+function saveOptionsList() {
+  localStorage.setItem('estela_options_list_v1', JSON.stringify(OPTIONS_LIST));
+}
+
+function getSelectedOptions(permit) {
+  return (permit.options||'').split(',').map(s=>s.trim()).filter(Boolean);
+}
+
+function renderOptionsPicker(permitId, permit, mode) {
+  // mode: 'inline' = in expand row, 'form' = in add/edit modal
+  const sel = getSelectedOptions(permit);
+  const idPfx = mode==='form' ? 'form-opt' : 'opt';
+  return `<div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px" id="${idPfx}-grid-${permitId}">
+    ${OPTIONS_LIST.map(opt=>{
+      const active = sel.includes(opt);
+      return `<button type="button"
+        style="padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid ${active?'#2d5a8e':'var(--border)'};background:${active?'#2d5a8e':'var(--card)'};color:${active?'#fff':'var(--text)'};transition:all .15s"
+        onclick="${mode==='form'?`toggleFormOption('${permitId}','${opt}',this)`:`togglePermitOption('${permitId}','${opt}',this)`}">${opt}</button>`;
+    }).join('')}
+    <div style="display:flex;align-items:center;gap:4px;margin-top:2px;width:100%">
+      <input id="${idPfx}-new-${permitId}" style="padding:3px 8px;border:1px dashed var(--border);border-radius:20px;font-size:11px;background:var(--bg);color:var(--text);width:130px" placeholder="+ Add option...">
+      <button type="button" style="padding:3px 8px;border-radius:20px;font-size:11px;border:1px solid var(--border);background:var(--card);cursor:pointer;color:var(--text)"
+        onclick="${mode==='form'?`addFormOption('${permitId}',document.getElementById('${idPfx}-new-${permitId}').value)`:`addPermitOption('${permitId}',document.getElementById('${idPfx}-new-${permitId}').value)`}">Add</button>
+    </div>
+  </div>`;
+}
+
+function togglePermitOption(permitId, opt, btn) {
+  const p = state.permits.find(x=>x.id===permitId);
+  if (!p) return;
+  let sel = getSelectedOptions(p);
+  if (sel.includes(opt)) {
+    sel = sel.filter(s=>s!==opt);
+    btn.style.background = 'var(--card)'; btn.style.color = 'var(--text)'; btn.style.borderColor = 'var(--border)';
+  } else {
+    sel.push(opt);
+    btn.style.background = '#2d5a8e'; btn.style.color = '#fff'; btn.style.borderColor = '#2d5a8e';
+  }
+  p.options = sel.join(', ');
+  saveData();
+}
+
+function addPermitOption(permitId, label) {
+  const lbl = label.trim();
+  if (!lbl) return;
+  if (!OPTIONS_LIST.includes(lbl)) { OPTIONS_LIST.push(lbl); saveOptionsList(); }
+  const p = state.permits.find(x=>x.id===permitId);
+  if (!p) return;
+  let sel = getSelectedOptions(p);
+  if (!sel.includes(lbl)) { sel.push(lbl); p.options = sel.join(', '); saveData(); }
+  // Re-render just the options grid
+  const grid = document.getElementById('opt-grid-'+permitId);
+  if (grid) grid.outerHTML = renderOptionsPicker(permitId, p, 'inline');
+  else { const el = document.getElementById('expand-'+permitId); if(el) el.innerHTML = renderExpandContent(p); }
+}
+
+// Form mode (modal) — work with a temporary selection in a hidden input
+function toggleFormOption(permitId, opt, btn) {
+  const inp = document.getElementById('f-options');
+  if (!inp) return;
+  let sel = inp.value.split(',').map(s=>s.trim()).filter(Boolean);
+  if (sel.includes(opt)) {
+    sel = sel.filter(s=>s!==opt);
+    btn.style.background = 'var(--card)'; btn.style.color = 'var(--text)'; btn.style.borderColor = 'var(--border)';
+  } else {
+    sel.push(opt);
+    btn.style.background = '#2d5a8e'; btn.style.color = '#fff'; btn.style.borderColor = '#2d5a8e';
+  }
+  inp.value = sel.join(', ');
+}
+
+function addFormOption(permitId, label) {
+  const lbl = label.trim();
+  if (!lbl) return;
+  if (!OPTIONS_LIST.includes(lbl)) { OPTIONS_LIST.push(lbl); saveOptionsList(); }
+  const inp = document.getElementById('f-options');
+  if (!inp) return;
+  let sel = inp.value.split(',').map(s=>s.trim()).filter(Boolean);
+  if (!sel.includes(lbl)) { sel.push(lbl); inp.value = sel.join(', '); }
+  const grid = document.getElementById('form-opt-grid-'+permitId);
+  const fakePermit = { options: inp.value };
+  if (grid) grid.outerHTML = renderOptionsPicker(permitId||'new', fakePermit, 'form');
+  const newInp = document.getElementById('form-opt-new-'+(permitId||'new'));
+  if (newInp) newInp.value = '';
+}
+
+// ── INLINE ADD CUSTOM FIELD ───────────────────────────────────────────────
+function renderInlineCustomFields(permit) {
+  const cf = permit.customFields || {};
+  const fields = CUSTOM_PERMIT_FIELDS;
+  let html = '';
+  if (fields.length) {
+    html += fields.map(f => `
+      <div class="info-field">
+        <span class="info-label">${f.label}</span>
+        <input class="info-input" value="${cf[f.key]||''}" placeholder="${f.label}"
+               onchange="updateCustomField('${permit.id}','${f.key}',this.value)">
+      </div>`).join('');
+  }
+  // "Add Field" row always at the bottom
+  html += `
+    <div class="info-field" id="add-field-row-${permit.id}" style="grid-column:1/-1;display:flex;align-items:center;gap:8px">
+      <input id="new-field-input-${permit.id}" class="info-input" style="flex:1;border:1px dashed var(--border)"
+             placeholder="&#43; Field name (e.g. Project Manager)"
+             onkeydown="if(event.key==='Enter')addInlineCustomField('${permit.id}')">
+      <button type="button" class="btn btn-sm btn-outline" onclick="addInlineCustomField('${permit.id}')">Add Field</button>
+    </div>`;
+  return html;
+}
+
+function updateCustomField(permitId, key, value) {
+  const p = state.permits.find(x=>x.id===permitId);
+  if (!p) return;
+  if (!p.customFields) p.customFields = {};
+  p.customFields[key] = value;
+  saveData();
+}
+
+function addInlineCustomField(permitId) {
+  const inp = document.getElementById('new-field-input-'+permitId);
+  if (!inp) return;
+  const lbl = inp.value.trim();
+  if (!lbl) return;
+  const key = 'cf_' + Date.now().toString(36);
+  CUSTOM_PERMIT_FIELDS.push({ key, label: lbl });
+  saveCustomFields();
+  inp.value = '';
+  // Re-render the custom fields section
+  const sect = document.getElementById('custom-fields-sect-'+permitId);
+  const p = state.permits.find(x=>x.id===permitId);
+  if (sect && p) sect.innerHTML = renderInlineCustomFields(p);
+}
+
 function loadCustomFields() {
   try {
     const saved = localStorage.getItem('estela_custom_fields_v1');
@@ -3086,7 +3239,7 @@ function buildModalForm(permit) {
       <input type="checkbox" id="f-buildersRisk" ${permit&&permit.buildersRisk?'checked':''} style="width:16px;height:16px;cursor:pointer">
       <label for="f-buildersRisk" style="font-size:13px;font-weight:600;cursor:pointer">Builder's Risk Insurance</label>
     </div>
-    <div class="form-field" style="grid-column:1/-1"><label class="form-label">Options / Special Features</label><input class="form-input" id="f-options" value="${v('options')}"></div>
+    <div class="form-field" style="grid-column:1/-1"><label class="form-label">Options / Special Features</label><input type="hidden" id="f-options" value="${v('options')}"><div style="font-size:11px;color:var(--text-muted);margin-bottom:4px">Click to select, or type a custom option:</div>${renderOptionsPicker(permit ? permit.id : 'new', permit||{options:''}, 'form')}</div>
     <div class="form-field" style="grid-column:1/-1"><label class="form-label">Notes</label><textarea class="form-input" id="f-notes" rows="2">${v('notes')}</textarea></div>
   </div>
   ${CUSTOM_PERMIT_FIELDS.length ? `<div style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">&#9881; Custom Fields</div><div class="form-grid">${renderCustomFieldsInForm(permit)}</div></div>` : `<div style="margin-top:12px;padding:10px;background:var(--bg);border-radius:6px;border:1px dashed var(--border);font-size:12px;color:var(--text-muted)">No custom fields yet — <a href="#" style="color:#2d5a8e" onclick="closeModal();openSettings();return false">add them in Settings &#8599;</a></div>`}
