@@ -1,7 +1,7 @@
 {
-  "version": 1777485803319,
+  "version": 1777486074873,
   "updatedBy": "Team member",
-  "updatedAt": "2026-04-29T18:03:23.319Z",
+  "updatedAt": "2026-04-29T18:07:54.873Z",
   "permits": [
     {
       "id": "permit-1",
@@ -342,7 +342,7 @@
         "energyCalcs": "not-started",
         "soilTest": "n/a",
         "structuralEng": "not-started",
-        "landscape": "not-started",
+        "landscape": "complete",
         "productApproval": "n/a",
         "colorMaterial": "n/a",
         "roofingWorksheet": "n/a",
@@ -368,11 +368,19 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "landscape": "2026-04-29"
+      },
       "stageLastModified": "2026-04-08",
       "overallStatus": "active",
       "docsStatus": "collecting",
-      "permitStatus": "presubmit"
+      "permitStatus": "presubmit",
+      "stageRequestedAt": {
+        "landscape": "2026-04-29"
+      },
+      "stageCompletedAt": {
+        "landscape": "2026-04-29"
+      }
     },
     {
       "id": "permit-8",
