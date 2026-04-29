@@ -2602,7 +2602,7 @@ function getReviewStats(permit) {
 function renderDrawingChecklist(permit) {
   const dr = permit.drawingReview || {};
   const checks = dr.checks || {};
-  const { done, total, activeDocs } = getReviewStats(permit);
+  const { done, total, activeDocs, selOpts } = getReviewStats(permit);
   const pct = total > 0 ? Math.round((done / total) * 100) : 0;
   const isComplete = !!dr.completedAt;
 
@@ -2705,8 +2705,8 @@ function renderDrawingChecklist(permit) {
             <tbody>
               ${selOpts.map(opt => {
                 const ok = btoa(unescape(encodeURIComponent(opt))).replace(/[^a-zA-Z0-9]/g,"").slice(0,20);
-                const codePart = opt.indexOf(" \xc2\xb7 ") > -1 ? `<span style="font-size:9px;color:#94a3b8;margin-right:4px">${opt.slice(0,5)}</span>` : "";
-                const labelPart = opt.indexOf(" \xc2\xb7 ") > -1 ? opt.slice(8) : opt;
+                const codePart = opt.indexOf(" \u00b7 ") > -1 ? `<span style="font-size:9px;color:#94a3b8;margin-right:4px">${opt.slice(0,5)}</span>` : "";
+                const labelPart = opt.indexOf(" \u00b7 ") > -1 ? opt.slice(8) : opt;
                 const rowDone = activeDocs.filter(d => checks["opt_"+ok+"_"+d.key]).length;
                 const rowAll = rowDone === activeDocs.length;
                 return `<tr style="background:${rowAll?"#f0fdf4":"var(--card)"}">
