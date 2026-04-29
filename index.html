@@ -2589,7 +2589,14 @@ function getReviewStats(permit) {
   const total = activeDocs.length * REVIEW_FIELDS.length;
   const done  = activeDocs.reduce((sum, d) =>
     sum + REVIEW_FIELDS.filter(f => checks[d.key + '_' + f.key]).length, 0);
-  return { done, total, activeDocs, complete: dr.completedAt || false };
+  // Option checks
+  const selOpts = (permit.options||'').split(',').map(s=>s.trim()).filter(Boolean);
+  const optTotal = selOpts.length * activeDocs.length;
+  const optDone  = selOpts.reduce((sum, opt) => {
+    const ok = btoa(unescape(encodeURIComponent(opt))).replace(/[^a-zA-Z0-9]/g,'').slice(0,20);
+    return sum + activeDocs.filter(d => checks['opt_'+ok+'_'+d.key]).length;
+  }, 0);
+  return { done: done+optDone, total: total+optTotal, activeDocs, selOpts, complete: dr.completedAt || false };
 }
 
 function renderDrawingChecklist(permit) {
@@ -2679,6 +2686,47 @@ function renderDrawingChecklist(permit) {
         </table>
       </div>
 
+
+      <!-- Options Verification -->
+      ${selOpts.length ? `
+      <div style="margin-top:16px">
+        <div style="font-size:11px;font-weight:700;color:#92400e;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;display:flex;align-items:center;gap:6px">
+          <span style="background:#fef3c7;border:1px solid #fbbf24;border-radius:4px;padding:2px 7px">Selected Options — Confirm in Drawings</span>
+        </div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:11px">
+            <thead>
+              <tr style="background:var(--bg)">
+                <th style="padding:6px 10px;text-align:left;border:1px solid var(--border);font-weight:700;color:var(--text-muted);min-width:200px">Option</th>
+                ${activeDocs.map(d=>`<th style="padding:5px 6px;text-align:center;border:1px solid var(--border);font-size:10px;font-weight:700;color:var(--text-muted);white-space:nowrap">${d.label}</th>`).join("")}
+                <th style="padding:5px 6px;text-align:center;border:1px solid var(--border);font-size:10px;font-weight:700;color:var(--text-muted)">All ✓</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${selOpts.map(opt => {
+                const ok = btoa(unescape(encodeURIComponent(opt))).replace(/[^a-zA-Z0-9]/g,"").slice(0,20);
+                const codePart = opt.indexOf(" \xc2\xb7 ") > -1 ? `<span style="font-size:9px;color:#94a3b8;margin-right:4px">${opt.slice(0,5)}</span>` : "";
+                const labelPart = opt.indexOf(" \xc2\xb7 ") > -1 ? opt.slice(8) : opt;
+                const rowDone = activeDocs.filter(d => checks["opt_"+ok+"_"+d.key]).length;
+                const rowAll = rowDone === activeDocs.length;
+                return `<tr style="background:${rowAll?"#f0fdf4":"var(--card)"}">
+                  <td style="padding:6px 10px;border:1px solid var(--border);white-space:nowrap">${codePart}<span style="font-weight:600">${labelPart}</span></td>
+                  ${activeDocs.map(d => {
+                    const key = "opt_"+ok+"_"+d.key;
+                    return `<td style="padding:3px;text-align:center;border:1px solid var(--border)">
+                      <input type="checkbox" ${checks[key]?"checked":""} style="width:14px;height:14px;cursor:pointer;accent-color:#f59e0b"
+                        onchange="toggleDrawingCheck('${permit.id}','"+key+"',this.checked)">
+                    </td>`;
+                  }).join("")}
+                  <td style="padding:3px;text-align:center;border:1px solid var(--border)">
+                    <span style="font-size:12px">${rowAll ? "✅" : rowDone > 0 ? "⏳" : "○"}</span>
+                  </td>
+                </tr>`;
+              }).join("")}
+            </tbody>
+          </table>
+        </div>
+      </div>` : ""}
       <!-- Notes + Complete -->
       <div style="margin-top:14px;display:flex;gap:12px;flex-wrap:wrap;align-items:flex-start">
         <div style="flex:1;min-width:200px">
@@ -2961,107 +3009,107 @@ let CUSTOM_PERMIT_FIELDS = [];
 // ── OPTIONS MULTI-SELECT ──────────────────────────────────────────────────
 let OPTIONS_LIST = [
   // Layout / Floor Plan
-  'Extended Covered Patio - Per Plan',
-  'Covered Patio - Per Plan',
-  'Double Doors at Flex',
-  '2nd Bath Water Closet',
-  'Bedroom 4 I.L.O. Loft',
-  'Bedroom 5 and Bath 3 I.L.O Flex',
-  'Kitchenette ILO Flex Room',
+  '00005 · Extended Covered Patio - Per Plan',
+  '00007 · Covered Patio - Per Plan',
+  '00010 · Double Doors at Flex',
+  '00011 · 2nd Bath Water Closet',
+  '00012 · Bedroom 4 I.L.O. Loft',
+  '00015 · Bedroom 5 and Bath 3 I.L.O Flex',
+  '00020 · Kitchenette ILO Flex Room',
   // Hardware & Fixtures
-  'House Hardware Color CHROME',
-  'House Hardware Color BRUSHED NICKEL',
-  'Interior Doors Upgrade to 8\' Feet',
-  'Moen Matte Black Bathroom and Kitchen Fixtures',
-  'Moen Brushed Nickle Bathroom and Kitchen Fixtures',
-  'Frameless Shower Upgrade - Black',
-  'Frameless Shower Upgrade - Brushed Nickel',
-  'Frameless Shower Upgrade - Chrome',
+  '00025 · House Hardware Color CHROME',
+  '00030 · House Hardware Color BRUSHED NICKEL',
+  '00035 · Interior Doors Upgrade to 8' Feet',
+  '05020 · Moen Matte Black Bathroom and Kitchen Fixtures',
+  '05025 · Moen Brushed Nickle Bathroom and Kitchen Fixtures',
+  '70005 · Frameless Shower Upgrade - Black',
+  '70010 · Frameless Shower Upgrade - Brushed Nickel',
+  '70015 · Frameless Shower Upgrade - Chrome',
   // Electrical
-  'Additional Electrical Outlets interior',
-  'Exterior Outlet (110) on lanai',
-  'Exterior Outlet in front of home between the two guest bedroom windows',
-  'Exterior Outlet on the exterior of the garage wall as you approach the front',
-  'Elevated Outlet on Living Room and Primary Bedroom',
-  'Elevated outlet on Owners Bedroom Wall (for television)',
-  'Soffit Lighting in the front of home (total of 14) w/ LED discs',
-  'Lightning Package 1 (Pendant + Coach)',
-  'Lightning Package 2 (Pendant + Coach)',
-  'Lightning Package 3 (Pendant + Coach)',
-  'Ceiling Fan with Light - Indoor / Outdoor Fan w LED Light',
-  'Fiber Chase up to 100\' (each)',
-  'Halo HLC6 6" LED W/900 ILO Standard LED Disc (each)',
-  'EV charger 220 Outlet for up to 30AMP',
-  'EV charger 220 Outlet for up to 60AMP',
-  'EV charger 220 Outlet for up to 100AMP',
+  '10005 · Additional Electrical Outlets interior',
+  '10010 · Exterior Outlet (110) on lanai',
+  '10015 · Exterior Outlet in front of home between the two guest bedroom windows',
+  '10020 · Exterior Outlet on the exterior of the garage wall as you approach the front',
+  '10025 · Elevated Outlet on Living Room and Primary Bedroom',
+  '10030 · Elevated outlet on Owners Bedroom Wall (for television)',
+  '10035 · Soffit Lighting in the front of home (total of 14) w/ LED discs',
+  '10040 · Lightning Package 1 (Pendant + Coach)',
+  '10045 · Lightning Package 2 (Pendant + Coach)',
+  '10050 · Lightning Package 3 (Pendant + Coach)',
+  '10055 · Ceiling Fan with Light - Indoor / Outdoor Fan w LED Light',
+  '10060 · Fiber Chase up to 100' (each)',
+  '10065 · Halo HLC6 6" LED W/900 ILO Standard LED Disc (each)',
+  '10070 · EV charger 220 Outlet for up to 30AMP',
+  '10075 · EV charger 220 Outlet for up to 60AMP',
+  '10080 · EV charger 220 Outlet for up to 100AMP',
   // Smart Home
-  'Smart Home Package (Doorbell, Thermostat, Smart Lock)',
+  '15005 · Smart Home Package (Doorbell, Thermostat, Smart Lock)',
   // Windows & Doors
-  'Black Exterior/White Interior Windows',
-  'Front Door Upgrade Modern 1 Panel',
-  'Front Door Upgrade 4 Lite',
+  '20005 · Black Exterior/White Interior Windows',
+  '50004 · Front Door Upgrade Modern 1 Panel',
+  '50005 · Front Door Upgrade 4 Lite',
   // Kitchen & Cabinetry
-  'Gourmet Kitchen Package includes 42" Cabinets and Appliances',
-  'Kitchen Upper Cabinets 42"',
-  'Laundry Upper Cabinets 36"',
-  'Laundry Upper Cabinets 42"',
-  'Cabinets Crown Molding',
-  'A LA CARTE - Add Soft Close Drawers to Packages 1,2 & 3',
-  'Summer Kitchen Preplumb',
-  'Full Summer Kitchen in Lanai',
-  'Laundry Pre-Plumb with Sink',
-  'Kitchen Backsplash',
+  '30005 · Gourmet Kitchen Package includes 42" Cabinets and Appliances',
+  '30025 · Kitchen Upper Cabinets 42"',
+  '30010 · Laundry Upper Cabinets 36"',
+  '30015 · Laundry Upper Cabinets 42"',
+  '30020 · Cabinets Crown Molding',
+  '30030 · A LA CARTE - Add Soft Close Drawers to Packages 1,2 & 3',
+  '05010 · Summer Kitchen Preplumb',
+  '05011 · Full Summer Kitchen in Lanai',
+  '05015 · Laundry Pre-Plumb with Sink',
+  '35010 · Kitchen Backsplash',
   // Flooring & Trim
-  'Floor Upgrade from LVP to Tile',
-  'Crown Molding',
-  'Baseboard Upgrade',
-  'Shoemold for LVP flooring',
-  '3/4" Quater Round for LVP flooring',
+  '35005 · Floor Upgrade from LVP to Tile',
+  '55005 · Crown Molding',
+  '55010 · Baseboard Upgrade',
+  '55011 · Shoemold for LVP flooring',
+  '55012 · 3/4" Quater Round for LVP flooring',
   // Garage & Exterior
-  'Epoxy on Garage Floor',
-  'Epoxy Garage Floors',
-  'Lanai Screen',
-  'Gutters (Front of House)',
-  'Gutters (Whole House)',
-  'Cool Deck / Texture for Porch',
-  'Fence',
-  'Pre Plumb Pool Shower',
+  '25005 · Epoxy on Garage Floor',
+  '30035 · Epoxy Garage Floors',
+  '60005 · Lanai Screen',
+  '60010 · Gutters (Front of House)',
+  '60015 · Gutters (Whole House)',
+  '60020 · Cool Deck / Texture for Porch',
+  '60025 · Fence',
+  '05005 · Pre Plumb Pool Shower',
   // Appliances & Window Treatments
-  'TOP LOAD Washer/Dryer',
-  'FRONT LOAD Washer/Dryer',
-  'Blind Package A - ROLLER SHADE SCREEN with VALANCE',
-  'Blind Package B - 2 inch HORIZONTAL FAUXWOOD CORDLESS',
+  '65030 · TOP LOAD Washer/Dryer',
+  '65035 · FRONT LOAD Washer/Dryer',
+  '70020 · Blind Package A - ROLLER SHADE SCREEN with VALANCE',
+  '70025 · Blind Package B - 2 inch HORIZONTAL FAUXWOOD CORDLESS',
   // Landscaping
-  'Irrigation system',
-  'Landscape Package',
-  'Full Sod Package',
+  '75005 · Irrigation system',
+  '75010 · Landscape Package',
+  '75015 · Full Sod Package',
   // Interior Color Packages
-  'Tan Series Interior Package',
-  'Seal Series Interior Package',
-  'Sand Series Interior Package',
-  'Smoke Series Interior Package',
-  'Modern Praire Interior Package',
-  'Farm & Foundry Interior Package',
-  'Barnlight Charm Interior Package',
-  'Heritage Blend Interior Package',
-  'Classic Current Interior Package',
-  'Stone & Shadow Interior Package',
-  'Sable & Sand Interior Package',
-  'Slate & Steel Interior Package',
-  'Urban Canvas Interior Package',
+  '85005 · Tan Series Interior Package',
+  '85010 · Seal Series Interior Package',
+  '85015 · Sand Series Interior Package',
+  '85020 · Smoke Series Interior Package',
+  '85025 · Modern Praire Interior Package',
+  '85030 · Farm & Foundry Interior Package',
+  '85035 · Barnlight Charm Interior Package',
+  '85040 · Heritage Blend Interior Package',
+  '85045 · Classic Current Interior Package',
+  '85050 · Stone & Shadow Interior Package',
+  '85055 · Sable & Sand Interior Package',
+  '85060 · Slate & Steel Interior Package',
+  '85065 · Urban Canvas Interior Package',
   // Exterior Color Packages
-  'Downing Slate Exterior Package',
-  'Neutral Ground Exterior Package',
-  'Uncertain Gray Exterior Package',
-  'Dustblu Exterior Package',
-  'French Gray Exterior Package',
-  'Pure White Exterior Package',
-  'Dove Series Exterior Package',
-  'Stone Series Exterior Package',
-  'Pearl Series Exterior Package',
-  'Cloud Series Exterior Package',
-  'Olive Series Exterior Package',
-  'Latte Series Exterior Package',
+  '86005 · Downing Slate Exterior Package',
+  '86010 · Neutral Ground Exterior Package',
+  '86015 · Uncertain Gray Exterior Package',
+  '86020 · Dustblu Exterior Package',
+  '86025 · French Gray Exterior Package',
+  '86030 · Pure White Exterior Package',
+  '86050 · Dove Series Exterior Package',
+  '86055 · Stone Series Exterior Package',
+  '86060 · Pearl Series Exterior Package',
+  '86065 · Cloud Series Exterior Package',
+  '86070 · Olive Series Exterior Package',
+  '86075 · Latte Series Exterior Package',
 ];
 
 
@@ -3089,7 +3137,7 @@ function renderOptionsPicker(permitId, permit, mode) {
       const active = sel.includes(opt);
       return `<button type="button"
         style="padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1.5px solid ${active?'#2d5a8e':'var(--border)'};background:${active?'#2d5a8e':'var(--card)'};color:${active?'#fff':'var(--text)'};transition:all .15s"
-        onclick="${mode==='form'?`toggleFormOption('${permitId}','${opt}',this)`:`togglePermitOption('${permitId}','${opt}',this)`}">${opt}</button>`;
+        onclick="${mode==='form'?`toggleFormOption('${permitId}','${opt}',this)`:`togglePermitOption('${permitId}','${opt}',this)`}">${(()=>{const p=opt.indexOf(' · ');return p>-1?'<span style="font-size:9px;opacity:0.5;margin-right:3px">'+opt.slice(0,p)+'</span>'+opt.slice(p+3):opt;})()} </button>`;
     }).join('')}
     <div style="display:flex;align-items:center;gap:4px;margin-top:2px;width:100%">
       <input id="${idPfx}-new-${permitId}" style="padding:3px 8px;border:1px dashed var(--border);border-radius:20px;font-size:11px;background:var(--bg);color:var(--text);width:130px" placeholder="+ Add option...">
