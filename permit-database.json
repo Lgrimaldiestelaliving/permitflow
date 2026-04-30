@@ -1,7 +1,7 @@
 {
-  "version": 1777496743333,
+  "version": 1777582341559,
   "updatedBy": "Team member",
-  "updatedAt": "2026-04-29T21:05:43.333Z",
+  "updatedAt": "2026-04-30T20:52:21.559Z",
   "permits": [
     {
       "id": "permit-1",
@@ -110,7 +110,7 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {},
-      "stageLastModified": "2026-04-29",
+      "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
@@ -119,10 +119,7 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "applied",
-      "customFields": {
-        "cf_mokjmix0": ""
-      }
+      "permitStatus": "applied"
     },
     {
       "id": "permit-3",
@@ -316,7 +313,7 @@
       "permitNumber": "",
       "releaseDate": "2026-01-20",
       "stages": {
-        "architecture": "requested",
+        "architecture": "complete",
         "sitePlan": "complete",
         "trussEng": "complete",
         "energyCalcs": "complete",
@@ -348,30 +345,17 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {
-        "architecture": "2026-04-29"
-      },
+      "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "submitted",
       "drawingReview": {
-        "checks": {
-          "architecture_address": false,
-          "architecture_garage": false,
-          "architecture_location": false,
-          "architecture_modelElev": false,
-          "architecture_garageCars": false,
-          "architecture_options": false
-        },
+        "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "applied",
-      "stageRequestedAt": {
-        "architecture": "2026-04-29"
-      },
-      "stageCompletedAt": {}
+      "permitStatus": "applied"
     },
     {
       "id": "permit-7",
@@ -10933,187 +10917,6 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "issued"
-    },
-    {
-      "id": "permit-1777493885598",
-      "overallStatus": "active",
-      "stageLastModified": "2026-04-29",
-      "stageUpdatedAt": {
-        "architecture": "2026-04-29",
-        "sitePlan": "2026-04-29",
-        "trussEng": "2026-04-29",
-        "energyCalcs": "2026-04-29",
-        "soilTest": "2026-04-29",
-        "structuralEng": "2026-04-29",
-        "landscape": "2026-04-29",
-        "productApproval": "2026-04-29",
-        "colorMaterial": "2026-04-29",
-        "roofingWorksheet": "2026-04-29",
-        "utilityPP": "2026-04-29",
-        "geotechLetter": "2026-04-29",
-        "constLienAff": "2026-04-29",
-        "noc": "2026-04-29",
-        "recordedDeed": "2026-04-29",
-        "subCOI": "2026-04-29",
-        "omReview": "2026-04-29",
-        "submitted": "2026-04-29",
-        "planReview": "2026-04-29",
-        "resubmittal": "2026-04-29",
-        "permitIssued": "2026-04-29",
-        "inspections": "2026-04-29",
-        "co": "2026-04-29"
-      },
-      "stageDates": {},
-      "buildersRisk": false,
-      "stages": {
-        "architecture": "complete",
-        "sitePlan": "requested",
-        "trussEng": "complete",
-        "energyCalcs": "requested",
-        "soilTest": "requested",
-        "structuralEng": "not-started",
-        "landscape": "not-started",
-        "productApproval": "not-started",
-        "colorMaterial": "not-started",
-        "roofingWorksheet": "not-started",
-        "utilityPP": "not-started",
-        "geotechLetter": "not-started",
-        "constLienAff": "not-started",
-        "noc": "not-started",
-        "recordedDeed": "not-started",
-        "subCOI": "not-started",
-        "omReview": "not-started",
-        "submitted": "not-started",
-        "planReview": "not-started",
-        "resubmittal": "not-started",
-        "permitIssued": "not-started",
-        "inspections": "not-started",
-        "co": "not-started"
-      },
-      "community": "Palm Coast Scattered",
-      "market": "Palm Coast",
-      "address": "68 Lake Success Dr",
-      "lotNumber": "",
-      "parcelId": "07-11-31-7037-00830-0030",
-      "model": "Heron X",
-      "plan": "",
-      "garage": "3 Car - RH",
-      "elevation": "A2 Stone/Stucco",
-      "releaseDate": null,
-      "permitNumber": "",
-      "permitFee": "",
-      "utilities": "",
-      "options": "",
-      "notes": "",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
-      "stageRequestedAt": {
-        "architecture": "2026-04-29",
-        "sitePlan": "2026-04-28",
-        "trussEng": "2026-04-29",
-        "energyCalcs": "2026-04-28",
-        "soilTest": "2026-04-28"
-      },
-      "stageCompletedAt": {
-        "architecture": "2026-04-29",
-        "trussEng": "2026-04-29"
-      },
-      "drawingReview": {
-        "checks": {},
-        "notes": "",
-        "completedAt": null,
-        "completedBy": ""
-      }
-    },
-    {
-      "id": "permit-1777494346409",
-      "overallStatus": "active",
-      "stageLastModified": "2026-04-29",
-      "stageUpdatedAt": {
-        "architecture": "2026-04-29",
-        "sitePlan": "2026-04-29",
-        "trussEng": "2026-04-29",
-        "energyCalcs": "2026-04-29",
-        "soilTest": "2026-04-29",
-        "structuralEng": "2026-04-29",
-        "landscape": "2026-04-29",
-        "productApproval": "2026-04-29",
-        "colorMaterial": "2026-04-29",
-        "roofingWorksheet": "2026-04-29",
-        "utilityPP": "2026-04-29",
-        "geotechLetter": "2026-04-29",
-        "constLienAff": "2026-04-29",
-        "noc": "2026-04-29",
-        "recordedDeed": "2026-04-29",
-        "subCOI": "2026-04-29",
-        "omReview": "2026-04-29",
-        "submitted": "2026-04-29",
-        "planReview": "2026-04-29",
-        "resubmittal": "2026-04-29",
-        "permitIssued": "2026-04-29",
-        "inspections": "2026-04-29",
-        "co": "2026-04-29"
-      },
-      "stageDates": {},
-      "buildersRisk": false,
-      "stages": {
-        "architecture": "complete",
-        "sitePlan": "requested",
-        "trussEng": "requested",
-        "energyCalcs": "requested",
-        "soilTest": "requested",
-        "structuralEng": "not-started",
-        "landscape": "not-started",
-        "productApproval": "not-started",
-        "colorMaterial": "not-started",
-        "roofingWorksheet": "not-started",
-        "utilityPP": "not-started",
-        "geotechLetter": "not-started",
-        "constLienAff": "not-started",
-        "noc": "not-started",
-        "recordedDeed": "not-started",
-        "subCOI": "not-started",
-        "omReview": "not-started",
-        "submitted": "not-started",
-        "planReview": "not-started",
-        "resubmittal": "not-started",
-        "permitIssued": "not-started",
-        "inspections": "not-started",
-        "co": "not-started"
-      },
-      "community": "Palm Coast Scattered",
-      "market": "Palm Coast",
-      "address": "47 Louisiana Dr, Palm Coast, FL",
-      "lotNumber": "",
-      "parcelId": "07-11-31-7037-01060-0110",
-      "model": "Exuma X",
-      "plan": "",
-      "garage": "Left Hand",
-      "elevation": "A2 Stone/Stucco",
-      "releaseDate": null,
-      "permitNumber": "",
-      "permitFee": "",
-      "utilities": "",
-      "options": "",
-      "notes": "",
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit",
-      "stageRequestedAt": {
-        "architecture": "2026-04-29",
-        "sitePlan": "2026-04-28",
-        "trussEng": "2026-04-28",
-        "energyCalcs": "2026-04-28",
-        "soilTest": "2026-04-28"
-      },
-      "stageCompletedAt": {
-        "architecture": "2026-04-29"
-      },
-      "drawingReview": {
-        "checks": {},
-        "notes": "",
-        "completedAt": null,
-        "completedBy": ""
-      }
     }
   ],
   "odFiles": {},
@@ -11246,15 +11049,27 @@
     },
     "inspections": {
       "label": "Inspections",
-      "phase": 3,
+      "phase": 4,
       "sla": 5,
       "folder": "Inspections"
     },
     "co": {
       "label": "Certificate of Occ.",
-      "phase": 3,
+      "phase": 4,
       "sla": 5,
       "folder": "CO"
+    },
+    "powerService": {
+      "label": "Power Service",
+      "phase": 4,
+      "sla": 14,
+      "folder": "Power Service"
+    },
+    "utilityConn": {
+      "label": "Utility Connections",
+      "phase": 4,
+      "sla": 14,
+      "folder": "Utilities"
     }
   }
 }
