@@ -756,6 +756,9 @@ function loadData() {
   const saved = localStorage.getItem('estela_permits_v3');
   if (saved) { try { state.permits = JSON.parse(saved); } catch(e) { state.permits = JSON.parse(JSON.stringify(INITIAL_DATA)); } }
   else { state.permits = JSON.parse(JSON.stringify(INITIAL_DATA)); saveData(); }
+  // Safety net: if localStorage had an empty array (crash recovery), restore from INITIAL_DATA
+  // GitHub will override this with latest data on first load
+  if (state.permits.length === 0) { state.permits = JSON.parse(JSON.stringify(INITIAL_DATA)); }
   loadStageConfig();
   loadReviewConfig();
   loadCustomFields();
@@ -1973,7 +1976,7 @@ function renderReportsView(el, alerts) {
           <div class="kpi-mini"><div class="kpi-mini-val" style="color:#16a34a">${cs.perm}</div><div class="kpi-mini-lbl">Permitted</div></div>
           <div class="kpi-mini"><div class="kpi-mini-val" style="color:#0ea5e9">${cs.co}</div><div class="kpi-mini-lbl">CO</div></div>
         </div>
-        ${city.length?`<div style="margin-bottom:10px"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px">Under City Review</div>${city.map(({p,d})=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px"><span class="dur-pill ${durClass(d)}">${d}d</span><span style="font-weight:600;flex:1">${p.address.split(',')[0]}</span><span style="color:var(--text-muted)">Lot ${p.lotNumber||'?'} · ${p.model||''}</span><button class="btn btn-sm btn-outline" style="font-size:10px;padding:2px 8px" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">Open</button></div>`).join('')}</div>`:''}
+        ${city.length?`<div style="margin-bottom:10px"><div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px">Under City Review</div>${city.map(({p,d})=>`<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid var(--border);font-size:12px"><span class="dur-pill ${durClass(d)}">${d}d</span><span style="font-weight:600;flex:1">${p.address.split(',')[0]}</span><span style="color:var(--text-muted)">Lot ${p.lotNumber||'?'} ï¿½ ${p.model||''}</span><button class="btn btn-sm btn-outline" style="font-size:10px;padding:2px 8px" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">Open</button></div>`).join('')}</div>`:''}
         ${long.length?`<div style="font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;margin-bottom:6px">Longest in Process</div>${long.map(({p,d})=>`<div style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px"><span class="dur-pill ${durClass(d)}">${d}d</span><span style="flex:1">${p.address.split(',')[0]}</span><span class="status-badge status-${p.overallStatus}" style="font-size:10px">${STATUS_LABELS[p.overallStatus]||p.overallStatus}</span></div>`).join('')}`:''}
       </div>`;
     }).join('');
