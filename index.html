@@ -901,6 +901,7 @@ let _dbSha = null;
 
 async function syncToGitHub() {
   if (_syncInProgress) return;
+  if (state.permits.length === 0) { console.warn('Refusing to push empty permit list to GitHub'); _syncInProgress = false; updateSyncBadge('saved'); return; }
   _syncInProgress = true;
   clearTimeout(_syncRetryTimer);
   updateSyncBadge('syncing');
@@ -967,11 +968,13 @@ async function loadFromGitHub() {
     if (_lastRemoteVersion && data.version <= _lastRemoteVersion) return false;
     // Don't overwrite if user has newer local changes
     const localVer = parseInt(localStorage.getItem('estela_local_version') || '0');
-    if (!_lastRemoteVersion && localVer > data.version) {
-      // Local is newer — push local to GitHub instead
+    const localCount = (JSON.parse(localStorage.getItem('estela_permits_v3') || '[]')).length;
+    if (!_lastRemoteVersion && localVer > data.version && localCount > 0) {
+      // Local is genuinely newer AND has data — push to GitHub
       await syncToGitHub();
       return false;
     }
+    // If local is empty (crash recovery), always load from GitHub
     state.permits = (data.permits || []).map(sanitizePermit);
     if (data.odFiles)    state.odFiles   = data.odFiles;
     if (data.stageConfig && Object.keys(data.stageConfig).length > 0){ STAGE_CONFIG = data.stageConfig; saveStageConfig(); }
