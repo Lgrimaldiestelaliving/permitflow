@@ -527,20 +527,12 @@ td.address-cell { min-width:200px; }
 
 <!-- MAIN -->
 <div id="main">
-  <div id="od-status-strip" class="od-status-strip">
-    <span>☁️</span>
-    <span id="od-status-text">Connected to OneDrive</span>
-    <span id="od-status-user" style="opacity:0.75"></span>
-    <span style="margin-left:auto;cursor:pointer;opacity:0.6;font-size:10px;text-decoration:underline" onclick="toggleOneDrive()">Disconnect</span>
-  </div>
+  <!-- OneDrive strip removed -->
   <div id="topbar">
     <div class="topbar-title" id="topbar-title">Dashboard</div>
     <div class="topbar-right">
       <span id="sync-badge" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;background:#f1f5f9;color:#64748b;cursor:default" data-tip="Data sync status">○ Local only</span>
-      <div class="od-btn" id="od-topbar-btn" onclick="toggleOneDrive()" data-tip="OneDrive Connection">
-        <span class="od-icon">☁️</span>
-        <span id="od-topbar-label">Connect OneDrive</span>
-      </div>
+      <!-- OneDrive button removed -->
       <div class="alert-bell" onclick="setView('alerts')" data-tip="View Alerts">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -580,7 +572,6 @@ td.address-cell { min-width:200px; }
     <div class="modal-footer">
       <button class="btn btn-outline" onclick="closeSettings()">Close</button>
       <button class="btn btn-primary" onclick="saveSettings()">Save Settings</button>
-      <button class="btn btn-onedrive" onclick="saveAndConnect()" style="background:#0078d4;color:#fff;border-color:#0078d4">&#9729;&#65039; Save &amp; Connect OneDrive</button>
     </div>
   </div>
 </div>
@@ -1421,37 +1412,21 @@ async function uploadFileToOneDrive(permitId, stageKey, file, token, odRoot) {
 async function attachFiles(permitId, stageKey, fileList) {
   const files = Array.from(fileList);
   if (!files.length) return;
-
-  if (state.odAccount) {
-    // Pre-fetch token + shared root once for all files
-    let token, odRoot;
-    try {
-      token = await getODToken();
-      if (!token) { showToast('❌ Not connected to OneDrive. Click "Connect OneDrive" first.'); return; }
-      odRoot = await getEstelaLivingRoot(token);
-    } catch(e) { showToast('❌ ' + e.message); return; }
-
-    for (const file of files) {
-      await uploadFileToOneDrive(permitId, stageKey, file, token, odRoot);
-    }
-  } else {
-    // No OneDrive — save locally in IndexedDB
-    for (const file of files) {
-      const ok = await saveFileLocally(permitId, stageKey, file);
-      if (ok) {
-        const permit = state.permits.find(p => p.id === permitId);
-        if (permit && permit.stages[stageKey] !== 'complete') {
-          permit.stages[stageKey] = 'complete';
-          if (!permit.stageUpdatedAt) permit.stageUpdatedAt = {};
-          permit.stageUpdatedAt[stageKey] = new Date().toISOString().split('T')[0];
-          updateOverallStatus(permit);
-          saveData();
-        }
-        showToast('📎 ' + file.name + ' saved. Connect OneDrive to sync to the cloud.');
-        refreshExpandRow(permitId);
-      } else {
-        showToast('❌ Could not save ' + file.name + '. Try a smaller file.');
+  for (const file of files) {
+    const ok = await saveFileLocally(permitId, stageKey, file);
+    if (ok) {
+      const permit = state.permits.find(p => p.id === permitId);
+      if (permit && permit.stages[stageKey] !== 'complete') {
+        permit.stages[stageKey] = 'complete';
+        if (!permit.stageUpdatedAt) permit.stageUpdatedAt = {};
+        permit.stageUpdatedAt[stageKey] = new Date().toISOString().split('T')[0];
+        updateOverallStatus(permit);
+        saveData();
       }
+      showToast('📎 ' + file.name + ' attached.');
+      refreshExpandRow(permitId);
+    } else {
+      showToast('❌ Could not save ' + file.name + '. Try a smaller file.');
     }
   }
 }
@@ -2235,7 +2210,6 @@ function renderPermitsView(el, alerts) {
     <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
       <button class="btn btn-primary" onclick="openAddModal()">＋ Add Permit</button>
       <button class="btn btn-outline" onclick="exportCSV()">⬇ Export CSV</button>
-      ${state.odAccount ? `<button class="btn btn-onedrive" onclick="createAllFolders()">📁 Create OneDrive Folders</button>` : ''}
       <span class="records-count">Showing ${filtered.length} of ${state.permits.length} permits</span>
     </div>
     
@@ -2421,23 +2395,22 @@ function renderExpandContent(permit) {
           ondragleave="if(!this.contains(event.relatedTarget)){this.classList.remove('drag-over')}"
           ondrop="event.preventDefault();event.stopPropagation();this.classList.remove('drag-over');handleDroppedFiles('${permit.id}','${k}',event.dataTransfer.files)">
         ${isUploading ? `<span class="od-uploading">⏳ Uploading...</span>` :
-          `<button class="od-upload-btn" onclick="triggerFileUpload('${permit.id}','${k}')">${odConnected ? '☁️' : '📎'} Attach</button>`}
+          `<button class="od-upload-btn" onclick="triggerFileUpload('${permit.id}','${k}')">📎 Attach</button>`}
         <span class="drop-zone-label">or drop files</span>
         ${files.length ? `<div class="od-files-list">${files.map((f,fi) => {
           const fref = encodeURIComponent(f.name);
           const removeBtn = `<button onclick="event.stopPropagation();removeFile('${permit.id}','${k}',${fi})" title="Remove file" style="border:1px solid #fca5a5;background:#fff0f0;border-radius:4px;cursor:pointer;color:#dc2626;font-size:11px;font-weight:700;padding:1px 5px;line-height:1.4;vertical-align:middle;flex-shrink:0">✕</button>`;
-          if (f.local) {
+          if (f.webUrl && !f.local) {
+            // Legacy OneDrive cloud link — show as clickable link
+            return `<span style="display:inline-flex;align-items:center;gap:2px"><a class="od-file-link" href="${f.webUrl}" target="_blank">📄 ${f.name}</a>${removeBtn}</span>`;
+          } else {
             return `<span style="display:inline-flex;align-items:center;gap:2px">
-              <span class="od-file-link" style="cursor:pointer;color:#059669"
+              <span class="od-file-link" style="cursor:pointer;"
                 onclick="downloadLocalFile('${permit.id}','${k}',decodeURIComponent('${fref}'))">📄 ${f.name}
-                <span style="font-size:10px;opacity:0.7">(local${f.size?' · '+f.size:''})</span>
+                ${f.size ? `<span style="font-size:10px;opacity:0.7"> · ${f.size}</span>` : ''}
               </span>
-              ${odConnected ? `<span style="font-size:10px;color:#0078d4;cursor:pointer;margin-left:2px"
-                onclick="event.stopPropagation();syncLocalFileToOneDrive('${permit.id}','${k}',decodeURIComponent('${fref}'))">↑ Sync</span>` : ''}
               ${removeBtn}
             </span>`;
-          } else {
-            return `<span style="display:inline-flex;align-items:center;gap:2px"><a class="od-file-link" href="${f.webUrl}" target="_blank">☁️ ${f.name}</a>${removeBtn}</span>`;
           }
         }).join('')}</div>` : ''}
         </div>
@@ -2563,23 +2536,13 @@ function renderExpandContent(permit) {
     </div>
     </div>
     
-    ${odConnected ? `
-    <div style="margin:12px 0;padding:10px 14px;background:#e8f4fd;border-radius:8px;border:1px solid #90caf9;display:flex;align-items:center;gap:10px">
-      <span style="font-size:16px">☁️</span>
-      <div style="flex:1">
-        <div style="font-size:12px;font-weight:700;color:#0078d4">OneDrive Connected — files upload directly to cloud</div>
-        <div style="font-size:11px;color:var(--text-muted)">📁 ${ONEDRIVE_ROOT} / ${permit.community} / ${permit.lotNumber?'Lot '+permit.lotNumber+' - ':''}${permit.address.split(',')[0]}/</div>
-      </div>
-      <button class="od-folder-btn" onclick="openPermitFolder('${permit.id}')">📁 Open Folder</button>
-    </div>` : `
     <div style="margin:12px 0;padding:10px 14px;background:#f0fdf4;border-radius:8px;border:1px solid #86efac;display:flex;align-items:center;gap:10px">
       <span style="font-size:16px">📎</span>
       <div style="flex:1">
-        <div style="font-size:12px;font-weight:700;color:#15803d">Local Attachment Mode</div>
-        <div style="font-size:11px;color:var(--text-muted)">Files attach and save in your browser. Connect OneDrive (top-right) to sync them to the cloud automatically.</div>
+        <div style="font-size:12px;font-weight:700;color:#15803d">File Attachments</div>
+        <div style="font-size:11px;color:var(--text-muted)">Files are saved in this browser. Click a file name to download it.</div>
       </div>
-      <button class="btn btn-sm btn-onedrive" onclick="toggleOneDrive()">☁️ Connect OneDrive</button>
-    </div>`}
+    </div>
     
     <div class="expand-grid">
       <div class="phase-block">
@@ -3592,49 +3555,14 @@ function openSettings() {
     </div>` : ''}
     
     <div class="settings-card">
-      <h4>☁️ OneDrive Integration Setup</h4>
-      <p>To enable OneDrive file uploads and auto-folder creation, you need an Azure App Client ID. This allows the portal to connect to your Microsoft OneDrive account securely.</p>
-      
-      <div class="step-list">
-        <div class="step"><span class="step-num">1</span><span>Go to <a href="https://portal.azure.com/#view/Microsoft_AAD_RegisteredApps/ApplicationsListBlade" target="_blank" style="color:#0078d4">portal.azure.com → App Registrations</a></span></div>
-        <div class="step"><span class="step-num">2</span><span>Look for an existing app (e.g. "Estela Permit Tracker" or "PermitFlow") — if found, click it and copy the <strong>Application (Client) ID</strong></span></div>
-        <div class="step"><span class="step-num">3</span><span>If no app exists: click <strong>+ New registration</strong> → Name it "Estela Permit Tracker" → Account type: "Any Microsoft account" → Redirect URI: <code>${window.location.origin+window.location.pathname}</code></span></div>
-        <div class="step"><span class="step-num">4</span><span>After registering: go to <strong>API Permissions → Add → Microsoft Graph → Delegated → Files.ReadWrite</strong></span></div>
-        <div class="step"><span class="step-num">5</span><span>Paste the Client ID below and click Save Settings</span></div>
-      </div>
-      
-      <div class="form-field">
-        <label class="form-label">Azure App Client ID</label>
-        <input class="form-input" id="settings-client-id" value="${s.clientId||''}" placeholder="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx">
-      </div>
-    </div>
-    
-    <div class="settings-card">
-      <h4>📁 OneDrive Folder Structure</h4>
-      <p>When you upload a document, the portal automatically creates this folder structure in your OneDrive:</p>
-      <code style="display:block;background:var(--card);padding:10px;border-radius:6px;font-size:12px;line-height:1.8">
-        OneDrive/<br>
-        └── Estela Living - Permit Tracker/<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;└── [Community]/<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── Lot [#] - [Address]/<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 01 - Architecture/<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 02 - Site Plan/<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 03 - Truss Engineering/<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── ... (16 folders total)
-      </code>
-    </div>
-    
-    <div class="settings-card">
       <h4>👥 Team Collaboration</h4>
-      <p>When connected to OneDrive, all permit data is stored in a single shared file visible to your whole team:</p>
-      <code style="display:block;background:var(--card);padding:8px 12px;border-radius:6px;font-size:12px;margin-bottom:10px;line-height:1.6">OneDrive / Estela Living - Permit Tracker / permit-database.json</code>
-      <p style="margin-bottom:8px">Every team member who signs in sees the same permits live. The portal syncs every 30 seconds and shows a <strong>● Live</strong> badge when up to date.</p>
-      <p style="font-size:12px;color:var(--warning)">⚠ Everyone needs OneDrive access to the shared <em>Estela Living - Permit Tracker</em> folder. If someone sees old data, have them disconnect and reconnect OneDrive.</p>
+      <p>All permit data (stages, statuses, notes, options, custom fields) syncs automatically to GitHub and is shared across the whole team. Everyone sees the same data in real time.</p>
+      <p style="font-size:12px;color:var(--text-muted)">File attachments (PDFs, drawings) are saved in this browser only. Use the 📎 Attach button on each stage row to attach files — they are available for download on this device.</p>
     </div>
     ${renderCustomFieldsManager()}
     <div class="settings-card">
       <h4>💾 Data Management</h4>
-      <p>Data auto-saves to your browser and the shared OneDrive database. Export a CSV backup anytime.</p>
+      <p>Data auto-saves to your browser and syncs to the shared GitHub database. Export a CSV backup anytime.</p>
       <div style="display:flex;gap:8px;flex-wrap:wrap">
         <button class="btn btn-outline btn-sm" onclick="exportCSV()">⬇ Export All as CSV</button>
         <button class="btn btn-onedrive btn-sm" onclick="syncToGitHub().then(()=>showToast('✅ Synced!'))">☁️ Force Sync Now</button>
