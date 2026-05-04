@@ -1,7 +1,7 @@
 {
-  "version": 1777907235531,
-  "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T15:07:15.531Z",
+  "version": 1777911114863,
+  "updatedBy": "Team member",
+  "updatedAt": "2026-05-04T16:11:54.863Z",
   "permits": [
     {
       "id": "permit-1",
@@ -382,7 +382,7 @@
         "productApproval": "n/a",
         "colorMaterial": "n/a",
         "roofingWorksheet": "n/a",
-        "utilityPP": "n/a",
+        "utilityPP": "complete",
         "geotechLetter": "n/a",
         "constLienAff": "n/a",
         "noc": "n/a",
@@ -406,7 +406,8 @@
       "buildersRisk": false,
       "stageUpdatedAt": {
         "submitted": "2026-05-04",
-        "planReview": "2026-05-04"
+        "planReview": "2026-05-04",
+        "utilityPP": "2026-05-04"
       },
       "stageLastModified": "2026-05-04",
       "overallStatus": "submitted",
@@ -422,11 +423,13 @@
       "projectManager": "JParker",
       "stageRequestedAt": {
         "submitted": "2026-05-01",
-        "planReview": "2026-05-04"
+        "planReview": "2026-05-04",
+        "utilityPP": "2026-05-04"
       },
       "stageCompletedAt": {
         "submitted": "2026-05-04",
-        "planReview": "2026-05-04"
+        "planReview": "2026-05-04",
+        "utilityPP": "2026-05-04"
       },
       "stageRounds": {
         "planReview": [
