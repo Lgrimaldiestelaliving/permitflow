@@ -1,7 +1,7 @@
 {
-  "version": 1777923524984,
+  "version": 1777923532706,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T19:38:44.984Z",
+  "updatedAt": "2026-05-04T19:38:52.706Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5365,7 +5365,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1777923522977,
+      "_ts": 1777923530597,
       "stageRequestedAt": {
         "submitted": "2026-03-20"
       },
@@ -5376,7 +5376,17 @@
         "stormwater"
       ],
       "agencyNotes": {
-        "stormwater": ""
+        "stormwater": "Interior swale on the left side was shifted on revised grading plan. Lo2 is impacting this lot past the 5' easement. Please move inteior swale on the left side to the 5' easement."
+      },
+      "stageRounds": {
+        "ra_stormwater": [
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          }
+        ]
       }
     },
     {
