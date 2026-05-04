@@ -1,7 +1,7 @@
 {
-  "version": 1777911377446,
+  "version": 1777911382821,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T16:16:17.446Z",
+  "updatedAt": "2026-05-04T16:16:22.821Z",
   "permits": [
     {
       "id": "permit-1",
@@ -390,7 +390,7 @@
         "subCOI": "not-started",
         "omReview": "not-started",
         "submitted": "complete",
-        "planReview": "requested",
+        "planReview": "not-started",
         "resubmittal": "requested",
         "permitIssued": "not-started",
         "inspections": "not-started",
@@ -425,14 +425,12 @@
       "projectManager": "JParker",
       "stageRequestedAt": {
         "submitted": "2026-05-01",
-        "planReview": "2026-05-04",
         "utilityPP": "2026-05-04",
         "geotechLetter": "2026-05-04",
         "resubmittal": "2026-05-04"
       },
       "stageCompletedAt": {
         "submitted": "2026-05-04",
-        "planReview": "2026-05-04",
         "utilityPP": "2026-05-04"
       },
       "stageRounds": {
