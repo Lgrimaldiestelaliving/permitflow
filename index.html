@@ -1198,25 +1198,35 @@ function updateODButton() {
     if (strip) strip.classList.remove('visible');
   }
 }
-// Cache for the Rafael Celis shared drive ID (contains all Estela Living files)
-let _estelaLivingDriveId = null;
-localStorage.removeItem('estela_drive_id_v1'); // clear stale cached drive ID
+// Cache for Rafael Celis' shared "Estela Living" folder root (driveId + itemId)
+let _estelaLivingRoot = null;
+localStorage.removeItem('estela_drive_id_v1'); // clear old stale cache key
 
-async function getEstelaLivingDriveId(token) {
-  if (_estelaLivingDriveId) return _estelaLivingDriveId;
-  const cached = localStorage.getItem('estela_drive_id_v1');
-  if (cached) { _estelaLivingDriveId = cached; return _estelaLivingDriveId; }
+async function getEstelaLivingRoot(token) {
+  if (_estelaLivingRoot) return _estelaLivingRoot;
+  const cached = localStorage.getItem('estela_drive_v2');
+  if (cached) { try { _estelaLivingRoot = JSON.parse(cached); return _estelaLivingRoot; } catch(e) { localStorage.removeItem('estela_drive_v2'); } }
 
-  // Rafael Celis' personal SharePoint site holds the shared Estela Living files
-  const res = await fetch(
-    'https://graph.microsoft.com/v1.0/sites/estelaliving-my.sharepoint.com:/personal/rcelis_estelaliving_com:/drive',
-    { headers: { 'Authorization': 'Bearer ' + token } }
-  );
-  if (!res.ok) throw new Error('Could not access Estela Living shared drive (' + res.status + '). Make sure you have access to Rafael Celis shared files.');
+  // Find "Estela Living" in the list of items shared with me
+  const res = await fetch('https://graph.microsoft.com/v1.0/me/drive/sharedWithMe?$select=id,name,remoteItem', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  });
+  if (!res.ok) throw new Error('Cannot list shared files (' + res.status + '). Make sure OneDrive is connected.');
   const data = await res.json();
-  _estelaLivingDriveId = data.id;
-  localStorage.setItem('estela_drive_id_v1', _estelaLivingDriveId);
-  return _estelaLivingDriveId;
+  const folder = (data.value || []).find(i => i.name === 'Estela Living');
+  if (!folder) throw new Error('"Estela Living" shared folder not found. Ask Rafael Celis to share it with your account.');
+  const driveId = folder.remoteItem?.parentReference?.driveId;
+  const itemId  = folder.remoteItem?.id;
+  if (!driveId || !itemId) throw new Error('Could not read drive/item ID for "Estela Living" folder.');
+  _estelaLivingRoot = { driveId, itemId };
+  localStorage.setItem('estela_drive_v2', JSON.stringify(_estelaLivingRoot));
+  return _estelaLivingRoot;
+}
+
+// Kept for backward compat — callers that only need driveId
+async function getEstelaLivingDriveId(token) {
+  const root = await getEstelaLivingRoot(token);
+  return root.driveId;
 }
 
 
@@ -1229,30 +1239,34 @@ function getPermitFolderPath(permit) {
   const lotNum = (permit.lotNumber || '').trim();
 
   if (comm === 'Sabana Reserve') {
-    // Sabana Reserve: Estela Living/Sabana Reserve/Vertical Development - Construction/Permits/Lot [number]
+    // Sabana Reserve: Sabana Reserve/Vertical Development - Construction/Permits/Lot [number]
+    // (relative to "Estela Living" root folder shared by Rafael Celis)
     const lotFolder = lotNum ? 'Lot ' + lotNum : safeAddress.substring(0, 20);
-    return 'Estela Living/Sabana Reserve/Vertical Development - Construction/Permits/' + lotFolder;
+    return 'Sabana Reserve/Vertical Development - Construction/Permits/' + lotFolder;
   }
 
   // Palm Coast: addresses sit directly inside Palm Coast/ -- no Vertical Development subfolder
   if (comm === 'Palm Coast Scattered') {
-    return 'Estela Living/Single Family Development/Palm Coast/' + safeAddress;
+    return 'Single Family Development/Palm Coast/' + safeAddress;
   }
 
   // Ocala communities: addresses sit directly inside community folder — no Vertical Development subfolder
   if (comm === 'Ocala Waterways' || comm === 'Marion Oaks' || comm === 'Juliette Falls') {
-    return 'Estela Living/Single Family Development/Ocala/' + comm + '/' + safeAddress;
+    return 'Single Family Development/Ocala/' + comm + '/' + safeAddress;
   }
 
   // All other SFD communities (Sawmill Branch, etc.)
   const communityFolder = comm === 'Sawmill Branch' ? 'Sawmill Branch' : comm;
-  return 'Estela Living/Single Family Development/' + communityFolder + '/Vertical Developemnet - Construction/' + safeAddress;
+  return 'Single Family Development/' + communityFolder + '/Vertical Developemnet - Construction/' + safeAddress;
 }
-async function ensureFolder(token, folderPath, driveId) {
+async function ensureFolder(token, folderPath, driveId, rootItemId) {
   const base = driveId ? 'https://graph.microsoft.com/v1.0/drives/' + driveId : 'https://graph.microsoft.com/v1.0/me/drive';
+  // When a rootItemId is provided (shared folder), use items/{id}: prefix instead of root:
+  const rootPrefix = rootItemId ? ('/items/' + rootItemId + ':') : '/root:';
+
   // First check if the full folder already exists — if so, nothing to do
   const encodedFull = encodeURIComponent(folderPath).replace(/%2F/g, '/');
-  const existsRes = await fetch(base + '/root:/' + encodedFull, { headers: { 'Authorization': 'Bearer ' + token } });
+  const existsRes = await fetch(base + rootPrefix + '/' + encodedFull, { headers: { 'Authorization': 'Bearer ' + token } });
   if (existsRes.ok) return; // folder exists, skip creation
 
   // Folder missing — walk each segment and create any that don't exist yet
@@ -1262,20 +1276,22 @@ async function ensureFolder(token, folderPath, driveId) {
     const parentPath = currentPath;
     currentPath = currentPath ? currentPath + '/' + part : part;
     const encodedPath = encodeURIComponent(currentPath).replace(/%2F/g, '/');
-    const checkRes = await fetch(base + '/root:/' + encodedPath, { headers: { 'Authorization': 'Bearer ' + token } });
+    const checkRes = await fetch(base + rootPrefix + '/' + encodedPath, { headers: { 'Authorization': 'Bearer ' + token } });
     if (checkRes.ok) continue;
     if (checkRes.status === 404) {
-      const parentEncoded = parentPath
-        ? 'root:/' + encodeURIComponent(parentPath).replace(/%2F/g, '/') + ':'
-        : 'root';
-      const createRes = await fetch(
-        base + '/' + parentEncoded + '/children',
-        {
-          method: 'POST',
-          headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name: part, folder: {}, "@microsoft.graph.conflictBehavior": "fail" })
-        }
-      );
+      // Parent URL: if no parent path, point directly at the root item or root
+      let parentUrl;
+      if (parentPath) {
+        const parentEncoded = encodeURIComponent(parentPath).replace(/%2F/g, '/');
+        parentUrl = base + rootPrefix + '/' + parentEncoded + ':/children';
+      } else {
+        parentUrl = rootItemId ? (base + '/items/' + rootItemId + '/children') : (base + '/root/children');
+      }
+      const createRes = await fetch(parentUrl, {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name: part, folder: {}, "@microsoft.graph.conflictBehavior": "fail" })
+      });
       if (!createRes.ok && createRes.status !== 409) {
         const errText = await createRes.text();
         throw new Error('Could not create folder "' + part + '": ' + createRes.status + ' — ' + errText);
@@ -1289,8 +1305,12 @@ async function uploadFileToOneDrive(permitId, stageKey, file) {
   if (!permit) return;
   const token = await getODToken();
   if (!token) { showToast('❌ Not connected to OneDrive. Click "Connect OneDrive" first.'); return; }
-  const driveId = await getEstelaLivingDriveId(token);
-  const driveBase = driveId ? 'https://graph.microsoft.com/v1.0/drives/' + driveId : 'https://graph.microsoft.com/v1.0/me/drive';
+  const odRoot = await getEstelaLivingRoot(token);
+  const driveId = odRoot.driveId;
+  const rootItemId = odRoot.itemId;
+  const driveBase = 'https://graph.microsoft.com/v1.0/drives/' + driveId;
+  // All paths are relative to the "Estela Living" root item (shared folder)
+  const itemBase = driveBase + '/items/' + rootItemId + ':';
   const basePath = getPermitFolderPath(permit);
   const stageCfg = STAGE_CONFIG[stageKey];
   const subFolder = stageCfg?.folder;
@@ -1299,14 +1319,14 @@ async function uploadFileToOneDrive(permitId, stageKey, file) {
   state.odUploading[permitId + '_' + stageKey] = true;
   refreshExpandRow(permitId);
   try {
-    await ensureFolder(token, fullPath, driveId);
+    await ensureFolder(token, fullPath, driveId, rootItemId);
     const filePath = fullPath + '/' + file.name;
     const encodedFilePath = encodeURIComponent(filePath).replace(/%2F/g, '/');
     let data;
     if (file.size > 4 * 1024 * 1024) {
       // Large file >4MB: use upload session
       const sessionRes = await fetch(
-        driveBase + '/root:/' + encodedFilePath + ':/createUploadSession',
+        itemBase + '/' + encodedFilePath + ':/createUploadSession',
         {
           method: 'POST',
           headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
@@ -1341,7 +1361,7 @@ async function uploadFileToOneDrive(permitId, stageKey, file) {
     } else {
       // Small file <4MB: simple PUT
       const uploadRes = await fetch(
-        driveBase + '/root:/' + encodedFilePath + ':/content',
+        itemBase + '/' + encodedFilePath + ':/content',
         {
           method: 'PUT',
           headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': file.type || 'application/octet-stream' },
