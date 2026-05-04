@@ -1,7 +1,7 @@
 {
-  "version": 1777903065930,
-  "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T13:57:45.930Z",
+  "version": 1777903106357,
+  "updatedBy": "Natalia Massola",
+  "updatedAt": "2026-05-04T13:58:26.357Z",
   "permits": [
     {
       "id": "permit-1",
@@ -14,7 +14,7 @@
       "plan": "Plan 4 - 2147",
       "garage": "Left Hand",
       "elevation": "Farmhouse",
-      "options": "Double Doors at Flex",
+      "options": "",
       "permitNumber": "",
       "releaseDate": null,
       "stages": {
@@ -369,7 +369,7 @@
       "garage": "Left Hand 3Car",
       "elevation": "Transitional",
       "options": "5th Bedroom and bath in Flex",
-      "permitNumber": "",
+      "permitNumber": "2026050014",
       "releaseDate": null,
       "stages": {
         "architecture": "not-started",
@@ -405,7 +405,7 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {},
-      "stageLastModified": "2026-04-08",
+      "stageLastModified": "2026-05-04",
       "overallStatus": "active",
       "drawingReview": {
         "checks": {},
@@ -414,7 +414,8 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit"
+      "permitStatus": "presubmit",
+      "_ts": 1777903104339
     },
     {
       "id": "permit-8",
@@ -11071,7 +11072,12 @@
       "folder": "Utilities"
     }
   },
-  "customFields": [],
+  "customFields": [
+    {
+      "key": "cf_moqipv0t",
+      "label": "Project Manager"
+    }
+  ],
   "optionsList": [
     "00005 · Extended Covered Patio - Per Plan",
     "00007 · Covered Patio - Per Plan",
