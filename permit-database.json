@@ -1,7 +1,7 @@
 {
-  "version": 1777911114863,
+  "version": 1777911135247,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T16:11:54.863Z",
+  "updatedAt": "2026-05-04T16:12:15.247Z",
   "permits": [
     {
       "id": "permit-1",
@@ -382,7 +382,7 @@
         "productApproval": "n/a",
         "colorMaterial": "n/a",
         "roofingWorksheet": "n/a",
-        "utilityPP": "complete",
+        "utilityPP": "requested",
         "geotechLetter": "n/a",
         "constLienAff": "n/a",
         "noc": "n/a",
