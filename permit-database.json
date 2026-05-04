@@ -1,7 +1,7 @@
 {
-  "version": 1777911146541,
+  "version": 1777911150381,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T16:12:26.541Z",
+  "updatedAt": "2026-05-04T16:12:30.381Z",
   "permits": [
     {
       "id": "permit-1",
@@ -440,6 +440,14 @@
             "received": "",
             "result": "incorrect",
             "note": "Energy Calcs"
+          }
+        ],
+        "geotechLetter": [
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
           }
         ]
       }
