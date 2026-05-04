@@ -1,7 +1,7 @@
 {
-  "version": 1777916481245,
+  "version": 1777916492705,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T17:41:21.245Z",
+  "updatedAt": "2026-05-04T17:41:32.705Z",
   "permits": [
     {
       "id": "permit-1",
@@ -95,26 +95,7 @@
             "note": ""
           }
         ],
-        "planReview": [
-          {
-            "sent": "2026-05-04",
-            "received": "",
-            "result": "pending",
-            "note": ""
-          },
-          {
-            "sent": "2026-05-04",
-            "received": "",
-            "result": "pending",
-            "note": ""
-          },
-          {
-            "sent": "2026-05-04",
-            "received": "",
-            "result": "pending",
-            "note": ""
-          }
-        ],
+        "planReview": [],
         "resubmittal": [
           {
             "sent": "2026-05-04",
