@@ -1,7 +1,7 @@
 {
-  "version": 1777903234505,
+  "version": 1777903344382,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T14:00:34.505Z",
+  "updatedAt": "2026-05-04T14:02:24.382Z",
   "permits": [
     {
       "id": "permit-1",
@@ -390,7 +390,7 @@
         "subCOI": "not-started",
         "omReview": "not-started",
         "submitted": "complete",
-        "planReview": "requested",
+        "planReview": "complete",
         "resubmittal": "n/a",
         "permitIssued": "not-started",
         "inspections": "not-started",
@@ -425,7 +425,8 @@
         "planReview": "2026-05-04"
       },
       "stageCompletedAt": {
-        "submitted": "2026-05-04"
+        "submitted": "2026-05-04",
+        "planReview": "2026-05-04"
       }
     },
     {
