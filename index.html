@@ -917,6 +917,8 @@ async function syncToGitHub() {
       odFiles: state.odFiles,
       stageConfig: STAGE_CONFIG,
       customFields: CUSTOM_PERMIT_FIELDS,
+      optionsList: OPTIONS_LIST,
+      reviewConfig: { docs: REVIEW_DOCS, fields: REVIEW_FIELDS },
     };
     // Always get latest SHA before writing (avoids conflicts)
     const shaRes = await fetch(GH_API_URL, {
@@ -983,6 +985,8 @@ async function loadFromGitHub() {
     if (data.odFiles)    state.odFiles   = data.odFiles;
     if (data.stageConfig && Object.keys(data.stageConfig).length > 0){ STAGE_CONFIG = data.stageConfig; saveStageConfig(); }
     if (data.customFields && Array.isArray(data.customFields) && data.customFields.length > 0){ CUSTOM_PERMIT_FIELDS = data.customFields; saveCustomFields(); }
+    if (data.optionsList && Array.isArray(data.optionsList) && data.optionsList.length > 0){ OPTIONS_LIST = data.optionsList; saveOptionsList(); }
+    if (data.reviewConfig){ if (data.reviewConfig.docs && data.reviewConfig.docs.length) REVIEW_DOCS = data.reviewConfig.docs; if (data.reviewConfig.fields && data.reviewConfig.fields.length) REVIEW_FIELDS = data.reviewConfig.fields; saveReviewConfig(); }
     _lastRemoteVersion = data.version;
     localStorage.setItem('estela_permits_v3', JSON.stringify(state.permits));
     localStorage.setItem('estela_od_files_v1', JSON.stringify(state.odFiles));
