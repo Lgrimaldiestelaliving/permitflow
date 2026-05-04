@@ -1,7 +1,7 @@
 {
-  "version": 1777903209553,
+  "version": 1777903220908,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T14:00:09.553Z",
+  "updatedAt": "2026-05-04T14:00:20.908Z",
   "permits": [
     {
       "id": "permit-1",
@@ -390,7 +390,7 @@
         "subCOI": "not-started",
         "omReview": "not-started",
         "submitted": "complete",
-        "planReview": "not-started",
+        "planReview": "complete",
         "resubmittal": "n/a",
         "permitIssued": "not-started",
         "inspections": "not-started",
@@ -405,7 +405,8 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {
-        "submitted": "2026-05-04"
+        "submitted": "2026-05-04",
+        "planReview": "2026-05-04"
       },
       "stageLastModified": "2026-05-04",
       "overallStatus": "submitted",
@@ -416,14 +417,16 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "applied",
+      "permitStatus": "review",
       "_ts": 1777903157584,
       "projectManager": "JParker",
       "stageRequestedAt": {
-        "submitted": "2026-05-01"
+        "submitted": "2026-05-01",
+        "planReview": "2026-05-04"
       },
       "stageCompletedAt": {
-        "submitted": "2026-05-04"
+        "submitted": "2026-05-04",
+        "planReview": "2026-05-04"
       }
     },
     {
