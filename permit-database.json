@@ -1,7 +1,7 @@
 {
-  "version": 1777914411966,
+  "version": 1777914414828,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T17:06:51.966Z",
+  "updatedAt": "2026-05-04T17:06:54.829Z",
   "permits": [
     {
       "id": "permit-1",
@@ -100,6 +100,20 @@
             "result": "pending",
             "note": ""
           },
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          },
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          }
+        ],
+        "resubmittal": [
           {
             "sent": "2026-05-04",
             "received": "",
