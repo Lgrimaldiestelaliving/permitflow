@@ -1200,6 +1200,7 @@ function updateODButton() {
 }
 // Cache for the Rafael Celis shared drive ID (contains all Estela Living files)
 let _estelaLivingDriveId = null;
+localStorage.removeItem('estela_drive_id_v1'); // clear stale cached drive ID
 
 async function getEstelaLivingDriveId(token) {
   if (_estelaLivingDriveId) return _estelaLivingDriveId;
@@ -1247,8 +1248,8 @@ function getPermitFolderPath(permit) {
   const communityFolder = comm === 'Sawmill Branch' ? 'Sawmill Branch' : comm;
   return 'Estela Living/Single Family Development/' + communityFolder + '/Vertical Developemnet - Construction/' + safeAddress;
 }
-async function ensureFolder(token, folderPath) {
-  const base = 'https://graph.microsoft.com/v1.0/me/drive';
+async function ensureFolder(token, folderPath, driveId) {
+  const base = driveId ? 'https://graph.microsoft.com/v1.0/drives/' + driveId : 'https://graph.microsoft.com/v1.0/me/drive';
   // First check if the full folder already exists — if so, nothing to do
   const encodedFull = encodeURIComponent(folderPath).replace(/%2F/g, '/');
   const existsRes = await fetch(base + '/root:/' + encodedFull, { headers: { 'Authorization': 'Bearer ' + token } });
@@ -1288,6 +1289,8 @@ async function uploadFileToOneDrive(permitId, stageKey, file) {
   if (!permit) return;
   const token = await getODToken();
   if (!token) { showToast('❌ Not connected to OneDrive. Click "Connect OneDrive" first.'); return; }
+  const driveId = await getEstelaLivingDriveId(token);
+  const driveBase = driveId ? 'https://graph.microsoft.com/v1.0/drives/' + driveId : 'https://graph.microsoft.com/v1.0/me/drive';
   const basePath = getPermitFolderPath(permit);
   const stageCfg = STAGE_CONFIG[stageKey];
   const subFolder = stageCfg?.folder;
@@ -1296,14 +1299,14 @@ async function uploadFileToOneDrive(permitId, stageKey, file) {
   state.odUploading[permitId + '_' + stageKey] = true;
   refreshExpandRow(permitId);
   try {
-    await ensureFolder(token, fullPath);
+    await ensureFolder(token, fullPath, driveId);
     const filePath = fullPath + '/' + file.name;
     const encodedFilePath = encodeURIComponent(filePath).replace(/%2F/g, '/');
     let data;
     if (file.size > 4 * 1024 * 1024) {
       // Large file >4MB: use upload session
       const sessionRes = await fetch(
-        'https://graph.microsoft.com/v1.0/me/drive/root:/' + encodedFilePath + ':/createUploadSession',
+        driveBase + '/root:/' + encodedFilePath + ':/createUploadSession',
         {
           method: 'POST',
           headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
@@ -1338,7 +1341,7 @@ async function uploadFileToOneDrive(permitId, stageKey, file) {
     } else {
       // Small file <4MB: simple PUT
       const uploadRes = await fetch(
-        'https://graph.microsoft.com/v1.0/me/drive/root:/' + encodedFilePath + ':/content',
+        driveBase + '/root:/' + encodedFilePath + ':/content',
         {
           method: 'PUT',
           headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': file.type || 'application/octet-stream' },
@@ -1440,12 +1443,14 @@ async function openPermitFolder(permitId) {
   
   const token = await getODToken();
   if (!token) { showToast('Connect to OneDrive first.'); return; }
-  
+  const driveId = await getEstelaLivingDriveId(token);
+  const driveBase = driveId ? 'https://graph.microsoft.com/v1.0/drives/' + driveId : 'https://graph.microsoft.com/v1.0/me/drive';
+
   const folderPath = getPermitFolderPath(permit);
   try {
-    await ensureFolder(token, folderPath);
+    await ensureFolder(token, folderPath, driveId);
     const encodedPath = encodeURIComponent(folderPath).replace(/%2F/g, '/');
-    const res = await fetch('https://graph.microsoft.com/v1.0/me/drive/root:/' + encodedPath, {
+    const res = await fetch(driveBase + '/root:/' + encodedPath, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     if (res.ok) {
@@ -3053,16 +3058,17 @@ async function createAllFolders() {
   if (!confirm('Create OneDrive folders for all ' + getFilteredPermits().length + ' permits? This may take a moment.')) return;
   const token = await getODToken();
   if (!token) { showToast('Connect to OneDrive first.'); return; }
+  const driveId = await getEstelaLivingDriveId(token);
   const permits = getFilteredPermits();
   showToast('⏳ Creating folders for ' + permits.length + ' permits...');
   let created = 0;
   for (const p of permits) {
     const basePath = getPermitFolderPath(p);
-    await ensureFolder(token, basePath);
+    await ensureFolder(token, basePath, driveId);
     // Create subfolders for applicable stages
     for (const [k, cfg] of Object.entries(STAGE_CONFIG)) {
       if (cfg.folder && p.stages[k] !== 'n/a') {
-        await ensureFolder(token, basePath + '/' + cfg.folder);
+        await ensureFolder(token, basePath + '/' + cfg.folder, driveId);
       }
     }
     created++;
