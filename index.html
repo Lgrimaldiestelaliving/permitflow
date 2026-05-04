@@ -3325,6 +3325,11 @@ function togglePermitOption(permitId, opt, btn) {
   }
   p.options = sel.join(', ');
   saveData();
+  // Refresh the drawing review checklist so options appear/disappear immediately
+  const checklistEl = document.getElementById('checklist-' + permitId);
+  if (checklistEl && checklistEl.innerHTML.trim()) {
+    checklistEl.innerHTML = renderDrawingChecklist(p);
+  }
 }
 
 function addPermitOption(permitId, label) {
@@ -3335,10 +3340,15 @@ function addPermitOption(permitId, label) {
   if (!p) return;
   let sel = getSelectedOptions(p);
   if (!sel.includes(lbl)) { sel.push(lbl); p.options = sel.join(', '); saveData(); }
-  // Re-render just the options grid
+  // Re-render the options grid
   const grid = document.getElementById('opt-grid-'+permitId);
   if (grid) grid.outerHTML = renderOptionsPicker(permitId, p, 'inline');
   else { const el = document.getElementById('expand-'+permitId); if(el) el.innerHTML = renderExpandContent(p); }
+  // Refresh drawing review checklist
+  const checklistEl = document.getElementById('checklist-' + permitId);
+  if (checklistEl && checklistEl.innerHTML.trim()) {
+    checklistEl.innerHTML = renderDrawingChecklist(p);
+  }
 }
 
 // Form mode (modal) — work with a temporary selection in a hidden input
