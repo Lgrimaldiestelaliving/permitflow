@@ -1460,17 +1460,20 @@ async function handleDroppedFiles(permitId, stageKey, fileList) {
 async function openPermitFolder(permitId) {
   const permit = state.permits.find(p => p.id === permitId);
   if (!permit) return;
-  
+
   const token = await getODToken();
   if (!token) { showToast('Connect to OneDrive first.'); return; }
-  const driveId = await getEstelaLivingDriveId(token);
-  const driveBase = driveId ? 'https://graph.microsoft.com/v1.0/drives/' + driveId : 'https://graph.microsoft.com/v1.0/me/drive';
+  const odRoot = await getEstelaLivingRoot(token);
+  const driveId = odRoot.driveId;
+  const rootItemId = odRoot.itemId;
+  const driveBase = 'https://graph.microsoft.com/v1.0/drives/' + driveId;
+  const itemBase = driveBase + '/items/' + rootItemId + ':';
 
   const folderPath = getPermitFolderPath(permit);
   try {
-    await ensureFolder(token, folderPath, driveId);
+    await ensureFolder(token, folderPath, driveId, rootItemId);
     const encodedPath = encodeURIComponent(folderPath).replace(/%2F/g, '/');
-    const res = await fetch(driveBase + '/root:/' + encodedPath, {
+    const res = await fetch(itemBase + '/' + encodedPath, {
       headers: { 'Authorization': 'Bearer ' + token }
     });
     if (res.ok) {
@@ -3078,17 +3081,19 @@ async function createAllFolders() {
   if (!confirm('Create OneDrive folders for all ' + getFilteredPermits().length + ' permits? This may take a moment.')) return;
   const token = await getODToken();
   if (!token) { showToast('Connect to OneDrive first.'); return; }
-  const driveId = await getEstelaLivingDriveId(token);
+  const odRoot = await getEstelaLivingRoot(token);
+  const driveId = odRoot.driveId;
+  const rootItemId = odRoot.itemId;
   const permits = getFilteredPermits();
   showToast('⏳ Creating folders for ' + permits.length + ' permits...');
   let created = 0;
   for (const p of permits) {
     const basePath = getPermitFolderPath(p);
-    await ensureFolder(token, basePath, driveId);
+    await ensureFolder(token, basePath, driveId, rootItemId);
     // Create subfolders for applicable stages
     for (const [k, cfg] of Object.entries(STAGE_CONFIG)) {
       if (cfg.folder && p.stages[k] !== 'n/a') {
-        await ensureFolder(token, basePath + '/' + cfg.folder, driveId);
+        await ensureFolder(token, basePath + '/' + cfg.folder, driveId, rootItemId);
       }
     }
     created++;
