@@ -1,7 +1,7 @@
 {
-  "version": 1777916095422,
+  "version": 1777916169326,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T17:34:55.422Z",
+  "updatedAt": "2026-05-04T17:36:09.326Z",
   "permits": [
     {
       "id": "permit-1",
@@ -136,12 +136,8 @@
           }
         ]
       },
-      "reviewAgencies": [
-        "engineering",
-        "zoning",
-        "siteplan"
-      ],
-      "_ts": 1777916093420
+      "reviewAgencies": [],
+      "_ts": 1777916167320
     },
     {
       "id": "permit-2",
