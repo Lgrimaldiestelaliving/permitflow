@@ -1,7 +1,7 @@
 {
-  "version": 1777923532706,
+  "version": 1777923552272,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T19:38:52.706Z",
+  "updatedAt": "2026-05-04T19:39:12.272Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5365,7 +5365,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1777923530597,
+      "_ts": 1777923550266,
       "stageRequestedAt": {
         "submitted": "2026-03-20"
       },
@@ -5387,6 +5387,9 @@
             "note": ""
           }
         ]
+      },
+      "agencyStatuses": {
+        "stormwater": "in-progress"
       }
     },
     {
