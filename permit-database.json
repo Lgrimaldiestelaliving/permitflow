@@ -1,7 +1,7 @@
 {
-  "version": 1777900264290,
+  "version": 1777900536118,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T13:11:04.290Z",
+  "updatedAt": "2026-05-04T13:15:36.118Z",
   "permits": [
     {
       "id": "permit-1",
@@ -14,7 +14,7 @@
       "plan": "Plan 4 - 2147",
       "garage": "Left Hand",
       "elevation": "Farmhouse",
-      "options": "Double Doors at Flex",
+      "options": "Double Doors at Flex, 86050 · Dove Series Exterior Package",
       "permitNumber": "",
       "releaseDate": null,
       "stages": {
@@ -11071,7 +11071,12 @@
       "folder": "Utilities"
     }
   },
-  "customFields": [],
+  "customFields": [
+    {
+      "key": "cf_moqipv0t",
+      "label": "Project Manager"
+    }
+  ],
   "optionsList": [
     "00005 · Extended Covered Patio - Per Plan",
     "00007 · Covered Patio - Per Plan",
