@@ -1,7 +1,7 @@
 {
-  "version": 1777899932098,
+  "version": 1777899960273,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T13:05:32.098Z",
+  "updatedAt": "2026-05-04T13:06:00.273Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11075,6 +11075,10 @@
     {
       "key": "cf_moqipv0t",
       "label": "Project Manager"
+    },
+    {
+      "key": "cf_mor7qbjr",
+      "label": "Natalia"
     }
   ],
   "optionsList": [
