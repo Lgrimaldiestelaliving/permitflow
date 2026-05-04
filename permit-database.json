@@ -1,7 +1,7 @@
 {
-  "version": 1777900543347,
+  "version": 1777901691500,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T13:15:43.347Z",
+  "updatedAt": "2026-05-04T13:34:51.500Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11071,12 +11071,7 @@
       "folder": "Utilities"
     }
   },
-  "customFields": [
-    {
-      "key": "cf_moqipv0t",
-      "label": "Project Manager"
-    }
-  ],
+  "customFields": [],
   "optionsList": [
     "00005 · Extended Covered Patio - Per Plan",
     "00007 · Covered Patio - Per Plan",
