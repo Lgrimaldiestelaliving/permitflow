@@ -1,7 +1,7 @@
 {
-  "version": 1777914337882,
+  "version": 1777914341009,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T17:05:37.882Z",
+  "updatedAt": "2026-05-04T17:05:41.009Z",
   "permits": [
     {
       "id": "permit-1",
@@ -70,6 +70,12 @@
       "stageCompletedAt": {},
       "stageRounds": {
         "architecture": [
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          },
           {
             "sent": "2026-05-04",
             "received": "",
