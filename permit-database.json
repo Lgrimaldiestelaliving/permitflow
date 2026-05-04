@@ -1,7 +1,7 @@
 {
-  "version": 1777854571312,
+  "version": 1777854613542,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T00:29:31.312Z",
+  "updatedAt": "2026-05-04T00:30:13.542Z",
   "permits": [
     {
       "id": "permit-1",
@@ -250,7 +250,7 @@
       "plan": "Plan 3- 1742",
       "garage": "Left Hand",
       "elevation": "Farmhouse",
-      "options": "",
+      "options": "86030 · Pure White Exterior Package",
       "permitNumber": "",
       "releaseDate": "2026-01-20",
       "stages": {
