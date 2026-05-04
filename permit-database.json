@@ -1,7 +1,7 @@
 {
-  "version": 1777903344382,
+  "version": 1777903354117,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T14:02:24.382Z",
+  "updatedAt": "2026-05-04T14:02:34.117Z",
   "permits": [
     {
       "id": "permit-1",
@@ -427,6 +427,16 @@
       "stageCompletedAt": {
         "submitted": "2026-05-04",
         "planReview": "2026-05-04"
+      },
+      "stageRounds": {
+        "planReview": [
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          }
+        ]
       }
     },
     {
