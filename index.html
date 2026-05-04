@@ -920,11 +920,35 @@ async function syncToGitHub() {
       optionsList: OPTIONS_LIST,
       reviewConfig: { docs: REVIEW_DOCS, fields: REVIEW_FIELDS },
     };
-    // Always get latest SHA before writing (avoids conflicts)
+    // Fetch latest remote data — get SHA and merge any concurrent changes
     const shaRes = await fetch(GH_API_URL, {
       headers: { 'Authorization': 'token ' + GH_TOKEN, 'Accept': 'application/vnd.github.v3+json' }
     });
-    if (shaRes.ok) { const d = await shaRes.json(); _dbSha = d.sha; }
+    if (shaRes.ok) {
+      const d = await shaRes.json();
+      _dbSha = d.sha;
+      // Decode and merge remote permits so we don't overwrite concurrent changes
+      try {
+        const raw = atob(d.content.replace(/\s/g,''));
+        const remote = JSON.parse(decodeURIComponent(Array.from(raw).map(c=>'%'+('00'+c.charCodeAt(0).toString(16)).slice(-2)).join('')));
+        if (remote.permits && remote.version > (_lastRemoteVersion || 0)) {
+          // Build map of remote permits
+          const remoteMap = {};
+          remote.permits.forEach(p => remoteMap[p.id] = p);
+          // Merge: keep whichever version of each permit is newer (_ts)
+          state.permits.forEach(local => {
+            const rem = remoteMap[local.id];
+            if (!rem || (local._ts||0) >= (rem._ts||0)) remoteMap[local.id] = local;
+          });
+          // Preserve any permits added remotely that we don't have locally
+          state.permits = Object.values(remoteMap);
+          localStorage.setItem('estela_permits_v3', JSON.stringify(state.permits));
+          // Also sync app-level config from remote if newer
+          if (remote.customFields && remote.customFields.length > CUSTOM_PERMIT_FIELDS.length) { CUSTOM_PERMIT_FIELDS = remote.customFields; saveCustomFields(); }
+          if (remote.optionsList && remote.optionsList.length > OPTIONS_LIST.length) { OPTIONS_LIST = remote.optionsList; saveOptionsList(); }
+        }
+      } catch(mergeErr) { console.warn('Merge warning:', mergeErr); }
+    }
 
     const body = { message: 'Update permit database', content: btoa(unescape(encodeURIComponent(JSON.stringify(payload, null, 2)))) };
     if (_dbSha) body.sha = _dbSha;
@@ -997,7 +1021,7 @@ async function loadFromGitHub() {
   }
 }
 
-// Poll for remote changes every 20 seconds
+// Poll for remote changes every 10 seconds
 let _pollInterval = null;
 function startDBPolling() {
   if (_pollInterval) clearInterval(_pollInterval);
@@ -1008,7 +1032,7 @@ function startDBPolling() {
       showToast('🔄 Updated by ' + (result.updatedBy || 'a team member'));
     }
     updateSyncBadge('live');
-  }, 20000);
+  }, 10000);
 }
 
 function stopDBPolling() {
@@ -1682,7 +1706,7 @@ function cycleStage(e, permitId, stageName) {
     delete permit.stageRequestedAt[stageName];
     delete permit.stageCompletedAt[stageName];
   }
-  updateOverallStatus(permit); saveData(); render();
+  permit._ts = Date.now(); updateOverallStatus(permit); saveData(); render();
 }
 
 // ══════════════════════════════════════════════════
@@ -2933,7 +2957,7 @@ function deleteStageRound(permitId, stageKey, idx) {
 
 function updatePermitField(permitId, field, value) {
   const permit = state.permits.find(p=>p.id===permitId);
-  if (permit) { permit[field]=value; permit.stageLastModified=new Date().toISOString().split('T')[0]; saveData(); }
+  if (permit) { permit[field]=value; permit.stageLastModified=new Date().toISOString().split('T')[0]; permit._ts=Date.now(); saveData(); }
 }
 
 function refreshExpandRow(permitId) {
