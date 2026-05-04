@@ -688,7 +688,7 @@ function resetStageConfig() {
   renderStagesView(document.getElementById('content'));
   render();
 }
-const STATUS_LABELS = { active:'In Progress', submitted:'Submitted', permitted:'Permitted', co:'CO Received' };
+const STATUS_LABELS = { active:'Requesting Info', submitted:'Under Review', permitted:'Permit Approved', co:'CO Received' };
 const STATUS_CLS = { active:'status-active', submitted:'status-submitted', permitted:'status-permitted', co:'status-co' };
 const ONEDRIVE_ROOT = 'Estela Living';
 
@@ -1831,7 +1831,11 @@ function renderDashboard(el, alerts) {
 
 function renderReportsView(el, alerts) {
   const tab = state._reportTab || 'summary';
-  const all = state.permits;
+  const filterCom    = state._reportCommunity || 'All';
+  const filterStatus = state._reportStatus    || 'All';
+  const all = state.permits
+    .filter(p => filterCom    === 'All' || p.community    === filterCom)
+    .filter(p => filterStatus === 'All' || p.overallStatus === filterStatus);
   const submitted  = all.filter(p=>p.overallStatus==='submitted');
   const permitted  = all.filter(p=>p.overallStatus==='permitted');
   const coList     = all.filter(p=>p.overallStatus==='co');
@@ -1864,7 +1868,7 @@ function renderReportsView(el, alerts) {
         <div class="kpi-mini"><div class="kpi-mini-val" style="color:#16a34a">${permitted.length+coList.length}</div><div class="kpi-mini-lbl">Permitted / CO</div></div>
         <div class="kpi-mini"><div class="kpi-mini-val" style="color:${over60>0?'#dc2626':'#64748b'}">${over60}</div><div class="kpi-mini-lbl">Waiting >60d</div></div>
       </div>
-      <table class="report-table"><thead><tr><th>Community</th><th>Total</th><th>Active</th><th>At City</th><th>Permitted</th><th>CO</th><th style="color:#2563eb">Submit&rarr;Permit</th><th style="color:#f59e0b">Permit&rarr;CO</th><th>Alerts</th></tr></thead>
+      <table class="report-table"><thead><tr><th>Community</th><th>Total</th><th>Requesting Info</th><th>Under Review</th><th>Permit Approved</th><th>CO</th><th style="color:#2563eb">Submit&rarr;Permit</th><th style="color:#f59e0b">Permit&rarr;CO</th><th>Alerts</th></tr></thead>
         <tbody>
           ${comStats.map(cs=>`<tr>
             <td style="font-weight:600;cursor:pointer" onclick="setView('permits');filterCommunity('${cs.c}')">${cs.c}</td>
@@ -1981,7 +1985,38 @@ function renderReportsView(el, alerts) {
       </div>`;
     }).join('');
   }
-  el.innerHTML = `<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px"><h2 style="font-size:18px;font-weight:700">Reports</h2><button class="btn btn-sm btn-outline" onclick="window.print()">Print / PDF</button></div><div class="report-tabs">${tabsHtml}</div><div class="report-section">${body}</div>`;
+  // Community filter pills
+  const comPills = ['All',...COMMUNITIES.filter(c=>c!=='All')].map(c=>{
+    const active = c===filterCom;
+    return `<button style="padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid ${active?'#2d5a8e':'var(--border)'};background:${active?'#2d5a8e':'var(--bg)'};color:${active?'#fff':'var(--text-muted)'};transition:all .15s" onclick="state._reportCommunity='${c}';render()">${c}</button>`;
+  }).join('');
+  // Status filter pills
+  const statusDefs = [
+    {k:'All', lbl:'All Statuses', bg:'#64748b'},
+    {k:'active',    lbl:'Requesting Info', bg:'#92400e'},
+    {k:'submitted', lbl:'Under Review',    bg:'#1e40af'},
+    {k:'permitted', lbl:'Permit Approved', bg:'#14532d'},
+    {k:'co',        lbl:'CO Received',     bg:'#0c4a6e'},
+  ];
+  const statusPills = statusDefs.map(({k,lbl,bg})=>{
+    const active = k===filterStatus;
+    return `<button style="padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid ${active?bg:'var(--border)'};background:${active?bg:'var(--bg)'};color:${active?'#fff':'var(--text-muted)'};transition:all .15s" onclick="state._reportStatus='${k}';render()">${lbl}</button>`;
+  }).join('');
+  const hasFilter = filterCom!=='All' || filterStatus!=='All';
+  const clearBtn  = hasFilter ? `<button style="padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #dc2626;background:#dc2626;color:#fff" onclick="state._reportCommunity='All';state._reportStatus='All';render()">✕ Clear</button>` : '';
+  el.innerHTML = `
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <h2 style="font-size:18px;font-weight:700">Reports</h2>
+      <button class="btn btn-sm btn-outline" onclick="window.print()">Print / PDF</button>
+    </div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px">
+      <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Filter by Community</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">${comPills} ${clearBtn}</div>
+      <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-top:8px;margin-bottom:6px">Filter by Status</div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px">${statusPills}</div>
+    </div>
+    <div class="report-tabs">${tabsHtml}</div>
+    <div class="report-section">${body}</div>`;
 }
 function exportSummaryCSV() {
   const all=state.permits; const cols=['Community','Total','Active','Submitted','Permitted','CO','Avg Days'];
