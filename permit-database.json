@@ -1,7 +1,7 @@
 {
-  "version": 1777854638502,
-  "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T00:30:38.502Z",
+  "version": 1777856145699,
+  "updatedBy": "Luis Grimaldi",
+  "updatedAt": "2026-05-04T00:55:45.699Z",
   "permits": [
     {
       "id": "permit-1",
@@ -50,7 +50,9 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "architecture": "2026-05-04"
+      },
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
       "drawingReview": {
@@ -10919,7 +10921,17 @@
       "permitStatus": "issued"
     }
   ],
-  "odFiles": {},
+  "odFiles": {
+    "permit-1": {
+      "architecture": [
+        {
+          "name": "MODEL HOMES SELECTIONS.pdf",
+          "webUrl": "https://estelaliving-my.sharepoint.com/personal/rcelis_estelaliving_com/Documents/Estela%20Living/Single%20Family%20Development/Sawmill%20Branch/Vertical%20Developemnet%20-%20Construction/10%20Summerwood%20Rd.%20Palm%20Coast/Drawings/MODEL%20HOMES%20SELECTIONS.pdf",
+          "id": "01FCCIIF4DRC2CSUUS4VA3IUZNZKROV7T5"
+        }
+      ]
+    }
+  },
   "stageConfig": {
     "architecture": {
       "label": "Architecture",
@@ -11071,5 +11083,156 @@
       "sla": 14,
       "folder": "Utilities"
     }
+  },
+  "customFields": [],
+  "optionsList": [
+    "00005 · Extended Covered Patio - Per Plan",
+    "00007 · Covered Patio - Per Plan",
+    "00010 · Double Doors at Flex",
+    "00011 · 2nd Bath Water Closet",
+    "00012 · Bedroom 4 I.L.O. Loft",
+    "00015 · Bedroom 5 and Bath 3 I.L.O Flex",
+    "00020 · Kitchenette ILO Flex Room",
+    "00025 · House Hardware Color CHROME",
+    "00030 · House Hardware Color BRUSHED NICKEL",
+    "00035 · Interior Doors Upgrade to 8' Feet",
+    "05020 · Moen Matte Black Bathroom and Kitchen Fixtures",
+    "05025 · Moen Brushed Nickle Bathroom and Kitchen Fixtures",
+    "70005 · Frameless Shower Upgrade - Black",
+    "70010 · Frameless Shower Upgrade - Brushed Nickel",
+    "70015 · Frameless Shower Upgrade - Chrome",
+    "10005 · Additional Electrical Outlets interior",
+    "10010 · Exterior Outlet (110) on lanai",
+    "10015 · Exterior Outlet in front of home between the two guest bedroom windows",
+    "10020 · Exterior Outlet on the exterior of the garage wall as you approach the front",
+    "10025 · Elevated Outlet on Living Room and Primary Bedroom",
+    "10030 · Elevated outlet on Owners Bedroom Wall (for television)",
+    "10035 · Soffit Lighting in the front of home (total of 14) w/ LED discs",
+    "10040 · Lightning Package 1 (Pendant + Coach)",
+    "10045 · Lightning Package 2 (Pendant + Coach)",
+    "10050 · Lightning Package 3 (Pendant + Coach)",
+    "10055 · Ceiling Fan with Light - Indoor / Outdoor Fan w LED Light",
+    "10060 · Fiber Chase up to 100' (each)",
+    "10065 · Halo HLC6 6\" LED W/900 ILO Standard LED Disc (each)",
+    "10070 · EV charger 220 Outlet for up to 30AMP",
+    "10075 · EV charger 220 Outlet for up to 60AMP",
+    "10080 · EV charger 220 Outlet for up to 100AMP",
+    "15005 · Smart Home Package (Doorbell, Thermostat, Smart Lock)",
+    "20005 · Black Exterior/White Interior Windows",
+    "50004 · Front Door Upgrade Modern 1 Panel",
+    "50005 · Front Door Upgrade 4 Lite",
+    "30005 · Gourmet Kitchen Package includes 42\" Cabinets and Appliances",
+    "30025 · Kitchen Upper Cabinets 42\"",
+    "30010 · Laundry Upper Cabinets 36\"",
+    "30015 · Laundry Upper Cabinets 42\"",
+    "30020 · Cabinets Crown Molding",
+    "30030 · A LA CARTE - Add Soft Close Drawers to Packages 1,2 & 3",
+    "05010 · Summer Kitchen Preplumb",
+    "05011 · Full Summer Kitchen in Lanai",
+    "05015 · Laundry Pre-Plumb with Sink",
+    "35010 · Kitchen Backsplash",
+    "35005 · Floor Upgrade from LVP to Tile",
+    "55005 · Crown Molding",
+    "55010 · Baseboard Upgrade",
+    "55011 · Shoemold for LVP flooring",
+    "55012 · 3/4\" Quater Round for LVP flooring",
+    "25005 · Epoxy on Garage Floor",
+    "30035 · Epoxy Garage Floors",
+    "60005 · Lanai Screen",
+    "60010 · Gutters (Front of House)",
+    "60015 · Gutters (Whole House)",
+    "60020 · Cool Deck / Texture for Porch",
+    "60025 · Fence",
+    "05005 · Pre Plumb Pool Shower",
+    "65030 · TOP LOAD Washer/Dryer",
+    "65035 · FRONT LOAD Washer/Dryer",
+    "70020 · Blind Package A - ROLLER SHADE SCREEN with VALANCE",
+    "70025 · Blind Package B - 2 inch HORIZONTAL FAUXWOOD CORDLESS",
+    "75005 · Irrigation system",
+    "75010 · Landscape Package",
+    "75015 · Full Sod Package",
+    "85005 · Tan Series Interior Package",
+    "85010 · Seal Series Interior Package",
+    "85015 · Sand Series Interior Package",
+    "85020 · Smoke Series Interior Package",
+    "85025 · Modern Praire Interior Package",
+    "85030 · Farm & Foundry Interior Package",
+    "85035 · Barnlight Charm Interior Package",
+    "85040 · Heritage Blend Interior Package",
+    "85045 · Classic Current Interior Package",
+    "85050 · Stone & Shadow Interior Package",
+    "85055 · Sable & Sand Interior Package",
+    "85060 · Slate & Steel Interior Package",
+    "85065 · Urban Canvas Interior Package",
+    "86005 · Downing Slate Exterior Package",
+    "86010 · Neutral Ground Exterior Package",
+    "86015 · Uncertain Gray Exterior Package",
+    "86020 · Dustblu Exterior Package",
+    "86025 · French Gray Exterior Package",
+    "86030 · Pure White Exterior Package",
+    "86050 · Dove Series Exterior Package",
+    "86055 · Stone Series Exterior Package",
+    "86060 · Pearl Series Exterior Package",
+    "86065 · Cloud Series Exterior Package",
+    "86070 · Olive Series Exterior Package",
+    "86075 · Latte Series Exterior Package"
+  ],
+  "reviewConfig": {
+    "docs": [
+      {
+        "key": "architecture",
+        "label": "Architectural Plans"
+      },
+      {
+        "key": "sitePlan",
+        "label": "Site Plan"
+      },
+      {
+        "key": "trussEng",
+        "label": "Truss Engineering"
+      },
+      {
+        "key": "energyCalcs",
+        "label": "Energy Calculations"
+      },
+      {
+        "key": "soilTest",
+        "label": "Soil Test"
+      },
+      {
+        "key": "structuralEng",
+        "label": "Structural Engineering"
+      },
+      {
+        "key": "landscape",
+        "label": "Landscape Plans"
+      }
+    ],
+    "fields": [
+      {
+        "key": "address",
+        "label": "Address"
+      },
+      {
+        "key": "garage",
+        "label": "Garage Orientation"
+      },
+      {
+        "key": "location",
+        "label": "Location (Market)"
+      },
+      {
+        "key": "modelElev",
+        "label": "Model & Elevation"
+      },
+      {
+        "key": "garageCars",
+        "label": "2 or 3 Car Garage"
+      },
+      {
+        "key": "options",
+        "label": "Options / Specials"
+      }
+    ]
   }
 }
