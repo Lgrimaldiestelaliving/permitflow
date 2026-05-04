@@ -1,7 +1,7 @@
 {
-  "version": 1777923552272,
+  "version": 1777925198000,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T19:39:12.272Z",
+  "updatedAt": "2026-05-04T20:06:38.000Z",
   "permits": [
     {
       "id": "permit-1",
@@ -495,7 +495,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "resubmit",
-      "_ts": 1777903157584,
+      "_ts": 1777925195996,
       "projectManager": "JParker",
       "stageRequestedAt": {
         "submitted": "2026-05-01",
@@ -524,7 +524,10 @@
           }
         ],
         "resubmittal": []
-      }
+      },
+      "reviewAgencies": [
+        "mechanical"
+      ]
     },
     {
       "id": "permit-8",
