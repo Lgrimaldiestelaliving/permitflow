@@ -1,7 +1,7 @@
 {
-  "version": 1777911436222,
+  "version": 1777914337882,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T16:17:16.222Z",
+  "updatedAt": "2026-05-04T17:05:37.882Z",
   "permits": [
     {
       "id": "permit-1",
@@ -67,7 +67,23 @@
       "stageRequestedAt": {
         "powerService": "2026-05-04"
       },
-      "stageCompletedAt": {}
+      "stageCompletedAt": {},
+      "stageRounds": {
+        "architecture": [
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          },
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          }
+        ]
+      }
     },
     {
       "id": "permit-2",
