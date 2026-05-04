@@ -1,7 +1,7 @@
 {
-  "version": 1777911150381,
+  "version": 1777911171705,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T16:12:30.381Z",
+  "updatedAt": "2026-05-04T16:12:51.705Z",
   "permits": [
     {
       "id": "permit-1",
@@ -445,7 +445,7 @@
         "geotechLetter": [
           {
             "sent": "2026-05-04",
-            "received": "",
+            "received": "2026-05-04",
             "result": "pending",
             "note": ""
           }
