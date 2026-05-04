@@ -1,7 +1,7 @@
 {
-  "version": 1777900536118,
+  "version": 1777900543347,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T13:15:36.118Z",
+  "updatedAt": "2026-05-04T13:15:43.347Z",
   "permits": [
     {
       "id": "permit-1",
@@ -14,7 +14,7 @@
       "plan": "Plan 4 - 2147",
       "garage": "Left Hand",
       "elevation": "Farmhouse",
-      "options": "Double Doors at Flex, 86050 · Dove Series Exterior Package",
+      "options": "Double Doors at Flex",
       "permitNumber": "",
       "releaseDate": null,
       "stages": {
