@@ -1,7 +1,7 @@
 {
-  "version": 1777856209423,
+  "version": 1777856858481,
   "updatedBy": "Luis Grimaldi",
-  "updatedAt": "2026-05-04T00:56:49.423Z",
+  "updatedAt": "2026-05-04T01:07:38.481Z",
   "permits": [
     {
       "id": "permit-1",
@@ -62,7 +62,23 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "issued"
+      "permitStatus": "issued",
+      "stageRounds": {
+        "architecture": [
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          },
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          }
+        ]
+      }
     },
     {
       "id": "permit-2",
