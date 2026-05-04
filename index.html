@@ -1558,6 +1558,75 @@ function durClass(d) {
   if (d < 90) return 'dur-orange';
   return 'dur-red';
 }
+
+// ── ETA TO PERMIT APPROVAL ──────────────────────────────────────────────────
+// Returns { label, daysRemaining, targetDate (ISO), basis, overdue, approved }
+function getEstApprovalInfo(permit) {
+  const status = permit.overallStatus;
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  if (status === 'permitted' || status === 'co') {
+    const permDate = (permit.stageCompletedAt||{}).permitIssued || (permit.stageDates||{}).permitIssued;
+    return { approved: true, label: '✅ Permit Issued', targetDate: permDate || null, daysRemaining: null, basis: 'Approved', overdue: false };
+  }
+
+  // Manual override from the estWeeks field
+  const manualWeeks = parseFloat(permit.estWeeks);
+
+  if (status === 'submitted') {
+    const subStr = (permit.stageRequestedAt||{}).submitted || (permit.stageCompletedAt||{}).submitted || (permit.stageDates||{}).submitted;
+    const reviewWeeks = (!isNaN(manualWeeks) && manualWeeks > 0) ? manualWeeks : 4;
+    const reviewDays = Math.round(reviewWeeks * 7);
+    if (subStr) {
+      const subDate = new Date(subStr); subDate.setHours(0,0,0,0);
+      const target = new Date(subDate); target.setDate(target.getDate() + reviewDays);
+      const remaining = Math.round((target - today) / 86400000);
+      return {
+        approved: false,
+        label: remaining >= 0 ? `~${remaining}d left` : `${Math.abs(remaining)}d overdue`,
+        daysRemaining: remaining,
+        targetDate: target.toISOString().split('T')[0],
+        basis: `${reviewWeeks}wk city review from ${fmtDate(subStr)}`,
+        overdue: remaining < 0
+      };
+    }
+    // Submitted but no date on record
+    const target = new Date(today); target.setDate(target.getDate() + reviewDays);
+    return { approved: false, label: `~${reviewWeeks} wks`, daysRemaining: reviewDays, targetDate: target.toISOString().split('T')[0], basis: 'Submitted — date not recorded', overdue: false };
+  }
+
+  if (status === 'active') {
+    const docsReady = getPermitDocsStatus(permit) === 'complete';
+    const weeksEst = (!isNaN(manualWeeks) && manualWeeks > 0) ? manualWeeks : (docsReady ? 5 : 7);
+    const daysEst = Math.round(weeksEst * 7);
+    const target = new Date(today); target.setDate(target.getDate() + daysEst);
+    return {
+      approved: false,
+      label: `~${weeksEst} wks`,
+      daysRemaining: daysEst,
+      targetDate: target.toISOString().split('T')[0],
+      basis: docsReady ? 'Docs ready — ready to submit' : 'Still collecting docs',
+      overdue: false
+    };
+  }
+
+  return { approved: false, label: '—', daysRemaining: null, targetDate: null, basis: '', overdue: false };
+}
+
+function etaDurClass(info) {
+  if (!info || info.approved) return 'dur-green';
+  if (info.overdue) return 'dur-red';
+  const d = info.daysRemaining;
+  if (d === null) return 'dur-gray';
+  if (d <= 14) return 'dur-yellow';
+  if (d <= 30) return 'dur-green';
+  return 'dur-gray';
+}
+
+function addDaysToDate(isoDate, days) {
+  const d = new Date(isoDate); d.setDate(d.getDate() + days);
+  return d.toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+}
 function durBar(d, max) {
   if (d === null) return '';
   const pct = Math.min(100, Math.round((d / (max||90)) * 100));
@@ -1990,7 +2059,7 @@ function renderReportsView(el, alerts) {
       sub:ps.filter(p=>p.overallStatus==='submitted').length, perm:ps.filter(p=>p.overallStatus==='permitted').length,
       co:ps.filter(p=>p.overallStatus==='co').length, s2p_avg, p2c_avg, alerts:alerts.filter(a=>a.permit.community===c).length };
   }).filter(Boolean);
-  const TABS = {summary:'📊 Dashboard',aging:'⏳ Under Review',timeline:'📈 Timeline',community:'🏘 By Community',pm:'👤 By PM',printreport:'🖨 Print Report'};
+  const TABS = {summary:'📊 Dashboard',aging:'⏳ Under Review',eta:'📅 ETA',timeline:'📈 Timeline',community:'🏘 By Community',pm:'👤 By PM',printreport:'🖨 Print Report'};
   const tabsHtml = Object.entries(TABS).map(([k,lbl])=>
     `<div class="report-tab${tab===k?' active':''}" onclick="state._reportTab='${k}';render()">${lbl}</div>`
   ).join('');
@@ -2116,6 +2185,103 @@ function renderReportsView(el, alerts) {
       ${submitted.length===0?'<div style="text-align:center;padding:40px;color:var(--text-muted)">No permits currently under city review</div>':`<table class="report-table"><thead><tr><th>Address</th><th>Community</th><th>Lot</th><th>Model</th><th>Submitted</th><th>Days at City</th><th>Aging</th><th></th></tr></thead>
         <tbody>${agingList.map(({p,d})=>{const sub=(p.stageRequestedAt||{}).submitted||(p.stageCompletedAt||{}).submitted||(p.stageDates||{}).submitted;return `<tr><td style="font-weight:600">${p.address.split(',')[0]}</td><td>${p.community}</td><td>${p.lotNumber||'?'}</td><td style="font-size:12px">${p.model||'?'}</td><td style="font-size:12px;color:var(--text-muted)">${fmtDate(sub)}</td><td><span class="dur-pill ${durClass(d)}">${d}d</span></td><td>${durBar(d,maxCity||90)}</td><td><button class="btn btn-sm btn-outline" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">Open</button></td></tr>`;}).join('')}</tbody></table>`}
       <button class="btn btn-sm btn-outline" style="margin-top:12px" onclick="exportAgingCSV()">Export CSV</button>`;
+  }
+  if (tab==='eta') {
+    // Build ETA list for all not-yet-approved permits
+    const etaList = all
+      .filter(p => p.overallStatus !== 'permitted' && p.overallStatus !== 'co')
+      .map(p => ({ p, eta: getEstApprovalInfo(p) }))
+      .sort((a, b) => {
+        // overdue first, then soonest remaining, then unknown
+        if (a.eta.overdue && !b.eta.overdue) return -1;
+        if (!a.eta.overdue && b.eta.overdue) return 1;
+        const da = a.eta.daysRemaining ?? 9999;
+        const db = b.eta.daysRemaining ?? 9999;
+        return da - db;
+      });
+
+    const overdueCount  = etaList.filter(x => x.eta.overdue).length;
+    const onTrackCount  = etaList.filter(x => !x.eta.overdue && x.eta.daysRemaining !== null).length;
+    const within2Weeks  = etaList.filter(x => !x.eta.overdue && x.eta.daysRemaining !== null && x.eta.daysRemaining <= 14).length;
+    const allDays       = etaList.filter(x => x.eta.daysRemaining !== null).map(x => x.eta.daysRemaining);
+    const avgDays       = allDays.length ? Math.round(allDays.reduce((a,b)=>a+b,0)/allDays.length) : null;
+
+    body = `
+      <!-- KPI row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px">
+        <div style="background:linear-gradient(135deg,#1e3a5f,#2d5a8e);border-radius:14px;padding:18px 16px;color:#fff">
+          <div style="font-size:40px;font-weight:900;line-height:1">${etaList.length}</div>
+          <div style="font-size:12px;font-weight:700;opacity:0.9;margin-top:4px">Pending Approval</div>
+          <div style="font-size:11px;opacity:0.65;margin-top:2px">Active + under review</div>
+        </div>
+        <div style="background:${overdueCount>0?'linear-gradient(135deg,#991b1b,#dc2626)':'linear-gradient(135deg,#166534,#22c55e)'};border-radius:14px;padding:18px 16px;color:#fff">
+          <div style="font-size:40px;font-weight:900;line-height:1">${overdueCount}</div>
+          <div style="font-size:12px;font-weight:700;opacity:0.9;margin-top:4px">Past Target Date</div>
+          <div style="font-size:11px;opacity:0.8;margin-top:2px">City review exceeded 4 wks</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#b45309,#f59e0b);border-radius:14px;padding:18px 16px;color:#fff">
+          <div style="font-size:40px;font-weight:900;line-height:1">${within2Weeks}</div>
+          <div style="font-size:12px;font-weight:700;opacity:0.9;margin-top:4px">Due Within 2 Weeks</div>
+          <div style="font-size:11px;opacity:0.8;margin-top:2px">Expected approval soon</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#1e40af,#3b82f6);border-radius:14px;padding:18px 16px;color:#fff">
+          <div style="font-size:40px;font-weight:900;line-height:1">${avgDays !== null ? Math.round(avgDays/7)+'w' : '—'}</div>
+          <div style="font-size:12px;font-weight:700;opacity:0.9;margin-top:4px">Avg ETA Remaining</div>
+          <div style="font-size:11px;opacity:0.8;margin-top:2px">${avgDays !== null ? avgDays+'d average' : 'Not enough data'}</div>
+        </div>
+      </div>
+
+      <!-- Legend -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:16px;font-size:12px">
+        <div style="font-weight:700;margin-bottom:6px;color:var(--text-muted);font-size:10px;text-transform:uppercase;letter-spacing:.5px">How ETA is Calculated</div>
+        <div style="display:flex;gap:20px;flex-wrap:wrap">
+          <span>🟡 <strong>Collecting Docs (Phase 1):</strong> ~7 weeks from today (5 wks if docs ready)</span>
+          <span>🔵 <strong>Submitted (Phase 3):</strong> submission date + 4 weeks city review</span>
+          <span>✏️ <strong>Manual override:</strong> uses the "Est. Weeks" field on the permit</span>
+        </div>
+      </div>
+
+      <!-- ETA table -->
+      ${etaList.length === 0
+        ? '<div style="text-align:center;padding:40px;color:var(--text-muted)">All permits are approved! 🎉</div>'
+        : `<table class="report-table"><thead><tr>
+          <th>Address</th>
+          <th>Community</th>
+          <th>PM</th>
+          <th>Status</th>
+          <th>Submitted</th>
+          <th>Target Date</th>
+          <th>ETA</th>
+          <th>Basis</th>
+          <th></th>
+        </tr></thead>
+        <tbody>
+        ${etaList.map(({p, eta}) => {
+          const subStr = (p.stageRequestedAt||{}).submitted || (p.stageCompletedAt||{}).submitted || (p.stageDates||{}).submitted;
+          const etaBg   = eta.overdue ? '#fee2e2' : eta.daysRemaining !== null && eta.daysRemaining <= 14 ? '#fef3c7' : '';
+          const etaColor = eta.overdue ? '#b91c1c' : eta.daysRemaining !== null && eta.daysRemaining <= 14 ? '#92400e' : '#16a34a';
+          return `<tr style="${eta.overdue?'background:#fff8f8':''}">
+            <td style="font-weight:600;cursor:pointer" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">${p.address.split(',')[0]}</td>
+            <td style="font-size:12px">${p.community}</td>
+            <td style="font-size:12px">${p.projectManager||'—'}</td>
+            <td><span class="status-badge status-${p.overallStatus}">${STATUS_LABELS[p.overallStatus]||p.overallStatus}</span></td>
+            <td style="font-size:12px;color:var(--text-muted)">${subStr ? fmtDate(subStr) : '—'}</td>
+            <td style="font-size:12px;font-weight:600;color:${etaColor}">${eta.targetDate ? fmtDate(eta.targetDate) : '—'}</td>
+            <td>
+              <span style="padding:3px 10px;border-radius:12px;font-size:12px;font-weight:700;background:${etaBg||'#f0fdf4'};color:${etaColor};white-space:nowrap">
+                ${eta.overdue ? '⚠️ ' : ''}${eta.label}
+              </span>
+            </td>
+            <td style="font-size:11px;color:var(--text-muted)">${eta.basis}</td>
+            <td><button class="btn btn-sm btn-outline" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">Open</button></td>
+          </tr>`;
+        }).join('')}
+        </tbody></table>`}
+
+      <div style="margin-top:12px;display:flex;gap:8px">
+        <button class="btn btn-sm btn-outline" onclick="exportEtaCSV()">⬇ Export CSV</button>
+        <span style="font-size:11px;color:var(--text-muted);align-self:center">Sorted by urgency — overdue first, then soonest deadline</span>
+      </div>`;
   }
   if (tab==='timeline') {
     const s2pVals = timeline.map(x=>x.s2p).filter(v=>v!==null);
@@ -2378,6 +2544,19 @@ function exportAgingCSV() {
   const cols=['Address','Community','Lot','Model','Submitted Date','Days at City','Permit #'];
   const rows=state.permits.filter(p=>p.overallStatus==='submitted').map(p=>{const sub=(p.stageRequestedAt||{}).submitted||(p.stageCompletedAt||{}).submitted||(p.stageDates||{}).submitted||'';return [p.address,p.community,p.lotNumber||'',p.model||'',sub,getCityDays(p)||0,p.permitNumber||''];}).sort((a,b)=>b[5]-a[5]);
   const lines=[cols.join(','),...rows.map(r=>r.map(v=>`"${v}"`).join(','))]; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/csv'})); a.download='under-review.csv'; a.click();
+}
+function exportEtaCSV() {
+  const cols=['Address','Community','PM','Status','Submitted Date','Est. Target Date','ETA Label','Days Remaining','Basis','Permit #'];
+  const rows = state.permits
+    .filter(p => p.overallStatus !== 'permitted' && p.overallStatus !== 'co')
+    .map(p => {
+      const eta = getEstApprovalInfo(p);
+      const sub = (p.stageRequestedAt||{}).submitted||(p.stageCompletedAt||{}).submitted||(p.stageDates||{}).submitted||'';
+      return [p.address, p.community, p.projectManager||'', STATUS_LABELS[p.overallStatus]||p.overallStatus, sub, eta.targetDate||'', eta.label, eta.daysRemaining!==null?eta.daysRemaining:'', eta.basis, p.permitNumber||''];
+    })
+    .sort((a,b) => (a[7]===''?9999:a[7]) - (b[7]===''?9999:b[7]));
+  const lines=[cols.join(','),...rows.map(r=>r.map(v=>`"${v}"`).join(','))];
+  const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/csv'})); a.download='permit-eta.csv'; a.click();
 }
 function printPermitReport() {
   const content = document.getElementById('permit-print-body');
