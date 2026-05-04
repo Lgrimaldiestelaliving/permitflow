@@ -1300,12 +1300,15 @@ async function ensureFolder(token, folderPath, driveId, rootItemId) {
   }
 }
 
-async function uploadFileToOneDrive(permitId, stageKey, file) {
+async function uploadFileToOneDrive(permitId, stageKey, file, token, odRoot) {
   const permit = state.permits.find(p => p.id === permitId);
   if (!permit) return;
-  const token = await getODToken();
-  if (!token) { showToast('❌ Not connected to OneDrive. Click "Connect OneDrive" first.'); return; }
-  const odRoot = await getEstelaLivingRoot(token);
+  // token and odRoot may be pre-fetched by attachFiles; fetch here only if called directly
+  if (!token) {
+    token = await getODToken();
+    if (!token) { showToast('❌ Not connected to OneDrive. Click "Connect OneDrive" first.'); return; }
+  }
+  if (!odRoot) odRoot = await getEstelaLivingRoot(token);
   const driveId = odRoot.driveId;
   const rootItemId = odRoot.itemId;
   const driveBase = 'https://graph.microsoft.com/v1.0/drives/' + driveId;
@@ -1418,12 +1421,22 @@ async function uploadFileToOneDrive(permitId, stageKey, file) {
 async function attachFiles(permitId, stageKey, fileList) {
   const files = Array.from(fileList);
   if (!files.length) return;
-  for (const file of files) {
-    if (state.odAccount) {
-      // OneDrive connected — upload to cloud
-      await uploadFileToOneDrive(permitId, stageKey, file);
-    } else {
-      // No OneDrive — save locally in IndexedDB
+
+  if (state.odAccount) {
+    // Pre-fetch token + shared root once for all files
+    let token, odRoot;
+    try {
+      token = await getODToken();
+      if (!token) { showToast('❌ Not connected to OneDrive. Click "Connect OneDrive" first.'); return; }
+      odRoot = await getEstelaLivingRoot(token);
+    } catch(e) { showToast('❌ ' + e.message); return; }
+
+    for (const file of files) {
+      await uploadFileToOneDrive(permitId, stageKey, file, token, odRoot);
+    }
+  } else {
+    // No OneDrive — save locally in IndexedDB
+    for (const file of files) {
       const ok = await saveFileLocally(permitId, stageKey, file);
       if (ok) {
         const permit = state.permits.find(p => p.id === permitId);
@@ -1441,6 +1454,30 @@ async function attachFiles(permitId, stageKey, fileList) {
       }
     }
   }
+}
+
+async function removeFile(permitId, stageKey, fileIndex) {
+  const fileList = state.odFiles[permitId]?.[stageKey];
+  if (!fileList || !fileList[fileIndex]) return;
+  const file = fileList[fileIndex];
+  if (!confirm('Remove "' + file.name + '" from this stage?')) return;
+  // If stored locally, delete from IndexedDB too
+  if (file.local) {
+    try {
+      const db = await openFileDB();
+      const key = permitId + '_' + stageKey + '_' + file.name;
+      await new Promise((res, rej) => {
+        const tx = db.transaction('files', 'readwrite');
+        tx.objectStore('files').delete(key);
+        tx.oncomplete = res; tx.onerror = rej;
+      });
+    } catch(e) { console.warn('Could not remove local file from IndexedDB:', e); }
+  }
+  // Remove from state
+  state.odFiles[permitId][stageKey].splice(fileIndex, 1);
+  if (state.odFiles[permitId][stageKey].length === 0) delete state.odFiles[permitId][stageKey];
+  saveOdFiles();
+  refreshExpandRow(permitId);
 }
 
 function triggerFileUpload(permitId, stageKey) {
@@ -2388,15 +2425,19 @@ function renderExpandContent(permit) {
         <span class="drop-zone-label">or drop files</span>
         ${files.length ? `<div class="od-files-list">${files.map((f,fi) => {
           const fref = encodeURIComponent(f.name);
+          const removeBtn = `<button onclick="event.stopPropagation();removeFile('${permit.id}','${k}',${fi})" title="Remove file" style="border:none;background:none;cursor:pointer;color:#dc2626;font-size:13px;padding:0 2px;line-height:1;vertical-align:middle;opacity:0.7" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">&times;</button>`;
           if (f.local) {
-            return `<span class="od-file-link" style="cursor:pointer;color:#059669"
-              onclick="downloadLocalFile('${permit.id}','${k}',decodeURIComponent('${fref}'))">📄 ${f.name}
-              <span style="font-size:10px;opacity:0.7">(local${f.size?' · '+f.size:''})</span>
-              ${odConnected ? `<span style="font-size:10px;color:#0078d4;cursor:pointer;margin-left:4px"
+            return `<span style="display:inline-flex;align-items:center;gap:2px">
+              <span class="od-file-link" style="cursor:pointer;color:#059669"
+                onclick="downloadLocalFile('${permit.id}','${k}',decodeURIComponent('${fref}'))">📄 ${f.name}
+                <span style="font-size:10px;opacity:0.7">(local${f.size?' · '+f.size:''})</span>
+              </span>
+              ${odConnected ? `<span style="font-size:10px;color:#0078d4;cursor:pointer;margin-left:2px"
                 onclick="event.stopPropagation();syncLocalFileToOneDrive('${permit.id}','${k}',decodeURIComponent('${fref}'))">↑ Sync</span>` : ''}
+              ${removeBtn}
             </span>`;
           } else {
-            return `<a class="od-file-link" href="${f.webUrl}" target="_blank">☁️ ${f.name}</a>`;
+            return `<span style="display:inline-flex;align-items:center;gap:2px"><a class="od-file-link" href="${f.webUrl}" target="_blank">☁️ ${f.name}</a>${removeBtn}</span>`;
           }
         }).join('')}</div>` : ''}
         </div>
