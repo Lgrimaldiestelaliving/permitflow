@@ -1637,6 +1637,7 @@ function clearFilters() {
 }
 
 function statusDot(status, stageName, permitId, updated) {
+  if (!status) status = 'not-started';
   const icons = { complete:'✓', requested:'↗', 'not-started':'○', 'n/a':'—', warning:'⚠', danger:'🚨' };
   let cls = status === 'not-started' ? 'not-started' : status;
   let icon = icons[status] || '○';
