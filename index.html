@@ -2425,7 +2425,7 @@ function renderExpandContent(permit) {
         <span class="drop-zone-label">or drop files</span>
         ${files.length ? `<div class="od-files-list">${files.map((f,fi) => {
           const fref = encodeURIComponent(f.name);
-          const removeBtn = `<button onclick="event.stopPropagation();removeFile('${permit.id}','${k}',${fi})" title="Remove file" style="border:none;background:none;cursor:pointer;color:#dc2626;font-size:13px;padding:0 2px;line-height:1;vertical-align:middle;opacity:0.7" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.7'">&times;</button>`;
+          const removeBtn = `<button onclick="event.stopPropagation();removeFile('${permit.id}','${k}',${fi})" title="Remove file" style="border:1px solid #fca5a5;background:#fff0f0;border-radius:4px;cursor:pointer;color:#dc2626;font-size:11px;font-weight:700;padding:1px 5px;line-height:1.4;vertical-align:middle;flex-shrink:0">✕</button>`;
           if (f.local) {
             return `<span style="display:inline-flex;align-items:center;gap:2px">
               <span class="od-file-link" style="cursor:pointer;color:#059669"
