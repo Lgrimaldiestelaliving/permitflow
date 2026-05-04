@@ -1,7 +1,7 @@
 {
-  "version": 1777911394281,
+  "version": 1777911436222,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T16:16:34.281Z",
+  "updatedAt": "2026-05-04T16:17:16.222Z",
   "permits": [
     {
       "id": "permit-1",
@@ -40,7 +40,8 @@
         "resubmittal": "n/a",
         "permitIssued": "complete",
         "inspections": "not-started",
-        "co": "not-started"
+        "co": "not-started",
+        "powerService": "requested"
       },
       "stageDates": {
         "submitted": "2026-02-02",
@@ -50,7 +51,9 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "powerService": "2026-05-04"
+      },
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
       "drawingReview": {
@@ -60,7 +63,11 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "issued"
+      "permitStatus": "issued",
+      "stageRequestedAt": {
+        "powerService": "2026-05-04"
+      },
+      "stageCompletedAt": {}
     },
     {
       "id": "permit-2",
