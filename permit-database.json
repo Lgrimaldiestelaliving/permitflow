@@ -1,7 +1,7 @@
 {
-  "version": 1777914418227,
+  "version": 1777914441134,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T17:06:58.227Z",
+  "updatedAt": "2026-05-04T17:07:21.134Z",
   "permits": [
     {
       "id": "permit-1",
@@ -37,7 +37,7 @@
         "omReview": "not-started",
         "submitted": "complete",
         "planReview": "requested",
-        "resubmittal": "requested",
+        "resubmittal": "complete",
         "permitIssued": "complete",
         "inspections": "not-started",
         "co": "not-started",
@@ -71,7 +71,9 @@
         "planReview": "2026-05-04",
         "resubmittal": "2026-05-04"
       },
-      "stageCompletedAt": {},
+      "stageCompletedAt": {
+        "resubmittal": "2026-05-04"
+      },
       "stageRounds": {
         "architecture": [
           {
