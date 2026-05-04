@@ -639,9 +639,9 @@ function migrateStageConfig() {
   if (!STAGE_CONFIG.utilityConn) STAGE_CONFIG.utilityConn = { label:'Utility Connections', phase:4, sla:14, folder:'Utilities' };
 }
 function addStage(phase) {
-  const label = (document.getElementById('new-stage-label-'+phase).value || '').trim();
-  const sla   = parseInt(document.getElementById('new-stage-sla-'+phase).value) || 5;
-  const folder= (document.getElementById('new-stage-folder-'+phase).value || '').trim();
+  const label = (document.getElementById('ns-label-'+phase)?.value || '').trim();
+  const sla   = parseInt(document.getElementById('ns-sla-'+phase)?.value) || 5;
+  const folder= (document.getElementById('ns-folder-'+phase)?.value || '').trim();
   if (!label) { showToast('Enter a stage name'); return; }
   let key = label.toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'');
   let base = key, n = 0;
@@ -2695,22 +2695,35 @@ function renderExpandContent(permit) {
 
     // Date rules: Phase 1 + submitted → show Requested/Applied manual input
     // All stages when complete → show auto-captured Received (read-only + correction link)
+    const stagePhase = STAGE_CONFIG[k]?.phase || 1;
     const isSubmission = (k === 'submitted');
-    const isPhase1 = STAGE_CONFIG[k].phase === 1;
+    const isPhase1 = stagePhase === 1;
+    const isPhase34 = stagePhase >= 3;
     const showRequestedInput = isPhase1 || isSubmission;
-    const reqLabel = isSubmission ? 'Applied' : 'Requested';
-    const rcvLabel = isSubmission ? 'County Received' : 'Received';
+    // Status option labels adapt to stage type
+    const inProgressLabel = isSubmission ? '↗ Applied' : isPhase1 ? '↗ Requested' : '⟳ In Progress';
+    const doneLabel = isSubmission ? '✓ County Received' : isPhase1 ? '✓ Received' : '✓ Complete';
+    const reqLabel = isSubmission ? 'Applied' : isPhase1 ? 'Requested' : 'Started';
+    const rcvLabel = isSubmission ? 'County Received' : isPhase1 ? 'Received' : 'Completed';
     const rcvValue = completedAt || (status==='complete'?legacyDate:'');
+    const stageNote = permit.stageNotes?.[k] || '';
 
     return `<div class="stage-row">
       <div style="width:16px;font-size:13px;text-align:center">${statusIcon}</div>
       <span class="stage-name">${STAGE_CONFIG[k].label}</span>
       <select class="stage-status-select" onchange="updateStageField('${permit.id}','${k}','status',this.value)">
         <option value="not-started" ${status==='not-started'?'selected':''}>○ Not Started</option>
-        <option value="requested"   ${status==='requested'?'selected':''}>↗ ${isSubmission?'Applied':'Requested'}</option>
-        <option value="complete"    ${status==='complete'?'selected':''}>✓ ${rcvLabel}</option>
+        <option value="requested"   ${status==='requested'?'selected':''} >${inProgressLabel}</option>
+        <option value="complete"    ${status==='complete'?'selected':''} >${doneLabel}</option>
         <option value="n/a"         ${status==='n/a'?'selected':''}>— N/A</option>
       </select>
+      <input placeholder="Stage note..." value="${stageNote.replace(/"/g,'&quot;')}"
+        style="flex:1;min-width:100px;font-size:11px;padding:2px 7px;border:1px solid var(--border);border-radius:5px;background:var(--bg);color:var(--text);font-style:${stageNote?'normal':'italic'}"
+        onblur="updateStageNote('${permit.id}','${k}',this.value)"
+        onclick="event.stopPropagation()"
+        onfocus="this.style.fontStyle='normal'"
+        onkeydown="if(event.key==='Enter'){this.blur()}"
+        title="Note for this stage">
       ${daysLabel}
       ${!isNA ? `
         ${showRequestedInput ? `
@@ -3308,6 +3321,15 @@ function deleteStageRound(permitId, stageKey, idx) {
   permit.stageRounds[stageKey].splice(idx, 1);
   saveData();
   refreshExpandRow(permitId);
+}
+
+function updateStageNote(permitId, stageKey, value) {
+  const permit = state.permits.find(p=>p.id===permitId);
+  if (!permit) return;
+  if (!permit.stageNotes) permit.stageNotes = {};
+  permit.stageNotes[stageKey] = value;
+  permit._ts = Date.now();
+  saveData();
 }
 
 function updatePermitField(permitId, field, value) {
