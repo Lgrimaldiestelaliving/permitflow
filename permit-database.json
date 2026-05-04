@@ -1,7 +1,7 @@
 {
-  "version": 1777856934748,
+  "version": 1777857948449,
   "updatedBy": "Luis Grimaldi",
-  "updatedAt": "2026-05-04T01:08:54.748Z",
+  "updatedAt": "2026-05-04T01:25:48.449Z",
   "permits": [
     {
       "id": "permit-1",
@@ -10924,17 +10924,6 @@
       "permitStatus": "issued"
     }
   ],
-  "odFiles": {
-    "permit-1": {
-      "architecture": [
-        {
-          "name": "MODEL HOMES SELECTIONS.pdf",
-          "webUrl": "https://estelaliving-my.sharepoint.com/personal/rcelis_estelaliving_com/Documents/Estela%20Living/Single%20Family%20Development/Sawmill%20Branch/Vertical%20Developemnet%20-%20Construction/10%20Summerwood%20Rd.%20Palm%20Coast/Drawings/MODEL%20HOMES%20SELECTIONS.pdf",
-          "id": "01FCCIIF4DRC2CSUUS4VA3IUZNZKROV7T5"
-        }
-      ]
-    }
-  },
   "stageConfig": {
     "architecture": {
       "label": "Architecture",
@@ -11087,7 +11076,12 @@
       "folder": "Utilities"
     }
   },
-  "customFields": [],
+  "customFields": [
+    {
+      "key": "cf_moqipv0t",
+      "label": "Project Manager"
+    }
+  ],
   "optionsList": [
     "00005 · Extended Covered Patio - Per Plan",
     "00007 · Covered Patio - Per Plan",
