@@ -1,7 +1,7 @@
 {
-  "version": 1777911135247,
+  "version": 1777911146541,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T16:12:15.247Z",
+  "updatedAt": "2026-05-04T16:12:26.541Z",
   "permits": [
     {
       "id": "permit-1",
@@ -383,7 +383,7 @@
         "colorMaterial": "n/a",
         "roofingWorksheet": "n/a",
         "utilityPP": "requested",
-        "geotechLetter": "n/a",
+        "geotechLetter": "requested",
         "constLienAff": "n/a",
         "noc": "n/a",
         "recordedDeed": "n/a",
@@ -407,7 +407,8 @@
       "stageUpdatedAt": {
         "submitted": "2026-05-04",
         "planReview": "2026-05-04",
-        "utilityPP": "2026-05-04"
+        "utilityPP": "2026-05-04",
+        "geotechLetter": "2026-05-04"
       },
       "stageLastModified": "2026-05-04",
       "overallStatus": "submitted",
@@ -424,7 +425,8 @@
       "stageRequestedAt": {
         "submitted": "2026-05-01",
         "planReview": "2026-05-04",
-        "utilityPP": "2026-05-04"
+        "utilityPP": "2026-05-04",
+        "geotechLetter": "2026-05-04"
       },
       "stageCompletedAt": {
         "submitted": "2026-05-04",
