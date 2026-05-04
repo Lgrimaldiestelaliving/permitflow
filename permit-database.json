@@ -1,7 +1,7 @@
 {
-  "version": 1777925558707,
+  "version": 1777925611384,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T20:12:38.707Z",
+  "updatedAt": "2026-05-04T20:13:31.384Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5761,7 +5761,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1777925294394,
+      "_ts": 1777925609368,
       "stageRequestedAt": {
         "submitted": "2026-04-23"
       },
@@ -5783,6 +5783,9 @@
             "note": "Waiting for PC portal"
           }
         ]
+      },
+      "agencyStatuses": {
+        "stormwater": "in-progress"
       }
     },
     {
