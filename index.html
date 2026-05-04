@@ -606,8 +606,6 @@ const DEFAULT_STAGE_CONFIG = {
   omReview:        { label:'OM Review',           phase:2, sla:2,  folder:'OM Review' },
   submitted:       { label:'Submitted',           phase:2, sla:5,  folder:'Permits' },
   // Phase 3 — Post-Submission
-  planReview:      { label:'Plan Review Comments',phase:3, sla:5,  folder:'Plan Review' },
-  resubmittal:     { label:'Resubmittal',         phase:3, sla:3,  folder:'Resubmittal' },
   permitIssued:    { label:'Permit Issued',       phase:3, sla:10, folder:'Permits' },
   inspections:     { label:'Inspections',         phase:4, sla:5,  folder:'Inspections' },
   co:              { label:'Certificate of Occ.', phase:4, sla:5,  folder:'CO' },
@@ -649,6 +647,9 @@ function migrateStageConfig() {
   if (STAGE_CONFIG.co && STAGE_CONFIG.co.phase === 3) STAGE_CONFIG.co.phase = 4;
   if (!STAGE_CONFIG.powerService) STAGE_CONFIG.powerService = { label:'Power Service', phase:4, sla:14, folder:'Power Service' };
   if (!STAGE_CONFIG.utilityConn) STAGE_CONFIG.utilityConn = { label:'Utility Connections', phase:4, sla:14, folder:'Utilities' };
+  // Removed in favour of per-agency review sections
+  delete STAGE_CONFIG.planReview;
+  delete STAGE_CONFIG.resubmittal;
 }
 function addStage(phase) {
   const label = (document.getElementById('ns-label-'+phase)?.value || '').trim();
