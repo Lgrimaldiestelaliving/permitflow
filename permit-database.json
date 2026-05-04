@@ -1,7 +1,7 @@
 {
-  "version": 1777926443890,
+  "version": 1777926484994,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T20:27:23.890Z",
+  "updatedAt": "2026-05-04T20:28:04.994Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5860,7 +5860,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1777925700082,
+      "_ts": 1777926482981,
       "stageRequestedAt": {
         "submitted": "2026-04-30"
       },
@@ -5885,7 +5885,8 @@
       },
       "agencyStatuses": {
         "mechanical": "in-progress"
-      }
+      },
+      "projectManager": "JPARKER"
     },
     {
       "id": "permit-97",
