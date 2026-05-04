@@ -1,7 +1,7 @@
 {
-  "version": 1777925198000,
+  "version": 1777925202383,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T20:06:38.000Z",
+  "updatedAt": "2026-05-04T20:06:42.383Z",
   "permits": [
     {
       "id": "permit-1",
@@ -523,7 +523,15 @@
             "note": ""
           }
         ],
-        "resubmittal": []
+        "resubmittal": [],
+        "ra_mechanical": [
+          {
+            "sent": "2026-05-04",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          }
+        ]
       },
       "reviewAgencies": [
         "mechanical"
