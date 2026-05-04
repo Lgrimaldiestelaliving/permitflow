@@ -3070,9 +3070,8 @@ function renderExpandContent(permit) {
         </div>
         <div class="phase-block">
           <div class="phase-title phase-3">Phase 3 · City Review</div>
-          <div style="padding:8px 10px 6px;background:rgba(0,0,0,0.03);border-radius:6px;margin-bottom:6px;border:1px solid var(--border)">
-            <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🏛 Reviewing Agencies</div>
-            <div id="review-agencies-${permit.id}">${renderReviewAgenciesPicker(permit)}</div>
+          <div style="padding:8px 10px 8px;background:rgba(0,0,0,0.03);border-radius:6px;margin-bottom:6px;border:1px solid var(--border)">
+            ${renderAgencyReviewSection(permit)}
           </div>
           ${phase3.map(stageRowHtml).join('')}
         </div>
@@ -3536,34 +3535,120 @@ function toggleReviewAgency(permitId, agencyId) {
   else permit.reviewAgencies.splice(idx, 1);
   permit._ts = Date.now();
   saveData();
-  // Re-render just the agency picker area
-  const el = document.getElementById('review-agencies-' + permitId);
-  if (el) el.innerHTML = renderReviewAgenciesPicker(permit);
+  refreshExpandRow(permitId);
 }
 
-function renderReviewAgenciesPicker(permit) {
+function updateAgencyStatus(permitId, agencyId, value) {
+  const permit = state.permits.find(p=>p.id===permitId);
+  if (!permit) return;
+  if (!permit.agencyStatuses) permit.agencyStatuses = {};
+  permit.agencyStatuses[agencyId] = value;
+  permit._ts = Date.now();
+  saveData();
+  // Refresh just the status icon in the header (no full row re-render needed)
+  const iconEl = document.getElementById('agency-icon-' + permitId + '-' + agencyId);
+  if (iconEl) iconEl.textContent = value==='complete'?'✅':value==='in-progress'?'🔵':'⚪';
+}
+
+function updateAgencyNote(permitId, agencyId, value) {
+  const permit = state.permits.find(p=>p.id===permitId);
+  if (!permit) return;
+  if (!permit.agencyNotes) permit.agencyNotes = {};
+  permit.agencyNotes[agencyId] = value;
+  permit._ts = Date.now();
+  saveData();
+}
+
+function renderAgencyReviewSection(permit) {
   const selected = permit.reviewAgencies || [];
-  const selectedItems = REVIEW_AGENCIES.filter(a => selected.includes(a.id));
-  const unselectedItems = REVIEW_AGENCIES.filter(a => !selected.includes(a.id));
-  return `
-    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
-      ${selectedItems.map(a => `
-        <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px 3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:${a.bg};color:${a.color};cursor:pointer"
-          onclick="event.stopPropagation();toggleReviewAgency('${permit.id}','${a.id}')"
-          title="Click to remove ${a.label}">
-          ${a.label}
-          <span style="font-size:13px;opacity:0.8;margin-left:2px;line-height:1">&times;</span>
-        </span>`).join('')}
-      ${unselectedItems.length ? `
-        <div style="position:relative;display:inline-block">
-          <select style="font-size:12px;padding:3px 26px 3px 10px;border:1px dashed #94a3b8;border-radius:20px;background:var(--bg);color:var(--text-muted);cursor:pointer;-webkit-appearance:none;appearance:none"
-            onchange="if(this.value){toggleReviewAgency('${permit.id}',this.value);this.value=''}">
-            <option value="">＋ Add agency…</option>
-            ${unselectedItems.map(a=>`<option value="${a.id}">${a.label}</option>`).join('')}
-          </select>
-          <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:#94a3b8">▾</span>
-        </div>` : '<span style="font-size:11px;color:#16a34a;font-weight:600">✓ All agencies selected</span>'}
+  const selectedAgencies = REVIEW_AGENCIES.filter(a => selected.includes(a.id));
+  const unselectedAgencies = REVIEW_AGENCIES.filter(a => !selected.includes(a.id));
+  const agencyStatuses = permit.agencyStatuses || {};
+  const agencyNotes    = permit.agencyNotes    || {};
+
+  const agencyCards = selectedAgencies.map(agency => {
+    const status    = agencyStatuses[agency.id] || 'not-started';
+    const note      = (agencyNotes[agency.id]   || '').replace(/"/g,'&quot;');
+    const roundKey  = 'ra_' + agency.id;
+    const rounds    = (permit.stageRounds || {})[roundKey] || [];
+    const statusIcon = status==='complete' ? '✅' : status==='in-progress' ? '🔵' : '⚪';
+
+    return `<div style="margin-bottom:8px;border-radius:8px;overflow:hidden;border:1px solid ${agency.bg}55">
+      <!-- Agency header bar -->
+      <div style="background:${agency.bg};padding:7px 10px;display:flex;align-items:center;gap:8px">
+        <span id="agency-icon-${permit.id}-${agency.id}" style="font-size:13px">${statusIcon}</span>
+        <span style="color:${agency.color};font-size:12px;font-weight:700;flex:1">${agency.label}</span>
+        <select style="font-size:11px;padding:2px 6px;border:none;border-radius:4px;background:rgba(255,255,255,0.25);color:${agency.color};cursor:pointer;font-weight:600"
+          onchange="event.stopPropagation();updateAgencyStatus('${permit.id}','${agency.id}',this.value)">
+          <option value="not-started" ${status==='not-started'?'selected':''}>○ Not Started</option>
+          <option value="in-progress" ${status==='in-progress'?'selected':''}>⟳ In Progress</option>
+          <option value="complete"    ${status==='complete'   ?'selected':''}>✓ Complete</option>
+        </select>
+        <button onclick="event.stopPropagation();toggleReviewAgency('${permit.id}','${agency.id}')"
+          style="background:rgba(255,255,255,0.2);border:none;color:${agency.color};cursor:pointer;font-size:15px;padding:0 5px;border-radius:3px;line-height:1.4" title="Remove ${agency.label}">&times;</button>
+      </div>
+      <!-- Note + rounds body -->
+      <div style="padding:8px 10px;background:var(--bg)">
+        <input placeholder="Notes for ${agency.label}…" value="${note}"
+          style="width:100%;box-sizing:border-box;font-size:11px;padding:4px 8px;border:1px solid var(--border);border-radius:5px;background:var(--card);color:var(--text);margin-bottom:6px"
+          onclick="event.stopPropagation()"
+          onblur="updateAgencyNote('${permit.id}','${agency.id}',this.value)"
+          onkeydown="if(event.key==='Enter')this.blur()">
+        <!-- Rounds section -->
+        <div style="border-top:1px dashed var(--border);padding-top:6px">
+          <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
+            <span style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.4px">Rounds</span>
+            <button onclick="event.stopPropagation();addStageRound('${permit.id}','${roundKey}')"
+              style="font-size:10px;padding:1px 7px;border:1px solid var(--border);border-radius:4px;background:none;cursor:pointer;color:var(--text-muted);line-height:1.6">+ Add Round</button>
+          </div>
+          ${rounds.length === 0
+            ? `<div style="font-size:11px;color:var(--text-muted);font-style:italic;padding:2px 0">No rounds yet — click + Add Round to track submissions</div>`
+            : rounds.map((r,ri) => `
+              <div style="display:flex;align-items:center;gap:5px;flex-wrap:wrap;padding:4px 6px;margin-bottom:3px;background:var(--card);border-radius:5px;border:1px solid var(--border);font-size:11px">
+                <span style="font-weight:600;color:var(--text-muted);min-width:52px">Round ${ri+1}</span>
+                <label style="color:var(--text-muted)">Sent:</label>
+                <input type="date" value="${r.sent||''}" style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--bg)"
+                  onclick="event.stopPropagation()"
+                  onchange="updateStageRound('${permit.id}','${roundKey}',${ri},'sent',this.value)">
+                <label style="color:var(--text-muted)">Received:</label>
+                <input type="date" value="${r.received||''}" style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--bg)"
+                  onclick="event.stopPropagation()"
+                  onchange="updateStageRound('${permit.id}','${roundKey}',${ri},'received',this.value)">
+                <select style="font-size:11px;padding:1px 4px;border:1px solid var(--border);border-radius:3px;background:var(--bg)"
+                  onchange="updateStageRound('${permit.id}','${roundKey}',${ri},'result',this.value)">
+                  <option value="pending"  ${r.result==='pending' ?'selected':''}>⏳ Pending</option>
+                  <option value="comments" ${r.result==='comments'?'selected':''}>💬 Comments</option>
+                  <option value="approved" ${r.result==='approved'?'selected':''}>✓ Approved</option>
+                </select>
+                <input placeholder="note…" value="${(r.note||'').replace(/"/g,'&quot;')}"
+                  style="flex:1;min-width:80px;font-size:11px;padding:1px 5px;border:1px solid var(--border);border-radius:3px;background:var(--bg)"
+                  onclick="event.stopPropagation()"
+                  onblur="updateStageRound('${permit.id}','${roundKey}',${ri},'note',this.value)">
+                <button onclick="event.stopPropagation();deleteStageRound('${permit.id}','${roundKey}',${ri})"
+                  style="border:none;background:none;cursor:pointer;color:#dc2626;font-size:14px;padding:0 3px">&times;</button>
+              </div>`).join('')}
+        </div>
+      </div>
     </div>`;
+  }).join('');
+
+  return `<div>
+    <!-- Add-agency dropdown -->
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
+      <span style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px">Reviewing Agencies</span>
+      ${unselectedAgencies.length ? `<div style="position:relative;display:inline-block">
+        <select style="font-size:11px;padding:2px 24px 2px 10px;border:1px dashed #94a3b8;border-radius:14px;background:var(--bg);color:var(--text-muted);cursor:pointer;-webkit-appearance:none;appearance:none"
+          onchange="if(this.value){toggleReviewAgency('${permit.id}',this.value);this.value=''}">
+          <option value="">＋ Add agency…</option>
+          ${unselectedAgencies.map(a=>`<option value="${a.id}">${a.label}</option>`).join('')}
+        </select>
+        <span style="position:absolute;right:7px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:#94a3b8">▾</span>
+      </div>` : `<span style="font-size:11px;color:#16a34a;font-weight:600">All agencies selected</span>`}
+    </div>
+    ${selectedAgencies.length === 0
+      ? `<div style="padding:10px 12px;border:1px dashed var(--border);border-radius:8px;font-size:12px;color:var(--text-muted)">No agencies added yet — use the dropdown above to add reviewing agencies</div>`
+      : agencyCards}
+  </div>`;
 }
 
 function updatePermitField(permitId, field, value) {
