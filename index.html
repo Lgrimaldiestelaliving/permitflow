@@ -3377,10 +3377,16 @@ function renderInlineCustomFields(permit) {
   const fields = CUSTOM_PERMIT_FIELDS;
   let html = '';
   if (fields.length) {
-    html += fields.map(f => `
+    html += fields.map((f, i) => `
       <div class="info-field">
-        <span class="info-label">${f.label}</span>
-        <input class="info-input" value="${cf[f.key]||''}" placeholder="${f.label}"
+        <div style="display:flex;align-items:center;gap:4px;margin-bottom:2px">
+          <span class="info-label" style="margin:0;flex:1" id="cf-label-${permit.id}-${i}">${f.label}</span>
+          <button title="Rename field" onclick="event.stopPropagation();renameCustomField(${i},'${permit.id}')"
+            style="border:none;background:none;cursor:pointer;color:#94a3b8;font-size:11px;padding:0 2px;line-height:1" onmouseover="this.style.color='#2d5a8e'" onmouseout="this.style.color='#94a3b8'">✏</button>
+          <button title="Remove this field from all permits" onclick="event.stopPropagation();removeCustomField(${i},'${permit.id}')"
+            style="border:none;background:none;cursor:pointer;color:#fca5a5;font-size:13px;padding:0 2px;line-height:1;font-weight:700" onmouseover="this.style.color='#dc2626'" onmouseout="this.style.color='#fca5a5'">✕</button>
+        </div>
+        <input class="info-input" value="${(cf[f.key]||'').replace(/"/g,'&quot;')}" placeholder="${f.label}"
                onchange="updateCustomField('${permit.id}','${f.key}',this.value)">
       </div>`).join('');
   }
@@ -3388,11 +3394,32 @@ function renderInlineCustomFields(permit) {
   html += `
     <div class="info-field" id="add-field-row-${permit.id}" style="grid-column:1/-1;display:flex;align-items:center;gap:8px">
       <input id="new-field-input-${permit.id}" class="info-input" style="flex:1;border:1px dashed var(--border)"
-             placeholder="&#43; Field name (e.g. Project Manager)"
+             placeholder="&#43; New field name (e.g. HOA Status)"
              onkeydown="if(event.key==='Enter')addInlineCustomField('${permit.id}')">
-      <button type="button" class="btn btn-sm btn-outline" onclick="addInlineCustomField('${permit.id}')">Add Field</button>
+      <button type="button" class="btn btn-sm btn-outline" onclick="addInlineCustomField('${permit.id}')">+ Add Field</button>
     </div>`;
   return html;
+}
+
+function renameCustomField(index, permitId) {
+  const f = CUSTOM_PERMIT_FIELDS[index];
+  if (!f) return;
+  const newLabel = prompt('Rename field "' + f.label + '" to:', f.label);
+  if (!newLabel || !newLabel.trim() || newLabel.trim() === f.label) return;
+  CUSTOM_PERMIT_FIELDS[index].label = newLabel.trim();
+  saveCustomFields();
+  saveData();
+  refreshExpandRow(permitId);
+}
+
+function removeCustomField(index, permitId) {
+  const f = CUSTOM_PERMIT_FIELDS[index];
+  if (!f) return;
+  if (!confirm('Remove field "' + f.label + '" from all permits? The values will be lost.')) return;
+  CUSTOM_PERMIT_FIELDS.splice(index, 1);
+  saveCustomFields();
+  saveData();
+  refreshExpandRow(permitId);
 }
 
 function updateCustomField(permitId, key, value) {
