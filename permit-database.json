@@ -1,7 +1,7 @@
 {
-  "version": 1777903106357,
+  "version": 1777903129127,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T13:58:26.357Z",
+  "updatedAt": "2026-05-04T13:58:49.127Z",
   "permits": [
     {
       "id": "permit-1",
@@ -366,7 +366,7 @@
       "address": "9 Patriots Ct. Palm Coast, FL",
       "model": "Appaloosa",
       "plan": "Plan 5-2182",
-      "garage": "Left Hand 3Car",
+      "garage": "3 Car - LH",
       "elevation": "Transitional",
       "options": "5th Bedroom and bath in Flex",
       "permitNumber": "2026050014",
@@ -415,7 +415,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1777903104339
+      "_ts": 1777903127117
     },
     {
       "id": "permit-8",
