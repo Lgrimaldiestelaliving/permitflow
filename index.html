@@ -2496,7 +2496,7 @@ function renderExpandContent(permit) {
         <input class="info-input" value="${permit.notes||''}" placeholder="Add notes..."
                onchange="updatePermitField('${permit.id}','notes',this.value)">
       </div>
-    <div id="custom-fields-sect-${permit.id}" style="display:contents">
+    <div id="custom-fields-sect-${permit.id}" style="grid-column:1/-1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
       ${renderInlineCustomFields(permit)}
     </div>
     </div>
@@ -3305,17 +3305,16 @@ function updateCustomField(permitId, key, value) {
 
 function addInlineCustomField(permitId) {
   const inp = document.getElementById('new-field-input-'+permitId);
-  if (!inp) return;
+  if (!inp) { showToast('❌ Could not find field input — try refreshing.'); return; }
   const lbl = inp.value.trim();
-  if (!lbl) return;
+  if (!lbl) { inp.focus(); inp.placeholder = 'Type a field name first!'; return; }
   const key = 'cf_' + Date.now().toString(36);
   CUSTOM_PERMIT_FIELDS.push({ key, label: lbl });
   saveCustomFields();
+  saveData(); // triggers GitHub sync so new field is shared with the team
   inp.value = '';
-  // Re-render the custom fields section
-  const sect = document.getElementById('custom-fields-sect-'+permitId);
-  const p = state.permits.find(x=>x.id===permitId);
-  if (sect && p) sect.innerHTML = renderInlineCustomFields(p);
+  // Re-render the whole expand row so grid layout picks up the new field
+  refreshExpandRow(permitId);
 }
 
 function loadCustomFields() {
@@ -3341,12 +3340,12 @@ function renderCustomFieldsManager() {
         ? '<div style="font-size:12px;color:var(--text-muted);padding:8px 0">No custom fields yet.</div>'
         : CUSTOM_PERMIT_FIELDS.map((f,i)=>`<div style="display:flex;align-items:center;gap:8px">
             <input style="flex:1;padding:6px 10px;border:1px solid var(--border);border-radius:6px;font-size:13px;background:var(--bg);color:var(--text)" value="${f.label}" onchange="CUSTOM_PERMIT_FIELDS[${i}].label=this.value;saveCustomFields()">
-            <button style="padding:5px 10px;background:#fee2e2;color:#dc2626;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer" onclick="if(confirm('Remove \\'${f.label}\\'?')){CUSTOM_PERMIT_FIELDS.splice(${i},1);saveCustomFields();openSettings()}">&#10005;</button>
+            <button style="padding:5px 10px;background:#fee2e2;color:#dc2626;border:none;border-radius:5px;font-size:11px;font-weight:700;cursor:pointer" onclick="if(confirm('Remove \\'${f.label}\\'?')){CUSTOM_PERMIT_FIELDS.splice(${i},1);saveCustomFields();saveData();openSettings()}">&#10005;</button>
           </div>`).join('')}
     </div>
     <div style="display:flex;gap:8px">
       <input id="cf-new-label" class="form-input" style="flex:1;font-size:13px" placeholder="New field label (e.g. Project Manager)">
-      <button class="btn btn-accent btn-sm" onclick="(()=>{const lbl=document.getElementById('cf-new-label').value.trim();if(!lbl)return;CUSTOM_PERMIT_FIELDS.push({key:'cf_'+Date.now().toString(36),label:lbl});saveCustomFields();openSettings()})()">+ Add Field</button>
+      <button class="btn btn-accent btn-sm" onclick="(()=>{const lbl=document.getElementById('cf-new-label').value.trim();if(!lbl)return;CUSTOM_PERMIT_FIELDS.push({key:'cf_'+Date.now().toString(36),label:lbl});saveCustomFields();saveData();openSettings()})()">+ Add Field</button>
     </div>
   </div>`;
 }
