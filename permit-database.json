@@ -1,7 +1,7 @@
 {
-  "version": 1777911171705,
+  "version": 1777911177055,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T16:12:51.705Z",
+  "updatedAt": "2026-05-04T16:12:57.055Z",
   "permits": [
     {
       "id": "permit-1",
@@ -446,7 +446,7 @@
           {
             "sent": "2026-05-04",
             "received": "2026-05-04",
-            "result": "pending",
+            "result": "accepted",
             "note": ""
           }
         ]
