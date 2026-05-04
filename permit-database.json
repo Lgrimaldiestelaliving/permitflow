@@ -1,7 +1,7 @@
 {
-  "version": 1777904509797,
+  "version": 1777907203048,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T14:21:49.797Z",
+  "updatedAt": "2026-05-04T15:06:43.048Z",
   "permits": [
     {
       "id": "permit-1",
@@ -390,7 +390,7 @@
         "subCOI": "not-started",
         "omReview": "not-started",
         "submitted": "complete",
-        "planReview": "complete",
+        "planReview": "requested",
         "resubmittal": "n/a",
         "permitIssued": "not-started",
         "inspections": "not-started",
