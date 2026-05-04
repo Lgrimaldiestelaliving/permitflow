@@ -1921,7 +1921,7 @@ function renderReportsView(el, alerts) {
       sub:ps.filter(p=>p.overallStatus==='submitted').length, perm:ps.filter(p=>p.overallStatus==='permitted').length,
       co:ps.filter(p=>p.overallStatus==='co').length, s2p_avg, p2c_avg, alerts:alerts.filter(a=>a.permit.community===c).length };
   }).filter(Boolean);
-  const TABS = {summary:'Summary',aging:'Under Review',timeline:'Timeline',community:'By Community'};
+  const TABS = {summary:'Summary',aging:'Under Review',timeline:'Timeline',community:'By Community',printreport:'🖨 Print Report'};
   const tabsHtml = Object.entries(TABS).map(([k,lbl])=>
     `<div class="report-tab${tab===k?' active':''}" onclick="state._reportTab='${k}';render()">${lbl}</div>`
   ).join('');
@@ -2051,6 +2051,73 @@ function renderReportsView(el, alerts) {
       </div>`;
     }).join('');
   }
+  if (tab==='printreport') {
+    const reportDate = new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});
+    const communities = filterCom === 'All'
+      ? COMMUNITIES.filter(c => c !== 'All').filter(c => all.some(p => p.community === c))
+      : [filterCom];
+    const phaseColor = { active:'#92400e', submitted:'#1e40af', permitted:'#14532d', co:'#0c4a6e' };
+    const phaseBg    = { active:'#fef3c7', submitted:'#dbeafe', permitted:'#dcfce7', co:'#e0f2fe' };
+    body = `
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+        <div>
+          <div style="font-size:13px;font-weight:700;color:var(--text-muted)">Permit Status Report · ${reportDate}</div>
+          <div style="font-size:11px;color:var(--text-muted);margin-top:2px">${all.length} permit${all.length!==1?'s':''} · ${filterCom==='All'?'All Communities':filterCom}</div>
+        </div>
+        <button class="btn btn-primary" onclick="printPermitReport()">🖨 Print / Save PDF</button>
+      </div>
+      <div id="permit-print-body">
+      ${communities.map(comm => {
+        const cPerms = all.filter(p => p.community === comm);
+        if (!cPerms.length) return '';
+        // Group by project manager (blank PM goes to "Unassigned")
+        const pms = [...new Set(cPerms.map(p => p.projectManager || '—'))].sort();
+        return `<div class="print-community-block" style="margin-bottom:28px">
+          <div style="background:#1e3a5f;color:#fff;padding:8px 14px;border-radius:8px 8px 0 0;display:flex;align-items:center;justify-content:space-between">
+            <span style="font-size:15px;font-weight:700">${comm}</span>
+            <span style="font-size:12px;opacity:0.8">${cPerms.length} permit${cPerms.length!==1?'s':''}</span>
+          </div>
+          ${pms.map(pm => {
+            const pmPerms = cPerms.filter(p => (p.projectManager || '—') === pm)
+              .sort((a,b) => (a.address||'').localeCompare(b.address||''));
+            return `<div style="margin-bottom:4px">
+              <div style="background:#f1f5f9;padding:6px 14px;font-size:12px;font-weight:700;border-left:3px solid #1e3a5f;display:flex;justify-content:space-between">
+                <span>Project Manager: ${pm}</span><span style="color:var(--text-muted)">${pmPerms.length} permit${pmPerms.length!==1?'s':''}</span>
+              </div>
+              <table style="width:100%;border-collapse:collapse;font-size:12px">
+                <thead><tr style="background:#f8fafc;font-size:11px;text-transform:uppercase;letter-spacing:.4px;color:#64748b">
+                  <th style="padding:6px 10px;text-align:left;border-bottom:1px solid #e2e8f0">Project Address</th>
+                  <th style="padding:6px 10px;text-align:left;border-bottom:1px solid #e2e8f0">Lot / Parcel</th>
+                  <th style="padding:6px 10px;text-align:left;border-bottom:1px solid #e2e8f0">Permit #</th>
+                  <th style="padding:6px 10px;text-align:left;border-bottom:1px solid #e2e8f0">Phase</th>
+                  <th style="padding:6px 10px;text-align:left;border-bottom:1px solid #e2e8f0">Submission Date</th>
+                  <th style="padding:6px 10px;text-align:left;border-bottom:1px solid #e2e8f0">Permit Date</th>
+                  <th style="padding:6px 10px;text-align:left;border-bottom:1px solid #e2e8f0">Est. Weeks</th>
+                  <th style="padding:6px 10px;text-align:left;border-bottom:1px solid #e2e8f0">Notes</th>
+                </tr></thead>
+                <tbody>${pmPerms.map((p,i) => {
+                  const subDate  = (p.stageRequestedAt||{}).submitted || (p.stageCompletedAt||{}).submitted || (p.stageDates||{}).submitted || '';
+                  const permDate = (p.stageCompletedAt||{}).permitIssued || (p.stageDates||{}).permitIssued || '';
+                  const lotStr   = [p.lotNumber, p.parcelId].filter(Boolean).join(' · ');
+                  const bg = i%2===0 ? '#fff' : '#f8fafc';
+                  return `<tr style="background:${bg};border-bottom:1px solid #f1f5f9">
+                    <td style="padding:7px 10px;font-weight:600">${p.address||''}</td>
+                    <td style="padding:7px 10px;color:#475569">${lotStr||'—'}</td>
+                    <td style="padding:7px 10px;color:#0369a1;font-weight:600">${p.permitNumber||'—'}</td>
+                    <td style="padding:7px 10px"><span style="padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;background:${phaseBg[p.overallStatus]||'#f1f5f9'};color:${phaseColor[p.overallStatus]||'#475569'}">${STATUS_LABELS[p.overallStatus]||p.overallStatus}</span></td>
+                    <td style="padding:7px 10px">${subDate ? fmtDate(subDate) : '—'}</td>
+                    <td style="padding:7px 10px">${permDate ? fmtDate(permDate) : '—'}</td>
+                    <td style="padding:7px 10px">${p.estWeeks||'—'}</td>
+                    <td style="padding:7px 10px;color:#64748b;font-size:11px">${p.notes||''}</td>
+                  </tr>`;
+                }).join('')}</tbody>
+              </table>
+            </div>`;
+          }).join('')}
+        </div>`;
+      }).join('')}
+      </div>`;
+  }
   // Community filter pills
   const comPills = ['All',...COMMUNITIES.filter(c=>c!=='All')].map(c=>{
     const active = c===filterCom;
@@ -2093,6 +2160,34 @@ function exportAgingCSV() {
   const cols=['Address','Community','Lot','Model','Submitted Date','Days at City','Permit #'];
   const rows=state.permits.filter(p=>p.overallStatus==='submitted').map(p=>{const sub=(p.stageRequestedAt||{}).submitted||(p.stageCompletedAt||{}).submitted||(p.stageDates||{}).submitted||'';return [p.address,p.community,p.lotNumber||'',p.model||'',sub,getCityDays(p)||0,p.permitNumber||''];}).sort((a,b)=>b[5]-a[5]);
   const lines=[cols.join(','),...rows.map(r=>r.map(v=>`"${v}"`).join(','))]; const a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([lines.join('\n')],{type:'text/csv'})); a.download='under-review.csv'; a.click();
+}
+function printPermitReport() {
+  const content = document.getElementById('permit-print-body');
+  if (!content) { showToast('Switch to the 🖨 Print Report tab first.'); return; }
+  const reportDate = new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});
+  const win = window.open('', '_blank');
+  win.document.write(`<!DOCTYPE html><html><head><title>Estela Living — Permit Status Report ${reportDate}</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; margin: 0; padding: 20px; color: #1e293b; }
+    h1 { font-size:18px; font-weight:700; margin:0 0 4px; color:#1e3a5f; }
+    .sub { font-size:12px; color:#64748b; margin-bottom:20px; }
+    table { width:100%; border-collapse:collapse; font-size:11px; margin-bottom:4px; }
+    th { background:#f1f5f9; padding:5px 8px; text-align:left; border-bottom:2px solid #cbd5e1; font-size:10px; text-transform:uppercase; letter-spacing:.4px; color:#64748b; }
+    td { padding:6px 8px; border-bottom:1px solid #f1f5f9; }
+    tr:nth-child(even) td { background:#f8fafc; }
+    .comm-header { background:#1e3a5f; color:#fff; padding:7px 12px; font-size:14px; font-weight:700; margin-top:24px; margin-bottom:0; border-radius:6px 6px 0 0; display:flex; justify-content:space-between; }
+    .pm-header { background:#f1f5f9; padding:5px 12px; font-size:11px; font-weight:700; border-left:3px solid #1e3a5f; display:flex; justify-content:space-between; color:#1e293b; }
+    .badge { padding:2px 7px; border-radius:10px; font-size:10px; font-weight:700; }
+    @page { margin: 15mm; }
+    @media print { body { padding: 0; } }
+  </style></head><body>
+  <h1>Estela Living · Permit Status Report</h1>
+  <div class="sub">Generated: ${reportDate}</div>
+  ${content.innerHTML}
+  </body></html>`);
+  win.document.close();
+  win.focus();
+  setTimeout(() => win.print(), 500);
 }
 function exportTimelineCSV() {
   const cols=['Address','Community','Lot','Status','Release Date','Total Days','Days at City','Permit #'];
@@ -2468,9 +2563,14 @@ function renderExpandContent(permit) {
         </select>
       </div>
       <div class="info-field">
-        <span class="info-label">Release Date</span>
-        <input type="date" class="info-input" value="${permit.releaseDate||''}"
-               onchange="updatePermitField('${permit.id}','releaseDate',this.value)">
+        <span class="info-label">Project Manager</span>
+        <input class="info-input" value="${permit.projectManager||''}" placeholder="PM initials or name"
+               onchange="updatePermitField('${permit.id}','projectManager',this.value)">
+      </div>
+      <div class="info-field">
+        <span class="info-label">Est. Weeks to Approval</span>
+        <input class="info-input" value="${permit.estWeeks||''}" placeholder="e.g. 3 weeks"
+               onchange="updatePermitField('${permit.id}','estWeeks',this.value)">
       </div>
       <div class="info-field">
         <span class="info-label">Permit Fee</span>
@@ -3441,7 +3541,8 @@ function buildModalForm(permit) {
         <option value="3 Car - RH" ${v('garage').includes('3')&&v('garage').includes('R')?'selected':''}>3 Car Right Hand</option>
       </select>
     </div>
-    <div class="form-field"><label class="form-label">Release Date</label><input type="date" class="form-input" id="f-releaseDate" value="${v('releaseDate')}"></div>
+    <div class="form-field"><label class="form-label">Project Manager</label><input class="form-input" id="f-projectManager" value="${v('projectManager')}" placeholder="PM initials or name"></div>
+    <div class="form-field"><label class="form-label">Est. Weeks to Approval</label><input class="form-input" id="f-estWeeks" value="${v('estWeeks')}" placeholder="e.g. 3 weeks"></div>
     <div class="form-field"><label class="form-label">Permit Number</label><input class="form-input" id="f-permitNumber" value="${v('permitNumber')}"></div>
     <div class="form-field"><label class="form-label">Permit Fee</label><input class="form-input" id="f-permitFee" value="${v('permitFee')}" placeholder="$ 0.00"></div>
     <div class="form-field"><label class="form-label">Utilities</label><input class="form-input" id="f-utilities" value="${v('utilities')}" placeholder="Utility provider / status"></div>
@@ -3470,7 +3571,7 @@ function saveModal() {
   const addr = document.getElementById('f-address').value.trim();
   if (!addr) { alert('Address is required.'); return; }
   const today = new Date().toISOString().split('T')[0];
-  const fields = ['community','market','address','lotNumber','parcelId','model','plan','garage','elevation','releaseDate','permitNumber','permitFee','utilities','options','notes'];
+  const fields = ['community','market','address','lotNumber','parcelId','model','plan','garage','elevation','projectManager','estWeeks','permitNumber','permitFee','utilities','options','notes'];
   if (state.editingId) {
     const permit = state.permits.find(p=>p.id===state.editingId);
     if (permit) {
