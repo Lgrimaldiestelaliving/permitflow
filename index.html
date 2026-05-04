@@ -619,6 +619,18 @@ let STAGE_CONFIG = Object.assign({}, DEFAULT_STAGE_CONFIG);
 
 const COMMUNITIES = ['All','Sawmill Branch','Sabana Reserve','Palm Coast Scattered','Marion Oaks','Ocala Waterways','Juliette Falls'];
 
+// City Review — reviewing agencies / departments
+const REVIEW_AGENCIES = [
+  { id:'engineering',  label:'Engineering',          bg:'#92400e', color:'#fff' },
+  { id:'zoning',       label:'Zoning',               bg:'#6d28d9', color:'#fff' },
+  { id:'stormwater',   label:'Stormwater Engineer',  bg:'#1d4ed8', color:'#fff' },
+  { id:'mechanical',   label:'Mechanical',           bg:'#b91c1c', color:'#fff' },
+  { id:'siteplan',     label:'Site Plan',            bg:'#15803d', color:'#fff' },
+  { id:'fire',         label:'Fire',                 bg:'#c2410c', color:'#fff' },
+  { id:'electric',     label:'Electrical',           bg:'#b45309', color:'#fff' },
+  { id:'plumbing',     label:'Plumbing',             bg:'#0e7490', color:'#fff' },
+];
+
 function loadStageConfig() {
   const saved = localStorage.getItem('estela_stage_config_v1');
   if (saved) { try { STAGE_CONFIG = JSON.parse(saved); } catch(e) { STAGE_CONFIG = Object.assign({}, DEFAULT_STAGE_CONFIG); } }
@@ -2879,6 +2891,10 @@ function renderExpandContent(permit) {
         </div>
         <div class="phase-block">
           <div class="phase-title phase-3">Phase 3 · City Review</div>
+          <div style="padding:8px 10px 6px;background:rgba(0,0,0,0.03);border-radius:6px;margin-bottom:6px;border:1px solid var(--border)">
+            <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🏛 Reviewing Agencies</div>
+            <div id="review-agencies-${permit.id}">${renderReviewAgenciesPicker(permit)}</div>
+          </div>
           ${phase3.map(stageRowHtml).join('')}
         </div>
 
@@ -3330,6 +3346,45 @@ function updateStageNote(permitId, stageKey, value) {
   permit.stageNotes[stageKey] = value;
   permit._ts = Date.now();
   saveData();
+}
+
+function toggleReviewAgency(permitId, agencyId) {
+  const permit = state.permits.find(p=>p.id===permitId);
+  if (!permit) return;
+  if (!permit.reviewAgencies) permit.reviewAgencies = [];
+  const idx = permit.reviewAgencies.indexOf(agencyId);
+  if (idx === -1) permit.reviewAgencies.push(agencyId);
+  else permit.reviewAgencies.splice(idx, 1);
+  permit._ts = Date.now();
+  saveData();
+  // Re-render just the agency picker area
+  const el = document.getElementById('review-agencies-' + permitId);
+  if (el) el.innerHTML = renderReviewAgenciesPicker(permit);
+}
+
+function renderReviewAgenciesPicker(permit) {
+  const selected = permit.reviewAgencies || [];
+  const selectedItems = REVIEW_AGENCIES.filter(a => selected.includes(a.id));
+  const unselectedItems = REVIEW_AGENCIES.filter(a => !selected.includes(a.id));
+  return `
+    <div style="display:flex;flex-wrap:wrap;gap:6px;align-items:center">
+      ${selectedItems.map(a => `
+        <span style="display:inline-flex;align-items:center;gap:4px;padding:3px 10px 3px 10px;border-radius:20px;font-size:12px;font-weight:700;background:${a.bg};color:${a.color};cursor:pointer"
+          onclick="event.stopPropagation();toggleReviewAgency('${permit.id}','${a.id}')"
+          title="Click to remove ${a.label}">
+          ${a.label}
+          <span style="font-size:13px;opacity:0.8;margin-left:2px;line-height:1">&times;</span>
+        </span>`).join('')}
+      ${unselectedItems.length ? `
+        <div style="position:relative;display:inline-block">
+          <select style="font-size:12px;padding:3px 26px 3px 10px;border:1px dashed #94a3b8;border-radius:20px;background:var(--bg);color:var(--text-muted);cursor:pointer;-webkit-appearance:none;appearance:none"
+            onchange="if(this.value){toggleReviewAgency('${permit.id}',this.value);this.value=''}">
+            <option value="">＋ Add agency…</option>
+            ${unselectedItems.map(a=>`<option value="${a.id}">${a.label}</option>`).join('')}
+          </select>
+          <span style="position:absolute;right:8px;top:50%;transform:translateY(-50%);pointer-events:none;font-size:10px;color:#94a3b8">▾</span>
+        </div>` : '<span style="font-size:11px;color:#16a34a;font-weight:600">✓ All agencies selected</span>'}
+    </div>`;
 }
 
 function updatePermitField(permitId, field, value) {
