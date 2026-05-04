@@ -1,7 +1,7 @@
 {
-  "version": 1777911219919,
+  "version": 1777911265678,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T16:13:39.919Z",
+  "updatedAt": "2026-05-04T16:14:25.678Z",
   "permits": [
     {
       "id": "permit-1",
@@ -434,14 +434,7 @@
         "utilityPP": "2026-05-04"
       },
       "stageRounds": {
-        "planReview": [
-          {
-            "sent": "2026-05-04",
-            "received": "",
-            "result": "incorrect",
-            "note": "Energy Calcs"
-          }
-        ],
+        "planReview": [],
         "geotechLetter": [
           {
             "sent": "2026-05-04",
