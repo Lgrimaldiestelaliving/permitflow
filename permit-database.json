@@ -1,7 +1,7 @@
 {
-  "version": 1777925642642,
+  "version": 1777925650030,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T20:14:02.642Z",
+  "updatedAt": "2026-05-04T20:14:10.030Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5848,12 +5848,15 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1777925631680,
+      "_ts": 1777925646217,
       "stageRequestedAt": {
-        "submitted": "2026-05-04"
+        "submitted": "2026-04-30"
       },
       "stageCompletedAt": {
         "submitted": "2026-05-04"
+      },
+      "stageNotes": {
+        "submitted": ""
       }
     },
     {
