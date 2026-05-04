@@ -198,7 +198,7 @@ body { font-family: 'Segoe UI', Arial, sans-serif; background:var(--bg); color:v
   background:var(--accent); color:#fff; font-size:10px; font-weight:700;
   padding:2px 7px; border-radius:10px;
 }
-.filter-grid { display:grid; grid-template-columns:1fr 1fr 1fr 1fr 1fr; gap:10px; }
+.filter-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
 .filter-field { display:flex; flex-direction:column; gap:4px; }
 .filter-label { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.5px; color:var(--text-muted); }
 .filter-select {
@@ -699,16 +699,21 @@ let state = {
   modelFilter: '',
   elevationFilter: '',
   marketFilter: '',
+  garageFilter: '',
+  pmFilter: '',
+  permitTrackFilter: 'all',
+  cityDaysFilter: '',
+  subDateFrom: '',
+  subDateTo: '',
   expandedRow: null,
   editingId: null,
   selectedPermits: new Set(),
   settings: { clientId: '821a7b2f-4375-4b80-8a01-6ae79db4aab6', tenantId: '9aecb969-8ceb-4c3e-ba5a-53266a072fe8' },
-  // OneDrive
-  msalInstance: null,
-  odAccount: null,
-  odToken: null,
-  odFiles: {}, // permitId -> stage -> [filenames]
-  odUploading: {}, // permitId_stage -> true
+  // Report filters
+  _reportCommunity: 'All',
+  _reportStatus: 'All',
+  _reportPM: 'All',
+  _reportMarket: 'All',
 };
 
 // Data Sanitization - cleans NaT / null strings from imported data
@@ -1662,13 +1667,40 @@ function getPermitDocsStatus(p) {
 function getFilteredPermits() {
   return state.permits.filter(p => {
     if (state.community !== 'All' && p.community !== state.community) return false;
-    if (state.statusFilter !== 'all' && p.overallStatus !== state.statusFilter) return false;
+    // Status filter: 'not-approved' = active + submitted; else exact match
+    if (state.statusFilter && state.statusFilter !== 'all') {
+      if (state.statusFilter === 'not-approved') {
+        if (p.overallStatus !== 'active' && p.overallStatus !== 'submitted') return false;
+      } else {
+        if (p.overallStatus !== state.statusFilter) return false;
+      }
+    }
     if (state.docsFilter && state.docsFilter !== 'all') {
       if (getPermitDocsStatus(p) !== state.docsFilter) return false;
     }
     if (state.marketFilter && p.market !== state.marketFilter) return false;
     if (state.modelFilter && !p.model.toLowerCase().includes(state.modelFilter.toLowerCase())) return false;
     if (state.elevationFilter && !p.elevation.toLowerCase().includes(state.elevationFilter.toLowerCase())) return false;
+    // New filters
+    if (state.garageFilter && !(p.garage||'').toLowerCase().includes(state.garageFilter.toLowerCase())) return false;
+    if (state.pmFilter && (p.projectManager||'').toLowerCase() !== state.pmFilter.toLowerCase()) return false;
+    if (state.permitTrackFilter && state.permitTrackFilter !== 'all') {
+      if ((p.permitStatus||'presubmit') !== state.permitTrackFilter) return false;
+    }
+    if (state.cityDaysFilter) {
+      const cd = getCityDays(p) || 0;
+      if (state.cityDaysFilter === '>30' && !(cd > 30)) return false;
+      if (state.cityDaysFilter === '>60' && !(cd > 60)) return false;
+      if (state.cityDaysFilter === '>90' && !(cd > 90)) return false;
+    }
+    if (state.subDateFrom) {
+      const sub = (p.stageRequestedAt||{}).submitted||(p.stageCompletedAt||{}).submitted||(p.stageDates||{}).submitted;
+      if (!sub || sub < state.subDateFrom) return false;
+    }
+    if (state.subDateTo) {
+      const sub = (p.stageRequestedAt||{}).submitted||(p.stageCompletedAt||{}).submitted||(p.stageDates||{}).submitted;
+      if (!sub || sub > state.subDateTo + 'T23:59:59') return false;
+    }
     if (state.search) {
       const q = state.search.toLowerCase();
       return p.address.toLowerCase().includes(q) ||
@@ -1677,7 +1709,8 @@ function getFilteredPermits() {
         p.model.toLowerCase().includes(q) ||
         p.community.toLowerCase().includes(q) ||
         p.elevation.toLowerCase().includes(q) ||
-        p.garage.toLowerCase().includes(q);
+        (p.garage||'').toLowerCase().includes(q) ||
+        (p.projectManager||'').toLowerCase().includes(q);
     }
     return true;
   });
@@ -1691,6 +1724,12 @@ function countActiveFilters() {
   if (state.marketFilter) n++;
   if (state.modelFilter) n++;
   if (state.elevationFilter) n++;
+  if (state.garageFilter) n++;
+  if (state.pmFilter) n++;
+  if (state.permitTrackFilter && state.permitTrackFilter !== 'all') n++;
+  if (state.cityDaysFilter) n++;
+  if (state.subDateFrom) n++;
+  if (state.subDateTo) n++;
   if (state.search) n++;
   return n;
 }
@@ -1698,7 +1737,20 @@ function countActiveFilters() {
 function clearFilters() {
   state.community = 'All'; state.statusFilter = 'all'; state.docsFilter = 'all'; state.marketFilter = '';
   state.modelFilter = ''; state.elevationFilter = ''; state.search = '';
+  state.garageFilter = ''; state.pmFilter = ''; state.permitTrackFilter = 'all';
+  state.cityDaysFilter = ''; state.subDateFrom = ''; state.subDateTo = '';
   state.expandedRow = null; render();
+}
+
+// Get sorted unique PM list from permits
+function getUniquePMs() {
+  const pms = [...new Set(state.permits.map(p => p.projectManager||'').filter(Boolean))].sort();
+  return pms;
+}
+// Get sorted unique garage values
+function getUniqueGarages() {
+  const gs = [...new Set(state.permits.map(p => p.garage||'').filter(Boolean))].sort();
+  return gs;
 }
 
 function statusDot(status, stageName, permitId, updated) {
@@ -1899,13 +1951,18 @@ function renderReportsView(el, alerts) {
   const tab = state._reportTab || 'summary';
   const filterCom    = state._reportCommunity || 'All';
   const filterStatus = state._reportStatus    || 'All';
+  const filterPM     = state._reportPM        || 'All';
+  const filterMarket = state._reportMarket    || 'All';
   const all = state.permits
     .filter(p => filterCom    === 'All' || p.community    === filterCom)
-    .filter(p => filterStatus === 'All' || p.overallStatus === filterStatus);
+    .filter(p => filterStatus === 'All' || p.overallStatus === filterStatus)
+    .filter(p => filterPM     === 'All' || (p.projectManager||'—') === filterPM)
+    .filter(p => filterMarket === 'All' || (p.market||'') === filterMarket);
   const submitted  = all.filter(p=>p.overallStatus==='submitted');
   const permitted  = all.filter(p=>p.overallStatus==='permitted');
   const coList     = all.filter(p=>p.overallStatus==='co');
   const active     = all.filter(p=>p.overallStatus==='active');
+  const notApproved = all.filter(p=>p.overallStatus==='active'||p.overallStatus==='submitted');
   const agingList  = submitted.map(p=>({p, d:getCityDays(p)||0})).sort((a,b)=>b.d-a.d);
   const maxCity    = agingList.length ? agingList[0].d : 90;
   const avgCity    = submitted.length ? Math.round(submitted.map(p=>getCityDays(p)||0).reduce((a,b)=>a+b,0)/submitted.length) : 0;
@@ -1921,37 +1978,119 @@ function renderReportsView(el, alerts) {
       sub:ps.filter(p=>p.overallStatus==='submitted').length, perm:ps.filter(p=>p.overallStatus==='permitted').length,
       co:ps.filter(p=>p.overallStatus==='co').length, s2p_avg, p2c_avg, alerts:alerts.filter(a=>a.permit.community===c).length };
   }).filter(Boolean);
-  const TABS = {summary:'Summary',aging:'Under Review',timeline:'Timeline',community:'By Community',printreport:'🖨 Print Report'};
+  const TABS = {summary:'📊 Dashboard',aging:'⏳ Under Review',timeline:'📈 Timeline',community:'🏘 By Community',pm:'👤 By PM',printreport:'🖨 Print Report'};
   const tabsHtml = Object.entries(TABS).map(([k,lbl])=>
     `<div class="report-tab${tab===k?' active':''}" onclick="state._reportTab='${k}';render()">${lbl}</div>`
   ).join('');
   let body = '';
   if (tab==='summary') {
     const over60 = agingList.filter(x=>x.d>60).length;
-    body = `<div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px">
-        <div class="kpi-mini"><div class="kpi-mini-val" style="color:#2563eb">${all.length}</div><div class="kpi-mini-lbl">Total Permits</div></div>
-        <div class="kpi-mini"><div class="kpi-mini-val" style="color:#d97706">${submitted.length}</div><div class="kpi-mini-lbl">Under Review</div></div>
-        <div class="kpi-mini"><div class="kpi-mini-val" style="color:#16a34a">${permitted.length+coList.length}</div><div class="kpi-mini-lbl">Permitted / CO</div></div>
-        <div class="kpi-mini"><div class="kpi-mini-val" style="color:${over60>0?'#dc2626':'#64748b'}">${over60}</div><div class="kpi-mini-lbl">Waiting >60d</div></div>
+    const over30 = agingList.filter(x=>x.d>30&&x.d<=60).length;
+    const critAlerts = alerts.filter(a=>a.type==='danger').length;
+    // Pipeline percentages
+    const total = all.length || 1;
+    const pActive = Math.round(active.length/total*100);
+    const pSub    = Math.round(submitted.length/total*100);
+    const pPerm   = Math.round(permitted.length/total*100);
+    const pCO     = Math.round(coList.length/total*100);
+    body = `
+      <!-- Hero KPIs -->
+      <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:14px;margin-bottom:20px">
+        <div style="background:linear-gradient(135deg,#1e3a5f,#2d5a8e);border-radius:14px;padding:18px 16px;color:#fff;cursor:pointer" onclick="state._reportStatus='All';render()">
+          <div style="font-size:40px;font-weight:900;line-height:1">${all.length}</div>
+          <div style="font-size:12px;font-weight:700;opacity:0.9;margin-top:4px">Total Permits</div>
+          <div style="font-size:11px;opacity:0.65;margin-top:2px">All communities</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#d97706,#f59e0b);border-radius:14px;padding:18px 16px;color:#fff;cursor:pointer" onclick="state._reportStatus='active';render()">
+          <div style="font-size:40px;font-weight:900;line-height:1">${active.length}</div>
+          <div style="font-size:12px;font-weight:700;opacity:0.9;margin-top:4px">Collecting Docs</div>
+          <div style="font-size:11px;opacity:0.8;margin-top:2px">${pActive}% of total</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#1d4ed8,#3b82f6);border-radius:14px;padding:18px 16px;color:#fff;cursor:pointer" onclick="state._reportStatus='submitted';render()">
+          <div style="font-size:40px;font-weight:900;line-height:1">${submitted.length}</div>
+          <div style="font-size:12px;font-weight:700;opacity:0.9;margin-top:4px">Under Review</div>
+          <div style="font-size:11px;opacity:0.8;margin-top:2px">Avg ${avgCity}d at city</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#15803d,#22c55e);border-radius:14px;padding:18px 16px;color:#fff;cursor:pointer" onclick="state._reportStatus='permitted';render()">
+          <div style="font-size:40px;font-weight:900;line-height:1">${permitted.length}</div>
+          <div style="font-size:12px;font-weight:700;opacity:0.9;margin-top:4px">Permit Issued</div>
+          <div style="font-size:11px;opacity:0.8;margin-top:2px">${pPerm}% of total</div>
+        </div>
+        <div style="background:linear-gradient(135deg,#0e7490,#06b6d4);border-radius:14px;padding:18px 16px;color:#fff;cursor:pointer" onclick="state._reportStatus='co';render()">
+          <div style="font-size:40px;font-weight:900;line-height:1">${coList.length}</div>
+          <div style="font-size:12px;font-weight:700;opacity:0.9;margin-top:4px">CO Received</div>
+          <div style="font-size:11px;opacity:0.8;margin-top:2px">${pCO}% of total</div>
+        </div>
       </div>
-      <table class="report-table"><thead><tr><th>Community</th><th>Total</th><th>Requesting Info</th><th>Under Review</th><th>Permit Approved</th><th>CO</th><th style="color:#2563eb">Submit&rarr;Permit</th><th style="color:#f59e0b">Permit&rarr;CO</th><th>Alerts</th></tr></thead>
+
+      <!-- Secondary KPIs row -->
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px">
+        <div style="background:${notApproved.length>0?'#fef3c7':'#f0fdf4'};border:2px solid ${notApproved.length>0?'#f59e0b':'#86efac'};border-radius:12px;padding:14px 16px;cursor:pointer" onclick="state._reportStatus='All';state._reportTab='aging';render()">
+          <div style="font-size:30px;font-weight:800;color:${notApproved.length>0?'#92400e':'#15803d'}">${notApproved.length}</div>
+          <div style="font-size:12px;font-weight:700;color:${notApproved.length>0?'#92400e':'#15803d'}">Not Yet Approved</div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px">Active + Under Review</div>
+        </div>
+        <div style="background:${over60>0?'#fee2e2':'#f8fafc'};border:2px solid ${over60>0?'#fca5a5':'#e2e8f0'};border-radius:12px;padding:14px 16px;cursor:pointer" onclick="state._reportTab='aging';render()">
+          <div style="font-size:30px;font-weight:800;color:${over60>0?'#dc2626':'#64748b'}">${over60}</div>
+          <div style="font-size:12px;font-weight:700;color:${over60>0?'#dc2626':'#64748b'}">Waiting &gt;60 Days</div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px">Needs follow-up</div>
+        </div>
+        <div style="background:${critAlerts>0?'#fef2f2':'#f8fafc'};border:2px solid ${critAlerts>0?'#fca5a5':'#e2e8f0'};border-radius:12px;padding:14px 16px;cursor:pointer" onclick="setView('alerts')">
+          <div style="font-size:30px;font-weight:800;color:${critAlerts>0?'#b91c1c':'#64748b'}">${critAlerts}</div>
+          <div style="font-size:12px;font-weight:700;color:${critAlerts>0?'#b91c1c':'#64748b'}">Critical Alerts</div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px">${alerts.filter(a=>a.type==='warning').length} warnings</div>
+        </div>
+        <div style="background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;padding:14px 16px">
+          <div style="font-size:30px;font-weight:800;color:#2563eb">${avgCity}</div>
+          <div style="font-size:12px;font-weight:700;color:#2563eb">Avg Days at City</div>
+          <div style="font-size:11px;color:#64748b;margin-top:2px">Applications under review</div>
+        </div>
+      </div>
+
+      <!-- Pipeline progress bar -->
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:20px">
+        <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px">Permit Pipeline</div>
+        <div style="display:flex;gap:2px;border-radius:8px;overflow:hidden;height:28px;margin-bottom:8px">
+          ${active.length?`<div style="flex:${active.length};background:#f59e0b;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;min-width:30px" title="${active.length} Collecting Docs">${active.length}</div>`:''}
+          ${submitted.length?`<div style="flex:${submitted.length};background:#3b82f6;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;min-width:30px" title="${submitted.length} Under Review">${submitted.length}</div>`:''}
+          ${permitted.length?`<div style="flex:${permitted.length};background:#22c55e;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;min-width:30px" title="${permitted.length} Permitted">${permitted.length}</div>`:''}
+          ${coList.length?`<div style="flex:${coList.length};background:#06b6d4;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;min-width:30px" title="${coList.length} CO">${coList.length}</div>`:''}
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <span style="display:flex;align-items:center;gap:5px;font-size:12px"><span style="width:12px;height:12px;border-radius:3px;background:#f59e0b;display:inline-block"></span>Collecting Docs (${active.length})</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:12px"><span style="width:12px;height:12px;border-radius:3px;background:#3b82f6;display:inline-block"></span>Under Review (${submitted.length})</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:12px"><span style="width:12px;height:12px;border-radius:3px;background:#22c55e;display:inline-block"></span>Permit Issued (${permitted.length})</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:12px"><span style="width:12px;height:12px;border-radius:3px;background:#06b6d4;display:inline-block"></span>CO Received (${coList.length})</span>
+        </div>
+      </div>
+
+      <!-- By community table -->
+      <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Breakdown by Community</div>
+      <table class="report-table"><thead><tr>
+        <th>Community</th><th>Total</th>
+        <th style="color:#d97706">Collecting</th>
+        <th style="color:#3b82f6">Under Review</th>
+        <th style="color:#22c55e">Permitted</th>
+        <th style="color:#06b6d4">CO</th>
+        <th style="color:#2563eb">Submit→Permit avg</th>
+        <th>Alerts</th>
+      </tr></thead>
         <tbody>
           ${comStats.map(cs=>`<tr>
             <td style="font-weight:600;cursor:pointer" onclick="setView('permits');filterCommunity('${cs.c}')">${cs.c}</td>
             <td><strong>${cs.total}</strong></td>
-            <td><span class="status-badge status-active">${cs.active}</span></td>
-            <td><span class="status-badge status-submitted">${cs.sub}</span></td>
-            <td><span class="status-badge status-permitted">${cs.perm}</span></td>
-            <td><span class="status-badge status-co">${cs.co}</span></td>
+            <td>${cs.active?`<span class="status-badge status-active">${cs.active}</span>`:'<span style="color:var(--text-muted)">—</span>'}</td>
+            <td>${cs.sub?`<span class="status-badge status-submitted">${cs.sub}</span>`:'<span style="color:var(--text-muted)">—</span>'}</td>
+            <td>${cs.perm?`<span class="status-badge status-permitted">${cs.perm}</span>`:'<span style="color:var(--text-muted)">—</span>'}</td>
+            <td>${cs.co?`<span class="status-badge status-co">${cs.co}</span>`:'<span style="color:var(--text-muted)">—</span>'}</td>
             <td>${cs.s2p_avg!==null?`<span class="dur-pill ${durClass(cs.s2p_avg)}">${cs.s2p_avg}d</span>`:`<span style="color:var(--text-muted)">&#8212;</span>`}</td>
-            <td>${cs.p2c_avg!==null?`<span class="dur-pill ${durClass(cs.p2c_avg)}">${cs.p2c_avg}d</span>`:`<span style="color:var(--text-muted)">&#8212;</span>`}</td>
-            <td>${cs.alerts?`<span class="status-badge" style="background:#fee2e2;color:#b91c1c">${cs.alerts}</span>`:'?'}</td>
+            <td>${cs.alerts?`<span class="status-badge" style="background:#fee2e2;color:#b91c1c">🚨 ${cs.alerts}</span>`:'<span style="color:var(--text-muted)">—</span>'}</td>
           </tr>`).join('')}
-          ${(()=>{ const as=all.map(p=>getSubmitToPermitDays(p)).filter(d=>d!==null); const ap=all.map(p=>getPermitToCODays(p)).filter(d=>d!==null); const ta=as.length?Math.round(as.reduce((a,b)=>a+b,0)/as.length):null; const tp=ap.length?Math.round(ap.reduce((a,b)=>a+b,0)/ap.length):null; return `<tr style="font-weight:700;border-top:2px solid var(--border)"><td>TOTAL</td><td>${all.length}</td><td>${active.length}</td><td>${submitted.length}</td><td>${permitted.length}</td><td>${coList.length}</td><td>${ta!==null?'<span class="dur-pill '+durClass(ta)+'">'+ta+'d avg</span>':'&#8212;'}</td><td>${tp!==null?'<span class="dur-pill '+durClass(tp)+'">'+tp+'d avg</span>':'&#8212;'}</td><td>${alerts.length}</td></tr>`; })()}
+          ${(()=>{ const as=all.map(p=>getSubmitToPermitDays(p)).filter(d=>d!==null); const ta=as.length?Math.round(as.reduce((a,b)=>a+b,0)/as.length):null; return `<tr style="font-weight:700;border-top:2px solid var(--border);background:var(--hover)"><td>TOTAL</td><td>${all.length}</td><td>${active.length}</td><td>${submitted.length}</td><td>${permitted.length}</td><td>${coList.length}</td><td>${ta!==null?'<span class="dur-pill '+durClass(ta)+'">'+ta+'d avg</span>':'&#8212;'}</td><td>${alerts.length?'🚨 '+alerts.length:'—'}</td></tr>`; })()}
         </tbody></table>
       <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
-        <button class="btn btn-sm btn-outline" onclick="exportSummaryCSV()">Export CSV</button>
-        <span style="font-size:11px;color:var(--text-muted)">Use Print/PDF above to share with the team</span>
+        <button class="btn btn-sm btn-outline" onclick="exportSummaryCSV()">⬇ Export CSV</button>
+        <button class="btn btn-sm btn-outline" onclick="state._reportTab='printreport';render()">🖨 Print Report</button>
       </div>`;
   }
   if (tab==='aging') {
@@ -2051,6 +2190,56 @@ function renderReportsView(el, alerts) {
       </div>`;
     }).join('');
   }
+  if (tab==='pm') {
+    const allPMs = [...new Set(all.map(p=>p.projectManager||'—'))].sort();
+    const pmRows = allPMs.map(pm => {
+      const ps = all.filter(p=>(p.projectManager||'—')===pm);
+      const sub = ps.filter(p=>p.overallStatus==='submitted');
+      const perm = ps.filter(p=>p.overallStatus==='permitted');
+      const co = ps.filter(p=>p.overallStatus==='co');
+      const act = ps.filter(p=>p.overallStatus==='active');
+      const aging = sub.map(p=>({p,d:getCityDays(p)||0})).sort((a,b)=>b.d-a.d);
+      const maxD = aging.length ? aging[0].d : 0;
+      return { pm, total:ps.length, act:act.length, sub:sub.length, perm:perm.length, co:co.length, maxD, aging, ps };
+    });
+    body = `
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:20px">
+        ${pmRows.filter(r=>r.total>0).map(r=>`
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;cursor:pointer" onclick="state._reportPM='${r.pm===filterPM?'All':r.pm}';render()">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+              <div style="font-size:15px;font-weight:700">${r.pm}</div>
+              <span style="background:#e0f2fe;color:#0369a1;border-radius:20px;padding:2px 10px;font-size:12px;font-weight:700">${r.total} permits</span>
+            </div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:10px">
+              <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:#d97706">${r.act}</div><div style="font-size:10px;color:var(--text-muted)">Collecting</div></div>
+              <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:#3b82f6">${r.sub}</div><div style="font-size:10px;color:var(--text-muted)">At City</div></div>
+              <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:#22c55e">${r.perm}</div><div style="font-size:10px;color:var(--text-muted)">Permitted</div></div>
+              <div style="text-align:center"><div style="font-size:22px;font-weight:800;color:#06b6d4">${r.co}</div><div style="font-size:10px;color:var(--text-muted)">CO</div></div>
+            </div>
+            ${r.aging.length ? `<div style="font-size:11px;color:var(--text-muted);margin-bottom:4px;font-weight:600">UNDER REVIEW (oldest first)</div>
+            ${r.aging.slice(0,3).map(({p,d})=>`<div style="display:flex;align-items:center;gap:6px;padding:3px 0;font-size:11px;border-top:1px solid var(--border)">
+              <span class="dur-pill ${durClass(d)}" style="font-size:10px">${d}d</span>
+              <span style="flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${p.address.split(',')[0]}</span>
+              <span style="color:var(--text-muted)">${p.community}</span>
+            </div>`).join('')}
+            ${r.aging.length>3?`<div style="font-size:10px;color:var(--text-muted);margin-top:4px">+${r.aging.length-3} more under review</div>`:''}` : ''}
+          </div>`).join('')}
+      </div>
+      <div style="font-size:12px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">All Permits by PM</div>
+      <table class="report-table"><thead><tr><th>PM</th><th>Address</th><th>Community</th><th>Status</th><th>Days at City</th><th>Permit #</th><th>Est. Weeks</th></tr></thead>
+      <tbody>${pmRows.flatMap(r=>r.ps.map(p=>{
+        const cd=getCityDays(p)||0;
+        return `<tr>
+          <td style="font-weight:600">${r.pm}</td>
+          <td style="cursor:pointer;font-weight:600" onclick="setView('permits');state.community='${p.community}';state.expandedRow='${p.id}';render()">${p.address.split(',')[0]}</td>
+          <td>${p.community}</td>
+          <td><span class="status-badge status-${p.overallStatus}">${STATUS_LABELS[p.overallStatus]||p.overallStatus}</span></td>
+          <td>${p.overallStatus==='submitted'?`<span class="dur-pill ${durClass(cd)}">${cd}d</span>`:'<span style="color:var(--text-muted)">—</span>'}</td>
+          <td style="font-size:12px;font-family:monospace">${p.permitNumber||'—'}</td>
+          <td>${p.estWeeks||'—'}</td>
+        </tr>`;
+      })).join('')}</tbody></table>`;
+  }
   if (tab==='printreport') {
     const reportDate = new Date().toLocaleDateString('en-US',{month:'2-digit',day:'2-digit',year:'numeric'});
     const communities = filterCom === 'All'
@@ -2118,35 +2307,52 @@ function renderReportsView(el, alerts) {
       }).join('')}
       </div>`;
   }
-  // Community filter pills
-  const comPills = ['All',...COMMUNITIES.filter(c=>c!=='All')].map(c=>{
-    const active = c===filterCom;
-    return `<button style="padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid ${active?'#2d5a8e':'var(--border)'};background:${active?'#2d5a8e':'var(--bg)'};color:${active?'#fff':'var(--text-muted)'};transition:all .15s" onclick="state._reportCommunity='${c}';render()">${c}</button>`;
-  }).join('');
-  // Status filter pills
+  // Build filter pills helpers
+  function pill(label, isActive, onclick) {
+    const bg = isActive ? '#2d5a8e' : 'var(--bg)';
+    const color = isActive ? '#fff' : 'var(--text-muted)';
+    const border = isActive ? '#2d5a8e' : 'var(--border)';
+    return `<button style="padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid ${border};background:${bg};color:${color};transition:all .15s" onclick="${onclick}">${label}</button>`;
+  }
+  const comPills = ['All',...COMMUNITIES.filter(c=>c!=='All')].map(c=>pill(c, c===filterCom, `state._reportCommunity='${c}';render()`)).join('');
   const statusDefs = [
-    {k:'All', lbl:'All Statuses', bg:'#64748b'},
-    {k:'active',    lbl:'Requesting Info', bg:'#92400e'},
-    {k:'submitted', lbl:'Under Review',    bg:'#1e40af'},
-    {k:'permitted', lbl:'Permit Approved', bg:'#14532d'},
-    {k:'co',        lbl:'CO Received',     bg:'#0c4a6e'},
+    {k:'All', lbl:'All'},
+    {k:'active',    lbl:'Collecting Docs'},
+    {k:'submitted', lbl:'Under Review'},
+    {k:'permitted', lbl:'Permitted ✓'},
+    {k:'co',        lbl:'CO ★'},
   ];
-  const statusPills = statusDefs.map(({k,lbl,bg})=>{
-    const active = k===filterStatus;
-    return `<button style="padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid ${active?bg:'var(--border)'};background:${active?bg:'var(--bg)'};color:${active?'#fff':'var(--text-muted)'};transition:all .15s" onclick="state._reportStatus='${k}';render()">${lbl}</button>`;
-  }).join('');
-  const hasFilter = filterCom!=='All' || filterStatus!=='All';
-  const clearBtn  = hasFilter ? `<button style="padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #dc2626;background:#dc2626;color:#fff" onclick="state._reportCommunity='All';state._reportStatus='All';render()">✕ Clear</button>` : '';
+  const statusPills = statusDefs.map(({k,lbl})=>pill(lbl, k===filterStatus, `state._reportStatus='${k}';render()`)).join('');
+  const allReportPMs = ['All',...[...new Set(state.permits.map(p=>p.projectManager||'').filter(Boolean))].sort()];
+  const pmPills = allReportPMs.map(pm=>pill(pm==='All'?'All PMs':pm, pm===filterPM, `state._reportPM='${pm}';render()`)).join('');
+  const marketDefs = ['All','Palm Coast','Ocala'];
+  const marketPills = marketDefs.map(m=>pill(m==='All'?'All Markets':m, m===filterMarket, `state._reportMarket='${m}';render()`)).join('');
+  const hasFilter = filterCom!=='All' || filterStatus!=='All' || filterPM!=='All' || filterMarket!=='All';
+  const clearBtn  = hasFilter ? `<button style="padding:4px 10px;border-radius:20px;font-size:11px;font-weight:600;cursor:pointer;border:1px solid #dc2626;background:#dc2626;color:#fff" onclick="state._reportCommunity='All';state._reportStatus='All';state._reportPM='All';state._reportMarket='All';render()">✕ Clear Filters</button>` : '';
   el.innerHTML = `
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-      <h2 style="font-size:18px;font-weight:700">Reports</h2>
-      <button class="btn btn-sm btn-outline" onclick="window.print()">Print / PDF</button>
+      <h2 style="font-size:18px;font-weight:700">Reports & Analytics</h2>
+      <button class="btn btn-sm btn-outline" onclick="window.print()">🖨 Print / PDF</button>
     </div>
-    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px">
-      <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">Filter by Community</div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px">${comPills} ${clearBtn}</div>
-      <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-top:8px;margin-bottom:6px">Filter by Status</div>
-      <div style="display:flex;flex-wrap:wrap;gap:6px">${statusPills}</div>
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:14px">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+        <div>
+          <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">🏘 Community</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px">${comPills}</div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">📍 Market</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px">${marketPills}</div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">📋 Status</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px">${statusPills}</div>
+        </div>
+        <div>
+          <div style="font-size:10px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px">👤 Project Manager</div>
+          <div style="display:flex;flex-wrap:wrap;gap:5px">${pmPills} ${clearBtn}</div>
+        </div>
+      </div>
     </div>
     <div class="report-tabs">${tabsHtml}</div>
     <div class="report-section">${body}</div>`;
@@ -2234,12 +2440,35 @@ function renderPermitsView(el, alerts) {
         ${activeFilters ? `<button class="btn btn-sm btn-outline" onclick="clearFilters()" style="margin-left:4px">✕ Clear All</button>` : ''}
       </div>
       <div class="filter-grid">
-        <div class="filter-field">
+        <div class="filter-field" style="grid-column:span 2">
           <label class="filter-label">🔍 Search</label>
           <div class="filter-search">
-            <input type="text" id="search-input" placeholder="Address, lot, model, permit #..." value="${state.search}"
+            <input type="text" id="search-input" placeholder="Address, lot, model, permit #, PM..." value="${state.search}"
               oninput="state.search=this.value;state.expandedRow=null;render()">
           </div>
+        </div>
+        <div class="filter-field">
+          <label class="filter-label">📋 Overall Status</label>
+          <select class="filter-select" onchange="state.statusFilter=this.value;state.expandedRow=null;render()">
+            <option value="all">All Statuses</option>
+            <option value="not-approved" ${state.statusFilter==='not-approved'?'selected':''}>🚫 Not Yet Approved</option>
+            <option value="active"       ${state.statusFilter==='active'?'selected':''}>Pre-Submit / Collecting Docs</option>
+            <option value="submitted"    ${state.statusFilter==='submitted'?'selected':''}>Applied to County</option>
+            <option value="permitted"    ${state.statusFilter==='permitted'?'selected':''}>Permit Issued ✓</option>
+            <option value="co"           ${state.statusFilter==='co'?'selected':''}>CO Received ★</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label class="filter-label">🏛 Permit Track</label>
+          <select class="filter-select" onchange="state.permitTrackFilter=this.value;state.expandedRow=null;render()">
+            <option value="all">All Stages</option>
+            <option value="presubmit"  ${(state.permitTrackFilter||'all')==='presubmit'?'selected':''}>○ Pre-Submit</option>
+            <option value="applied"    ${(state.permitTrackFilter||'all')==='applied'?'selected':''}>↗ Applied</option>
+            <option value="review"     ${(state.permitTrackFilter||'all')==='review'?'selected':''}>⚖ Plan Review</option>
+            <option value="resubmit"   ${(state.permitTrackFilter||'all')==='resubmit'?'selected':''}>↩ Resubmittal</option>
+            <option value="issued"     ${(state.permitTrackFilter||'all')==='issued'?'selected':''}>✓ Permit Issued</option>
+            <option value="co"         ${(state.permitTrackFilter||'all')==='co'?'selected':''}>★ CO Received</option>
+          </select>
         </div>
         <div class="filter-field">
           <label class="filter-label">📍 Market</label>
@@ -2247,6 +2476,13 @@ function renderPermitsView(el, alerts) {
             <option value="">All Markets</option>
             <option value="Palm Coast" ${state.marketFilter==='Palm Coast'?'selected':''}>Palm Coast</option>
             <option value="Ocala" ${state.marketFilter==='Ocala'?'selected':''}>Ocala</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label class="filter-label">👤 Project Manager</label>
+          <select class="filter-select" onchange="state.pmFilter=this.value;state.expandedRow=null;render()">
+            <option value="">All PMs</option>
+            ${getUniquePMs().map(pm=>`<option value="${pm}" ${state.pmFilter===pm?'selected':''}>${pm}</option>`).join('')}
           </select>
         </div>
         <div class="filter-field">
@@ -2277,13 +2513,10 @@ function renderPermitsView(el, alerts) {
           </select>
         </div>
         <div class="filter-field">
-          <label class="filter-label">📋 Permit Status</label>
-          <select class="filter-select" onchange="state.statusFilter=this.value;state.expandedRow=null;render()">
-            <option value="all">All Statuses</option>
-            <option value="active"     ${state.statusFilter==='active'?'selected':''}>Pre-Submit (Collecting Docs)</option>
-            <option value="submitted"  ${state.statusFilter==='submitted'?'selected':''}>Applied to County</option>
-            <option value="permitted"  ${state.statusFilter==='permitted'?'selected':''}>Permit Issued</option>
-            <option value="co"         ${state.statusFilter==='co'?'selected':''}>CO Received</option>
+          <label class="filter-label">🚗 Garage</label>
+          <select class="filter-select" onchange="state.garageFilter=this.value;state.expandedRow=null;render()">
+            <option value="">All Garages</option>
+            ${getUniqueGarages().map(g=>`<option value="${g}" ${state.garageFilter===g?'selected':''}>${g}</option>`).join('')}
           </select>
         </div>
         <div class="filter-field">
@@ -2293,6 +2526,25 @@ function renderPermitsView(el, alerts) {
             <option value="collecting" ${state.docsFilter==='collecting'?'selected':''}>Still Collecting</option>
             <option value="complete"   ${state.docsFilter==='complete'?'selected':''}>Docs Ready</option>
           </select>
+        </div>
+        <div class="filter-field">
+          <label class="filter-label">⏱ Days at City</label>
+          <select class="filter-select" onchange="state.cityDaysFilter=this.value;state.expandedRow=null;render()">
+            <option value="">Any Duration</option>
+            <option value=">30" ${state.cityDaysFilter==='>30'?'selected':''}>&gt;30 Days</option>
+            <option value=">60" ${state.cityDaysFilter==='>60'?'selected':''}>&gt;60 Days</option>
+            <option value=">90" ${state.cityDaysFilter==='>90'?'selected':''}>&gt;90 Days</option>
+          </select>
+        </div>
+        <div class="filter-field">
+          <label class="filter-label">📅 Submitted From</label>
+          <input type="date" class="filter-select" value="${state.subDateFrom||''}"
+            onchange="state.subDateFrom=this.value;state.expandedRow=null;render()">
+        </div>
+        <div class="filter-field">
+          <label class="filter-label">📅 Submitted To</label>
+          <input type="date" class="filter-select" value="${state.subDateTo||''}"
+            onchange="state.subDateTo=this.value;state.expandedRow=null;render()">
         </div>
       </div>
     </div>
