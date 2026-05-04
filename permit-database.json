@@ -1,7 +1,7 @@
 {
-  "version": 1777926525654,
+  "version": 1777926532112,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-04T20:28:45.654Z",
+  "updatedAt": "2026-05-04T20:28:52.112Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5626,7 +5626,7 @@
         "recordedDeed": "not-started",
         "subCOI": "not-started",
         "omReview": "not-started",
-        "submitted": "not-started",
+        "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "not-started",
@@ -5641,9 +5641,11 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "submitted": "2026-05-04"
+      },
       "stageLastModified": "2026-05-04",
-      "overallStatus": "active",
+      "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -5651,9 +5653,15 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit",
+      "permitStatus": "applied",
       "_ts": 1777926523651,
-      "projectManager": "JHUMPHREYS"
+      "projectManager": "JHUMPHREYS",
+      "stageRequestedAt": {
+        "submitted": "2026-05-04"
+      },
+      "stageCompletedAt": {
+        "submitted": "2026-05-04"
+      }
     },
     {
       "id": "permit-94",
