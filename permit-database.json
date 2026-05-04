@@ -1,7 +1,7 @@
 {
-  "version": 1777902236475,
+  "version": 1777903065930,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-04T13:43:56.475Z",
+  "updatedAt": "2026-05-04T13:57:45.930Z",
   "permits": [
     {
       "id": "permit-1",
@@ -14,7 +14,7 @@
       "plan": "Plan 4 - 2147",
       "garage": "Left Hand",
       "elevation": "Farmhouse",
-      "options": "",
+      "options": "Double Doors at Flex",
       "permitNumber": "",
       "releaseDate": null,
       "stages": {
@@ -11071,12 +11071,7 @@
       "folder": "Utilities"
     }
   },
-  "customFields": [
-    {
-      "key": "cf_moqipv0t",
-      "label": "Project Manager"
-    }
-  ],
+  "customFields": [],
   "optionsList": [
     "00005 · Extended Covered Patio - Per Plan",
     "00007 · Covered Patio - Per Plan",
