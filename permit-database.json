@@ -1,7 +1,7 @@
 {
-  "version": 1777857948449,
-  "updatedBy": "Luis Grimaldi",
-  "updatedAt": "2026-05-04T01:25:48.449Z",
+  "version": 1777899856744,
+  "updatedBy": "Team member",
+  "updatedAt": "2026-05-04T13:04:16.744Z",
   "permits": [
     {
       "id": "permit-1",
@@ -50,9 +50,7 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {
-        "architecture": "2026-05-04"
-      },
+      "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
       "overallStatus": "permitted",
       "drawingReview": {
@@ -62,10 +60,7 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "issued",
-      "stageRounds": {
-        "architecture": []
-      }
+      "permitStatus": "issued"
     },
     {
       "id": "permit-2",
@@ -11076,12 +11071,7 @@
       "folder": "Utilities"
     }
   },
-  "customFields": [
-    {
-      "key": "cf_moqipv0t",
-      "label": "Project Manager"
-    }
-  ],
+  "customFields": [],
   "optionsList": [
     "00005 · Extended Covered Patio - Per Plan",
     "00007 · Covered Patio - Per Plan",
