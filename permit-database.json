@@ -1,7 +1,7 @@
 {
-  "version": 1777996366823,
+  "version": 1777997609965,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T15:52:46.823Z",
+  "updatedAt": "2026-05-05T16:13:29.965Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5722,7 +5722,10 @@
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
       "projectManager": "JHUMPHREYS",
-      "_ts": 1777926571019
+      "_ts": 1777926571019,
+      "customFields": {
+        "cf_moqipv0t": "Jim Humphreys"
+      }
     },
     {
       "id": "permit-95",
