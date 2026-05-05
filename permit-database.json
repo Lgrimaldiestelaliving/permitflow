@@ -1,7 +1,7 @@
 {
-  "version": 1777992406522,
+  "version": 1777992468960,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T14:46:46.522Z",
+  "updatedAt": "2026-05-05T14:47:48.960Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5972,7 +5972,7 @@
         "cf_moqipv0t": "Joshua Parker"
       },
       "stageRequestedAt": {
-        "architecture": "2026-05-05",
+        "architecture": "2026-04-13",
         "sitePlan": "2026-05-05",
         "trussEng": "2026-05-05",
         "energyCalcs": "2026-05-05",
