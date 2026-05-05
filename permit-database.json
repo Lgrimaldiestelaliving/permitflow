@@ -1,7 +1,7 @@
 {
-  "version": 1778001442832,
+  "version": 1778001725619,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T17:17:22.832Z",
+  "updatedAt": "2026-05-05T17:22:05.619Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6211,7 +6211,7 @@
         "utilityPP": "not-started",
         "geotechLetter": "not-started",
         "constLienAff": "not-started",
-        "noc": "not-started",
+        "noc": "requested",
         "recordedDeed": "not-started",
         "subCOI": "not-started",
         "omReview": "not-started",
@@ -6237,7 +6237,8 @@
         "energyCalcs": "2026-05-05",
         "soilTest": "2026-05-05",
         "structuralEng": "2026-05-05",
-        "landscape": "2026-05-05"
+        "landscape": "2026-05-05",
+        "noc": "2026-05-05"
       },
       "stageLastModified": "2026-05-05",
       "overallStatus": "active",
@@ -6261,7 +6262,8 @@
         "energyCalcs": "2026-04-13",
         "soilTest": "2026-04-13",
         "structuralEng": "2026-04-14",
-        "landscape": "2026-05-05"
+        "landscape": "2026-05-05",
+        "noc": "2026-05-05"
       },
       "stageCompletedAt": {
         "architecture": "2026-04-15",
