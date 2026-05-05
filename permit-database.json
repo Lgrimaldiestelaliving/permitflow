@@ -1,7 +1,7 @@
 {
-  "version": 1777992583305,
+  "version": 1777994326215,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T14:49:43.305Z",
+  "updatedAt": "2026-05-05T15:18:46.215Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5932,7 +5932,7 @@
         "recordedDeed": "not-started",
         "subCOI": "not-started",
         "omReview": "not-started",
-        "submitted": "not-started",
+        "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "not-started",
@@ -5954,10 +5954,11 @@
         "energyCalcs": "2026-05-05",
         "soilTest": "2026-05-05",
         "structuralEng": "2026-05-05",
-        "landscape": "2026-05-05"
+        "landscape": "2026-05-05",
+        "submitted": "2026-05-05"
       },
       "stageLastModified": "2026-05-04",
-      "overallStatus": "active",
+      "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -5965,7 +5966,7 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit",
+      "permitStatus": "applied",
       "projectManager": "JPARKER",
       "_ts": 1777926609083,
       "customFields": {
@@ -5978,7 +5979,8 @@
         "energyCalcs": "2026-04-21",
         "soilTest": "2026-05-05",
         "structuralEng": "2026-04-20",
-        "landscape": "2026-05-05"
+        "landscape": "2026-05-05",
+        "submitted": "2026-05-05"
       },
       "stageCompletedAt": {
         "architecture": "2026-05-05",
@@ -5987,7 +5989,8 @@
         "energyCalcs": "2026-05-05",
         "soilTest": "2026-05-05",
         "structuralEng": "2026-05-05",
-        "landscape": "2026-05-05"
+        "landscape": "2026-05-05",
+        "submitted": "2026-05-05"
       }
     },
     {
