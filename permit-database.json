@@ -1,7 +1,7 @@
 {
-  "version": 1777997636158,
+  "version": 1777997859825,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T16:13:56.158Z",
+  "updatedAt": "2026-05-05T16:17:39.825Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5722,9 +5722,12 @@
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
       "projectManager": "JHUMPHREYS",
-      "_ts": 1777926571019,
+      "_ts": 1777997857821,
       "customFields": {
         "cf_moqipv0t": "Jim Humphreys"
+      },
+      "stageNotes": {
+        "energyCalcs": ""
       }
     },
     {
