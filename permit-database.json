@@ -1,7 +1,7 @@
 {
-  "version": 1777989508459,
+  "version": 1777989518556,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T13:58:28.459Z",
+  "updatedAt": "2026-05-05T13:58:38.556Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6214,7 +6214,7 @@
       "plan": "",
       "garage": "Left Hand",
       "elevation": "A2 Stone/Stucco",
-      "options": "85055 · Sable & Sand Interior Package",
+      "options": "85055 · Sable & Sand Interior Package, 86060 · Pearl Series Exterior Package",
       "permitNumber": "",
       "releaseDate": null,
       "stages": {
