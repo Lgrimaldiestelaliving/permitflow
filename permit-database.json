@@ -1,7 +1,7 @@
 {
-  "version": 1778000054358,
+  "version": 1778000511006,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T16:54:14.358Z",
+  "updatedAt": "2026-05-05T17:01:51.006Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5695,7 +5695,7 @@
         "recordedDeed": "not-started",
         "subCOI": "not-started",
         "omReview": "not-started",
-        "submitted": "not-started",
+        "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "not-started",
@@ -5713,10 +5713,11 @@
       "stageUpdatedAt": {
         "sitePlan": "2026-05-05",
         "soilTest": "2026-05-05",
-        "landscape": "2026-05-05"
+        "landscape": "2026-05-05",
+        "submitted": "2026-05-05"
       },
       "stageLastModified": "2026-05-05",
-      "overallStatus": "active",
+      "overallStatus": "submitted",
       "drawingReview": {
         "checks": {
           "architecture_address": true,
@@ -5767,7 +5768,7 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit",
+      "permitStatus": "applied",
       "projectManager": "JHUMPHREYS",
       "_ts": 1777998370263,
       "customFields": {
@@ -5780,12 +5781,14 @@
         "energyCalcs": "2026-04-23",
         "sitePlan": "2026-03-24",
         "soilTest": "2026-05-01",
-        "landscape": "2026-05-01"
+        "landscape": "2026-05-01",
+        "submitted": "2026-05-05"
       },
       "stageCompletedAt": {
         "sitePlan": "2026-05-02",
         "soilTest": "2026-05-02",
-        "landscape": "2026-05-06"
+        "landscape": "2026-05-06",
+        "submitted": "2026-05-05"
       },
       "estWeeks": ""
     },
