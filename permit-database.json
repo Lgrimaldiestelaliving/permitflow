@@ -1,7 +1,7 @@
 {
-  "version": 1777999976480,
+  "version": 1777999979866,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T16:52:56.480Z",
+  "updatedAt": "2026-05-05T16:52:59.866Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5753,7 +5753,8 @@
           "soilTest_garage": true,
           "soilTest_location": true,
           "soilTest_modelElev": true,
-          "soilTest_garageCars": true
+          "soilTest_garageCars": true,
+          "soilTest_options": true
         },
         "notes": "",
         "completedAt": null,
