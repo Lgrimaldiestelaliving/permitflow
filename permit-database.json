@@ -1,7 +1,7 @@
 {
-  "version": 1777997878636,
+  "version": 1777997913920,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T16:17:58.636Z",
+  "updatedAt": "2026-05-05T16:18:33.920Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5679,7 +5679,7 @@
       "releaseDate": "2026-03-20",
       "stages": {
         "architecture": "complete",
-        "sitePlan": "requested",
+        "sitePlan": "complete",
         "trussEng": "complete",
         "energyCalcs": "complete",
         "soilTest": "requested",
@@ -5710,7 +5710,9 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "sitePlan": "2026-05-05"
+      },
       "stageLastModified": "2026-05-04",
       "overallStatus": "active",
       "drawingReview": {
@@ -5722,7 +5724,7 @@
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
       "projectManager": "JHUMPHREYS",
-      "_ts": 1777997876631,
+      "_ts": 1777997910907,
       "customFields": {
         "cf_moqipv0t": "Jim Humphreys"
       },
@@ -5730,9 +5732,12 @@
         "energyCalcs": ""
       },
       "stageRequestedAt": {
-        "energyCalcs": "2026-04-23"
+        "energyCalcs": "2026-04-23",
+        "sitePlan": "2026-05-05"
       },
-      "stageCompletedAt": {}
+      "stageCompletedAt": {
+        "sitePlan": "2026-05-05"
+      }
     },
     {
       "id": "permit-95",
