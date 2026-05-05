@@ -1,7 +1,7 @@
 {
-  "version": 1778009527962,
+  "version": 1778009543566,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T19:32:07.963Z",
+  "updatedAt": "2026-05-05T19:32:23.566Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6011,7 +6011,7 @@
         "submitted": null,
         "permitIssued": null
       },
-      "notes": "",
+      "notes": "Owner - ESTELA SPECS 9 LLC",
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
@@ -6036,7 +6036,7 @@
       "docsStatus": "collecting",
       "permitStatus": "applied",
       "projectManager": "JPARKER",
-      "_ts": 1778009525957,
+      "_ts": 1778009541559,
       "customFields": {
         "cf_moqipv0t": "Joshua Parker"
       },
