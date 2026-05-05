@@ -1,7 +1,7 @@
 {
-  "version": 1778011639535,
+  "version": 1778011850503,
   "updatedBy": "Luis Grimaldi",
-  "updatedAt": "2026-05-05T20:07:19.535Z",
+  "updatedAt": "2026-05-05T20:10:50.503Z",
   "permits": [
     {
       "id": "permit-1",
@@ -485,7 +485,7 @@
         "geotechLetter": "2026-05-04",
         "resubmittal": "2026-05-04"
       },
-      "stageLastModified": "2026-05-04",
+      "stageLastModified": "2026-05-05",
       "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
@@ -538,6 +538,10 @@
       ],
       "agencyStatuses": {
         "mechanical": "in-progress"
+      },
+      "estWeeks": "",
+      "customFields": {
+        "cf_mot27ztm": ""
       }
     },
     {
