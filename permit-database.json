@@ -1,7 +1,7 @@
 {
-  "version": 1778011115371,
-  "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T19:58:35.371Z",
+  "version": 1778011606688,
+  "updatedBy": "Luis Grimaldi",
+  "updatedAt": "2026-05-05T20:06:46.688Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11853,12 +11853,7 @@
       "folder": "Utilities"
     }
   },
-  "customFields": [
-    {
-      "key": "cf_moqipv0t",
-      "label": "Project Manager"
-    }
-  ],
+  "customFields": [],
   "optionsList": [
     "00005 · Extended Covered Patio - Per Plan",
     "00007 · Covered Patio - Per Plan",
