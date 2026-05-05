@@ -1,7 +1,7 @@
 {
-  "version": 1777999536280,
+  "version": 1777999541253,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T16:45:36.280Z",
+  "updatedAt": "2026-05-05T16:45:41.253Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5731,7 +5731,9 @@
           "sitePlan_modelElev": true,
           "sitePlan_garageCars": true,
           "sitePlan_options": true,
-          "energyCalcs_address": true
+          "energyCalcs_address": true,
+          "energyCalcs_garage": true,
+          "structuralEng_address": true
         },
         "notes": "",
         "completedAt": null,
