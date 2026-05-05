@@ -1,7 +1,7 @@
 {
-  "version": 1778001164051,
+  "version": 1778001171394,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T17:12:44.051Z",
+  "updatedAt": "2026-05-05T17:12:51.394Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6199,7 +6199,7 @@
       "releaseDate": "2026-04-02",
       "stages": {
         "architecture": "requested",
-        "sitePlan": "not-started",
+        "sitePlan": "requested",
         "trussEng": "not-started",
         "energyCalcs": "not-started",
         "soilTest": "not-started",
@@ -6231,7 +6231,8 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {
-        "architecture": "2026-05-05"
+        "architecture": "2026-05-05",
+        "sitePlan": "2026-05-05"
       },
       "stageLastModified": "2026-05-05",
       "overallStatus": "active",
@@ -6249,7 +6250,8 @@
         "cf_moqipv0t": "Joshua Parker"
       },
       "stageRequestedAt": {
-        "architecture": "2026-04-13"
+        "architecture": "2026-04-13",
+        "sitePlan": "2026-05-05"
       },
       "stageCompletedAt": {}
     },
