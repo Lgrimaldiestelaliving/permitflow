@@ -1,7 +1,7 @@
 {
-  "version": 1778009369059,
+  "version": 1778009527962,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T19:29:29.059Z",
+  "updatedAt": "2026-05-05T19:32:07.963Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5980,7 +5980,7 @@
       "garage": "Left Hand",
       "elevation": "A2 Stone/Stucco",
       "options": "86055 · Stone Series Exterior Package, 85025 · Modern Praire Interior Package",
-      "permitNumber": "",
+      "permitNumber": "2026050140",
       "releaseDate": "2026-04-01",
       "stages": {
         "architecture": "complete",
@@ -6025,7 +6025,7 @@
         "landscape": "2026-05-05",
         "submitted": "2026-05-05"
       },
-      "stageLastModified": "2026-05-04",
+      "stageLastModified": "2026-05-05",
       "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
@@ -6036,7 +6036,7 @@
       "docsStatus": "collecting",
       "permitStatus": "applied",
       "projectManager": "JPARKER",
-      "_ts": 1777926609083,
+      "_ts": 1778009525957,
       "customFields": {
         "cf_moqipv0t": "Joshua Parker"
       },
