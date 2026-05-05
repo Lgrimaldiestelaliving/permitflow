@@ -1,7 +1,7 @@
 {
-  "version": 1778000045995,
+  "version": 1778000050793,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T16:54:05.995Z",
+  "updatedAt": "2026-05-05T16:54:10.793Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5756,7 +5756,9 @@
           "soilTest_garageCars": true,
           "soilTest_options": true,
           "trussEng_address": true,
-          "trussEng_garage": true
+          "trussEng_garage": true,
+          "trussEng_location": true,
+          "trussEng_modelElev": true
         },
         "notes": "",
         "completedAt": null,
