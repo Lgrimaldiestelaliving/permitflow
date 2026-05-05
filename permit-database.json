@@ -1,7 +1,7 @@
 {
-  "version": 1777998322881,
+  "version": 1777998356428,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T16:25:22.881Z",
+  "updatedAt": "2026-05-05T16:25:56.428Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5706,7 +5706,7 @@
         "submitted": null,
         "permitIssued": null
       },
-      "notes": "",
+      "notes": "Owner - Estela Specs ",
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
@@ -5726,7 +5726,7 @@
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
       "projectManager": "JHUMPHREYS",
-      "_ts": 1777997910907,
+      "_ts": 1777998354421,
       "customFields": {
         "cf_moqipv0t": "Jim Humphreys"
       },
