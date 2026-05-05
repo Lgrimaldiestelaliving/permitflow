@@ -1,7 +1,7 @@
 {
-  "version": 1777989574319,
+  "version": 1777989609112,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T13:59:34.319Z",
+  "updatedAt": "2026-05-05T14:00:09.112Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6272,7 +6272,7 @@
       "projectManager": "JPARKER",
       "_ts": 1777926679420,
       "stageRequestedAt": {
-        "architecture": "2026-04-13",
+        "architecture": "2026-04-15",
         "sitePlan": "2026-05-05",
         "trussEng": "2026-05-05",
         "energyCalcs": "2026-05-05",
