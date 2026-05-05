@@ -1,7 +1,7 @@
 {
-  "version": 1777992388854,
+  "version": 1777992402673,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T14:46:28.854Z",
+  "updatedAt": "2026-05-05T14:46:42.673Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5915,12 +5915,12 @@
       "permitNumber": "",
       "releaseDate": "2026-04-01",
       "stages": {
-        "architecture": "not-started",
-        "sitePlan": "not-started",
-        "trussEng": "not-started",
-        "energyCalcs": "not-started",
-        "soilTest": "not-started",
-        "structuralEng": "not-started",
+        "architecture": "complete",
+        "sitePlan": "complete",
+        "trussEng": "complete",
+        "energyCalcs": "complete",
+        "soilTest": "complete",
+        "structuralEng": "complete",
         "landscape": "not-started",
         "productApproval": "not-started",
         "colorMaterial": "not-started",
@@ -5947,7 +5947,14 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "architecture": "2026-05-05",
+        "sitePlan": "2026-05-05",
+        "trussEng": "2026-05-05",
+        "energyCalcs": "2026-05-05",
+        "soilTest": "2026-05-05",
+        "structuralEng": "2026-05-05"
+      },
       "stageLastModified": "2026-05-04",
       "overallStatus": "active",
       "drawingReview": {
@@ -5962,6 +5969,22 @@
       "_ts": 1777926609083,
       "customFields": {
         "cf_moqipv0t": "Joshua Parker"
+      },
+      "stageRequestedAt": {
+        "architecture": "2026-05-05",
+        "sitePlan": "2026-05-05",
+        "trussEng": "2026-05-05",
+        "energyCalcs": "2026-05-05",
+        "soilTest": "2026-05-05",
+        "structuralEng": "2026-05-05"
+      },
+      "stageCompletedAt": {
+        "architecture": "2026-05-05",
+        "sitePlan": "2026-05-05",
+        "trussEng": "2026-05-05",
+        "energyCalcs": "2026-05-05",
+        "soilTest": "2026-05-05",
+        "structuralEng": "2026-05-05"
       }
     },
     {
