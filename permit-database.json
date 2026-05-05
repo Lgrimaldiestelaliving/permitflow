@@ -1,7 +1,7 @@
 {
-  "version": 1778000511006,
+  "version": 1778000925634,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T17:01:51.006Z",
+  "updatedAt": "2026-05-05T17:08:45.634Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6194,7 +6194,7 @@
       "plan": "",
       "garage": "Right Hand",
       "elevation": "A2 Stone/Stucco",
-      "options": "",
+      "options": "85030 · Farm & Foundry Interior Package",
       "permitNumber": "",
       "releaseDate": "2026-04-02",
       "stages": {
@@ -6242,7 +6242,10 @@
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
       "projectManager": "JPARKER",
-      "_ts": 1777926666672
+      "_ts": 1777926666672,
+      "customFields": {
+        "cf_moqipv0t": "Joshua Parker"
+      }
     },
     {
       "id": "permit-101",
