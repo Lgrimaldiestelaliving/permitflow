@@ -1,7 +1,7 @@
 {
-  "version": 1777998605064,
+  "version": 1777998630584,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T16:30:05.064Z",
+  "updatedAt": "2026-05-05T16:30:30.584Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5720,7 +5720,8 @@
       "drawingReview": {
         "checks": {
           "architecture_address": true,
-          "architecture_garage": true
+          "architecture_garage": true,
+          "architecture_modelElev": true
         },
         "notes": "",
         "completedAt": null,
