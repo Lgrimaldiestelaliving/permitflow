@@ -1,7 +1,7 @@
 {
-  "version": 1778011620126,
+  "version": 1778011635480,
   "updatedBy": "Luis Grimaldi",
-  "updatedAt": "2026-05-05T20:07:00.126Z",
+  "updatedAt": "2026-05-05T20:07:15.480Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11853,12 +11853,7 @@
       "folder": "Utilities"
     }
   },
-  "customFields": [
-    {
-      "key": "cf_mot27kuk",
-      "label": "OWNER"
-    }
-  ],
+  "customFields": [],
   "optionsList": [
     "00005 · Extended Covered Patio - Per Plan",
     "00007 · Covered Patio - Per Plan",
