@@ -1,7 +1,7 @@
 {
-  "version": 1778079863339,
+  "version": 1778079873397,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-06T15:04:23.339Z",
+  "updatedAt": "2026-05-06T15:04:33.397Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5816,7 +5816,7 @@
       "releaseDate": "2026-03-20",
       "stages": {
         "architecture": "complete",
-        "sitePlan": "requested",
+        "sitePlan": "complete",
         "trussEng": "complete",
         "energyCalcs": "complete",
         "soilTest": "requested",
@@ -5849,7 +5849,8 @@
       "buildersRisk": false,
       "stageUpdatedAt": {
         "submitted": "2026-05-04",
-        "resubmittal": "2026-05-06"
+        "resubmittal": "2026-05-06",
+        "sitePlan": "2026-05-06"
       },
       "stageLastModified": "2026-05-04",
       "overallStatus": "submitted",
@@ -5864,11 +5865,13 @@
       "_ts": 1777926441879,
       "stageRequestedAt": {
         "submitted": "2026-04-23",
-        "resubmittal": "2026-05-06"
+        "resubmittal": "2026-05-06",
+        "sitePlan": "2026-05-06"
       },
       "stageCompletedAt": {
         "submitted": "2026-05-04",
-        "resubmittal": "2026-05-07"
+        "resubmittal": "2026-05-07",
+        "sitePlan": "2026-05-06"
       },
       "reviewAgencies": [
         "stormwater"
