@@ -1,7 +1,7 @@
 {
-  "version": 1778082805722,
+  "version": 1778082824931,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-06T15:53:25.722Z",
+  "updatedAt": "2026-05-06T15:53:44.931Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11860,7 +11860,7 @@
       "stageDates": {},
       "buildersRisk": false,
       "stages": {
-        "architecture": "not-started",
+        "architecture": "complete",
         "sitePlan": "not-started",
         "trussEng": "not-started",
         "energyCalcs": "not-started",
@@ -11906,7 +11906,13 @@
         "cf_mot27ztm": "Estela Specs 9 LLC"
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit"
+      "permitStatus": "presubmit",
+      "stageRequestedAt": {
+        "architecture": "2026-05-06"
+      },
+      "stageCompletedAt": {
+        "architecture": "2026-05-06"
+      }
     }
   ],
   "stageConfig": {
