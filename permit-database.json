@@ -1,7 +1,7 @@
 {
-  "version": 1778093041925,
+  "version": 1778093336383,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-06T18:44:01.925Z",
+  "updatedAt": "2026-05-06T18:48:56.383Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5843,7 +5843,7 @@
         "ra_mechanical": [
           {
             "sent": "2026-05-06",
-            "received": "",
+            "received": "2026-05-06",
             "result": "pending",
             "note": ""
           }
