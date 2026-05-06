@@ -1,7 +1,7 @@
 {
-  "version": 1778100389878,
+  "version": 1778100768320,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-06T20:46:29.878Z",
+  "updatedAt": "2026-05-06T20:52:48.320Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5662,6 +5662,9 @@
       "stageCompletedAt": {
         "submitted": "2026-05-04",
         "permitIssued": "2026-05-07"
+      },
+      "customFields": {
+        "cf_mot27ztm": "Estela Specs 3 LLC"
       }
     },
     {
