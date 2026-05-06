@@ -1,7 +1,7 @@
 {
-  "version": 1778013771811,
+  "version": 1778079857517,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-05T20:42:51.811Z",
+  "updatedAt": "2026-05-06T15:04:17.517Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5834,7 +5834,7 @@
         "omReview": "not-started",
         "submitted": "complete",
         "planReview": "not-started",
-        "resubmittal": "n/a",
+        "resubmittal": "complete",
         "permitIssued": "not-started",
         "inspections": "not-started",
         "co": "not-started"
@@ -5848,7 +5848,8 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {
-        "submitted": "2026-05-04"
+        "submitted": "2026-05-04",
+        "resubmittal": "2026-05-06"
       },
       "stageLastModified": "2026-05-04",
       "overallStatus": "submitted",
@@ -5859,13 +5860,15 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "applied",
+      "permitStatus": "resubmit",
       "_ts": 1777926441879,
       "stageRequestedAt": {
-        "submitted": "2026-04-23"
+        "submitted": "2026-04-23",
+        "resubmittal": "2026-05-06"
       },
       "stageCompletedAt": {
-        "submitted": "2026-05-04"
+        "submitted": "2026-05-04",
+        "resubmittal": "2026-05-06"
       },
       "reviewAgencies": [
         "stormwater"
@@ -11798,6 +11801,13 @@
         "architecture": "2026-05-01",
         "trussEng": "2026-05-05",
         "structuralEng": "2026-05-06"
+      },
+      "releaseDate": null,
+      "drawingReview": {
+        "checks": {},
+        "notes": "",
+        "completedAt": null,
+        "completedBy": ""
       }
     }
   ],
