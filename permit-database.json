@@ -1,7 +1,7 @@
 {
-  "version": 1778080813044,
+  "version": 1778080869751,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-06T15:20:13.044Z",
+  "updatedAt": "2026-05-06T15:21:09.751Z",
   "permits": [
     {
       "id": "permit-1",
@@ -262,7 +262,10 @@
       "stageCompletedAt": {
         "permitIssued": "2026-05-07"
       },
-      "projectManager": "JPARKER"
+      "projectManager": "JPARKER",
+      "customFields": {
+        "cf_mot27ztm": "ESTELA LIVING LLC"
+      }
     },
     {
       "id": "permit-4",
