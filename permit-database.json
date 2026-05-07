@@ -1,7 +1,7 @@
 {
-  "version": 1778166643261,
+  "version": 1778166665101,
   "updatedBy": "Luis Grimaldi",
-  "updatedAt": "2026-05-07T15:10:43.261Z",
+  "updatedAt": "2026-05-07T15:11:05.101Z",
   "permits": [
     {
       "id": "permit-1",
@@ -2413,7 +2413,7 @@
         "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
-        "permitIssued": "complete",
+        "permitIssued": "requested",
         "inspections": "not-started",
         "co": "not-started"
       },
@@ -2425,9 +2425,11 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "permitIssued": "2026-05-07"
+      },
       "stageLastModified": "2026-04-08",
-      "overallStatus": "permitted",
+      "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -2435,7 +2437,11 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "issued"
+      "permitStatus": "applied",
+      "stageRequestedAt": {
+        "permitIssued": "2026-05-07"
+      },
+      "stageCompletedAt": {}
     },
     {
       "id": "permit-39",
