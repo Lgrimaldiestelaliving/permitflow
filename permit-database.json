@@ -1,7 +1,7 @@
 {
-  "version": 1778179314439,
+  "version": 1778179322770,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-07T18:41:54.439Z",
+  "updatedAt": "2026-05-07T18:42:02.770Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5992,7 +5992,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1778161155555,
+      "_ts": 1778179320761,
       "stageRequestedAt": {
         "submitted": "2026-04-30"
       },
@@ -6025,8 +6025,8 @@
         ]
       },
       "agencyStatuses": {
-        "mechanical": "in-progress",
-        "stormwater": "in-progress"
+        "mechanical": "complete",
+        "stormwater": "complete"
       },
       "projectManager": "JPARKER"
     },
