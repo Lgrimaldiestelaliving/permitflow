@@ -1,7 +1,7 @@
 {
-  "version": 1778180449577,
+  "version": 1778184311845,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-07T19:00:49.577Z",
+  "updatedAt": "2026-05-07T20:05:11.845Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6468,7 +6468,7 @@
       "docsStatus": "collecting",
       "permitStatus": "applied",
       "projectManager": "JPARKER",
-      "_ts": 1777996364806,
+      "_ts": 1778184308016,
       "stageRequestedAt": {
         "architecture": "2026-04-15",
         "sitePlan": "2026-04-27",
@@ -6490,6 +6490,19 @@
       },
       "customFields": {
         "cf_moqipv0t": "Joshua Parker"
+      },
+      "reviewAgencies": [
+        "zoning"
+      ],
+      "stageRounds": {
+        "ra_zoning": [
+          {
+            "sent": "2026-05-07",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          }
+        ]
       }
     },
     {
