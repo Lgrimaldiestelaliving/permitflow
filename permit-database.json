@@ -1,7 +1,7 @@
 {
-  "version": 1778184311845,
+  "version": 1778184318223,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-07T20:05:11.845Z",
+  "updatedAt": "2026-05-07T20:05:18.223Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6468,7 +6468,7 @@
       "docsStatus": "collecting",
       "permitStatus": "applied",
       "projectManager": "JPARKER",
-      "_ts": 1778184308016,
+      "_ts": 1778184316207,
       "stageRequestedAt": {
         "architecture": "2026-04-15",
         "sitePlan": "2026-04-27",
@@ -6503,6 +6503,9 @@
             "note": ""
           }
         ]
+      },
+      "agencyStatuses": {
+        "zoning": "in-progress"
       }
     },
     {
