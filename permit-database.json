@@ -1,7 +1,7 @@
 {
-  "version": 1778270391184,
+  "version": 1778270410404,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:59:51.184Z",
+  "updatedAt": "2026-05-08T20:00:10.404Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6608,7 +6608,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1778270083285,
+      "_ts": 1778270406466,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPEC 6 LLC "
       },
@@ -6647,6 +6647,19 @@
         "recordedDeed": "",
         "productApproval": "",
         "submitted": "2026-05-08"
+      },
+      "reviewAgencies": [
+        "zoning"
+      ],
+      "stageRounds": {
+        "ra_zoning": [
+          {
+            "sent": "2026-05-08",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          }
+        ]
       }
     },
     {
