@@ -1,7 +1,7 @@
 {
-  "version": 1778265727306,
+  "version": 1778265731106,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:42:07.306Z",
+  "updatedAt": "2026-05-08T18:42:11.106Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5466,7 +5466,7 @@
       "stageCompletedAt": {
         "permitIssued": "2026-05-07",
         "soilTest": "",
-        "productApproval": "2026-05-08"
+        "productApproval": ""
       },
       "projectManager": "Jim Humphreys"
     },
