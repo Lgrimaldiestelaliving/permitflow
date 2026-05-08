@@ -1,7 +1,7 @@
 {
-  "version": 1778265392797,
+  "version": 1778265422149,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:36:32.797Z",
+  "updatedAt": "2026-05-08T18:37:02.149Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5227,7 +5227,7 @@
         "recordedDeed": "complete",
         "subCOI": "not-started",
         "omReview": "not-started",
-        "submitted": "submitted",
+        "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "not-started",
@@ -5244,10 +5244,11 @@
       "buildersRisk": false,
       "stageUpdatedAt": {
         "constLienAff": "2026-05-08",
-        "productApproval": "2026-05-08"
+        "productApproval": "2026-05-08",
+        "submitted": "2026-05-08"
       },
       "stageLastModified": "2026-05-08",
-      "overallStatus": "active",
+      "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -5255,7 +5256,7 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit",
+      "permitStatus": "applied",
       "_ts": 1778265390788,
       "projectManager": "Joshua Parker",
       "estWeeks": "2 ",
@@ -5264,11 +5265,13 @@
       },
       "stageRequestedAt": {
         "constLienAff": "",
-        "productApproval": ""
+        "productApproval": "",
+        "submitted": "2026-05-08"
       },
       "stageCompletedAt": {
         "constLienAff": "",
-        "productApproval": ""
+        "productApproval": "",
+        "submitted": "2026-05-08"
       }
     },
     {
