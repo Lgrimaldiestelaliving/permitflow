@@ -1,7 +1,7 @@
 {
-  "version": 1778270038885,
+  "version": 1778270061198,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:53:58.885Z",
+  "updatedAt": "2026-05-08T19:54:21.198Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6542,7 +6542,7 @@
       "address": "98 Lee Dr, Palm Coast, FL",
       "model": "Exuma X-3Car",
       "plan": "",
-      "garage": "Left Hand",
+      "garage": "3 Car - LH",
       "elevation": "A2 Stone/Stucco",
       "options": "",
       "permitNumber": "2026050124",
@@ -6591,7 +6591,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778270029592,
+      "_ts": 1778270059189,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPEC 6 LLC "
       }
