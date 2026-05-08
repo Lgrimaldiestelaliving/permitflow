@@ -1,7 +1,7 @@
 {
-  "version": 1778257580447,
+  "version": 1778257611196,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-08T16:26:20.447Z",
+  "updatedAt": "2026-05-08T16:26:51.196Z",
   "permits": [
     {
       "id": "permit-1",
@@ -69,20 +69,7 @@
       },
       "stageCompletedAt": {},
       "stageRounds": {
-        "powerService": [
-          {
-            "sent": "2026-05-08",
-            "received": "",
-            "result": "pending",
-            "note": ""
-          },
-          {
-            "sent": "2026-05-08",
-            "received": "",
-            "result": "pending",
-            "note": ""
-          }
-        ]
+        "powerService": []
       }
     },
     {
