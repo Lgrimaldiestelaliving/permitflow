@@ -1,7 +1,7 @@
 {
-  "version": 1778270912365,
+  "version": 1778270932637,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T20:08:32.365Z",
+  "updatedAt": "2026-05-08T20:08:52.637Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11718,19 +11718,19 @@
       "plan": "",
       "garage": "Left Hand",
       "elevation": "A2 Stone/Stucco",
-      "projectManager": "",
+      "projectManager": "Joshua Parker",
       "estWeeks": "",
       "permitNumber": "",
       "permitFee": "",
       "utilities": "",
-      "options": "",
+      "options": "86065 · Cloud Series Exterior Package",
       "notes": "",
       "customFields": {
         "cf_mot27ztm": ""
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778270910360
+      "_ts": 1778270930433
     }
   ],
   "stageConfig": {
