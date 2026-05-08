@@ -1,7 +1,7 @@
 {
-  "version": 1778265775601,
+  "version": 1778265779043,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:42:55.601Z",
+  "updatedAt": "2026-05-08T18:42:59.043Z",
   "permits": [
     {
       "id": "permit-1",
@@ -414,7 +414,11 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit"
+      "permitStatus": "presubmit",
+      "stageNotes": {
+        "permitIssued": ""
+      },
+      "_ts": 1778265744213
     },
     {
       "id": "permit-8",
@@ -5469,7 +5473,7 @@
         "constLienAff": "",
         "noc": "",
         "recordedDeed": "",
-        "submitted": "2026-05-08"
+        "submitted": "2026-04-09"
       },
       "stageCompletedAt": {
         "permitIssued": "2026-05-07",
