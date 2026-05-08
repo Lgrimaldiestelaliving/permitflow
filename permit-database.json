@@ -1,7 +1,7 @@
 {
-  "version": 1778268577914,
+  "version": 1778268590766,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:29:37.914Z",
+  "updatedAt": "2026-05-08T19:29:50.766Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6042,7 +6042,7 @@
         "recordedDeed": "complete",
         "subCOI": "not-started",
         "omReview": "not-started",
-        "submitted": "not-started",
+        "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "not-started",
@@ -6072,10 +6072,11 @@
         "geotechLetter": "2026-05-08",
         "constLienAff": "2026-05-08",
         "noc": "2026-05-08",
-        "recordedDeed": "2026-05-08"
+        "recordedDeed": "2026-05-08",
+        "submitted": "2026-05-08"
       },
       "stageLastModified": "2026-05-08",
-      "overallStatus": "active",
+      "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -6083,7 +6084,7 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit",
+      "permitStatus": "applied",
       "_ts": 1778268215441,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
@@ -6104,7 +6105,8 @@
         "geotechLetter": "",
         "constLienAff": "",
         "noc": "",
-        "recordedDeed": ""
+        "recordedDeed": "",
+        "submitted": "2026-05-08"
       },
       "stageCompletedAt": {
         "architecture": "2026-04-14",
@@ -6120,7 +6122,8 @@
         "geotechLetter": "",
         "constLienAff": "",
         "noc": "",
-        "recordedDeed": ""
+        "recordedDeed": "",
+        "submitted": "2026-05-08"
       }
     },
     {
