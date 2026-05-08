@@ -1,7 +1,7 @@
 {
-  "version": 1778268217570,
+  "version": 1778268225894,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:23:37.570Z",
+  "updatedAt": "2026-05-08T19:23:45.894Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6021,7 +6021,7 @@
       "plan": "",
       "garage": "Left Hand",
       "elevation": "A2 Stone/Stucco",
-      "options": "86055 · Stone Series Exterior Package",
+      "options": "86055 · Stone Series Exterior Package, 85025 · Modern Praire Interior Package",
       "permitNumber": "2026050140",
       "releaseDate": "2026-04-01",
       "stages": {
