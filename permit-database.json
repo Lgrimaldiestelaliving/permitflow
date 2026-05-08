@@ -1,7 +1,7 @@
 {
-  "version": 1778265875062,
+  "version": 1778265902222,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:44:35.062Z",
+  "updatedAt": "2026-05-08T18:45:02.222Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5616,7 +5616,7 @@
       "plan": "",
       "garage": "3 Car - LH",
       "elevation": "A2 Stone/Stucco",
-      "options": "",
+      "options": "86055 · Stone Series Exterior Package",
       "permitNumber": "2026041013",
       "releaseDate": "2026-03-20",
       "stages": {
@@ -5663,10 +5663,11 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778265873060,
+      "_ts": 1778265900008,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
-      }
+      },
+      "projectManager": "Joshua Parker"
     },
     {
       "id": "permit-96",
