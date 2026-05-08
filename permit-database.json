@@ -1,7 +1,7 @@
 {
-  "version": 1778269279552,
+  "version": 1778269313853,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:41:19.552Z",
+  "updatedAt": "2026-05-08T19:41:53.853Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6256,7 +6256,7 @@
       "plan": "Plan 3 - 1742",
       "garage": "Left Hand",
       "elevation": "Transitional",
-      "options": "",
+      "options": "86015 · Uncertain Gray Exterior Package",
       "permitNumber": "",
       "releaseDate": "2026-04-02",
       "stages": {
@@ -6303,7 +6303,8 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778269277546
+      "_ts": 1778269311719,
+      "projectManager": "Joshua Parker"
     },
     {
       "id": "permit-100",
