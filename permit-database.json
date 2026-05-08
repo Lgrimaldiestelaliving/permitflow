@@ -1,7 +1,7 @@
 {
-  "version": 1778267192851,
+  "version": 1778267202931,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:06:32.851Z",
+  "updatedAt": "2026-05-08T19:06:42.931Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5814,11 +5814,11 @@
         "productApproval": "",
         "colorMaterial": "",
         "roofingWorksheet": "",
-        "utilityPP": "2026-05-08",
-        "geotechLetter": "2026-05-08",
-        "constLienAff": "2026-05-08",
-        "noc": "2026-05-08",
-        "recordedDeed": "2026-05-08"
+        "utilityPP": "",
+        "geotechLetter": "",
+        "constLienAff": "",
+        "noc": "",
+        "recordedDeed": ""
       },
       "stageCompletedAt": {
         "submitted": "2026-05-08",
