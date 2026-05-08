@@ -1,7 +1,7 @@
 {
-  "version": 1778275790615,
+  "version": 1778275796402,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T21:29:50.615Z",
+  "updatedAt": "2026-05-08T21:29:56.402Z",
   "permits": [
     {
       "id": "permit-1",
@@ -483,6 +483,16 @@
       },
       "stageCompletedAt": {
         "submitted": "2026-05-08"
+      },
+      "stageRounds": {
+        "ra_mechanical": [
+          {
+            "sent": "2026-05-08",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          }
+        ]
       }
     },
     {
