@@ -1,7 +1,7 @@
 {
-  "version": 1778274862482,
+  "version": 1778274872976,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T21:14:22.482Z",
+  "updatedAt": "2026-05-08T21:14:32.976Z",
   "permits": [
     {
       "id": "permit-1",
@@ -244,7 +244,7 @@
         "submitted": "2026-03-20",
         "permitIssued": null
       },
-      "notes": "",
+      "notes": "JAMIE MADE THE INITIAL VENDORS REQUEST",
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
@@ -259,7 +259,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1778274849826,
+      "_ts": 1778274870962,
       "customFields": {
         "cf_mot27ztm": "ESTELA LIVING LLC"
       }
