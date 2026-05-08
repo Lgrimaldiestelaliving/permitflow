@@ -1,7 +1,7 @@
 {
-  "version": 1778273293224,
+  "version": 1778273301771,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T20:48:13.224Z",
+  "updatedAt": "2026-05-08T20:48:21.771Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12024,7 +12024,7 @@
       "parcelId": "# BLDR-26-05-13619 ",
       "model": "Exuma X 3 Car",
       "plan": "",
-      "garage": "",
+      "garage": "3 Car - LH",
       "elevation": "A2 Stone/Stucco",
       "projectManager": "",
       "estWeeks": "",
@@ -12047,7 +12047,7 @@
         "structuralEng": "2026-05-08"
       },
       "stageCompletedAt": {},
-      "_ts": 1778273291221
+      "_ts": 1778273299767
     },
     {
       "id": "permit-1778272354838",
