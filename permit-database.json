@@ -1,7 +1,7 @@
 {
-  "version": 1778270090215,
+  "version": 1778270128625,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:54:50.215Z",
+  "updatedAt": "2026-05-08T19:55:28.625Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6548,9 +6548,9 @@
       "permitNumber": "2026050124",
       "releaseDate": null,
       "stages": {
-        "architecture": "not-started",
-        "sitePlan": "not-started",
-        "trussEng": "not-started",
+        "architecture": "requested",
+        "sitePlan": "requested",
+        "trussEng": "requested",
         "energyCalcs": "not-started",
         "soilTest": "not-started",
         "structuralEng": "not-started",
@@ -6580,7 +6580,11 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "architecture": "2026-05-08",
+        "sitePlan": "2026-05-08",
+        "trussEng": "2026-05-08"
+      },
       "stageLastModified": "2026-05-08",
       "overallStatus": "active",
       "drawingReview": {
@@ -6595,7 +6599,13 @@
       "customFields": {
         "cf_mot27ztm": "ESTELA SPEC 6 LLC "
       },
-      "projectManager": "Joshua Parker"
+      "projectManager": "Joshua Parker",
+      "stageRequestedAt": {
+        "architecture": "2026-05-08",
+        "sitePlan": "2026-05-08",
+        "trussEng": "2026-05-08"
+      },
+      "stageCompletedAt": {}
     },
     {
       "id": "permit-103",
