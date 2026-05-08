@@ -1,7 +1,7 @@
 {
-  "version": 1778270031597,
+  "version": 1778270038885,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:53:51.597Z",
+  "updatedAt": "2026-05-08T19:53:58.885Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6591,7 +6591,10 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778270029592
+      "_ts": 1778270029592,
+      "customFields": {
+        "cf_mot27ztm": "ESTELA SPEC 6 LLC "
+      }
     },
     {
       "id": "permit-103",
