@@ -1,7 +1,7 @@
 {
-  "version": 1778271221988,
+  "version": 1778271250183,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T20:13:41.988Z",
+  "updatedAt": "2026-05-08T20:14:10.183Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11778,11 +11778,11 @@
       "stageDates": {},
       "buildersRisk": false,
       "stages": {
-        "architecture": "not-started",
-        "sitePlan": "not-started",
-        "trussEng": "not-started",
-        "energyCalcs": "not-started",
-        "soilTest": "not-started",
+        "architecture": "requested",
+        "sitePlan": "requested",
+        "trussEng": "requested",
+        "energyCalcs": "requested",
+        "soilTest": "requested",
         "structuralEng": "not-started",
         "landscape": "not-started",
         "productApproval": "not-started",
@@ -11806,7 +11806,7 @@
       "market": "Palm Coast",
       "address": "160 Laramie Dr",
       "lotNumber": "",
-      "parcelId": "",
+      "parcelId": "07-11-31-7037-00550-0050",
       "model": "Exuma X 3 Car",
       "plan": "",
       "garage": "3 Car - LH",
@@ -11822,7 +11822,16 @@
         "cf_mot27ztm": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit"
+      "permitStatus": "presubmit",
+      "_ts": 1778271242437,
+      "stageRequestedAt": {
+        "architecture": "2026-05-08",
+        "sitePlan": "2026-05-08",
+        "trussEng": "2026-05-08",
+        "energyCalcs": "2026-05-08",
+        "soilTest": "2026-05-08"
+      },
+      "stageCompletedAt": {}
     }
   ],
   "stageConfig": {
