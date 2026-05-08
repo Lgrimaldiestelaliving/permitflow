@@ -1,7 +1,7 @@
 {
-  "version": 1778271545646,
+  "version": 1778271551633,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T20:19:05.646Z",
+  "updatedAt": "2026-05-08T20:19:11.633Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11925,7 +11925,7 @@
         "structuralEng": "2026-05-08"
       },
       "stageCompletedAt": {
-        "architecture": "2026-05-08"
+        "architecture": "2026-05-03"
       }
     }
   ],
