@@ -1,7 +1,7 @@
 {
-  "version": 1778274384652,
+  "version": 1778274399566,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T21:06:24.652Z",
+  "updatedAt": "2026-05-08T21:06:39.566Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12309,13 +12309,13 @@
       "permitFee": "",
       "utilities": "",
       "options": "",
-      "notes": "",
+      "notes": "WATER - CITY",
       "customFields": {
         "cf_mot27ztm": ""
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778274382646
+      "_ts": 1778274397555
     }
   ],
   "stageConfig": {
