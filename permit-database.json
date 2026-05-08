@@ -1,7 +1,7 @@
 {
-  "version": 1778275852218,
+  "version": 1778275863831,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T21:30:52.218Z",
+  "updatedAt": "2026-05-08T21:31:03.831Z",
   "permits": [
     {
       "id": "permit-1",
@@ -474,7 +474,7 @@
       "stageNotes": {
         "permitIssued": ""
       },
-      "_ts": 1778275833120,
+      "_ts": 1778275861828,
       "reviewAgencies": [
         "mechanical",
         "stormwater"
@@ -502,6 +502,9 @@
             "note": ""
           }
         ]
+      },
+      "agencyNotes": {
+        "stormwater": "SENT TO ALLIANCE"
       }
     },
     {
