@@ -1,7 +1,7 @@
 {
-  "version": 1778266319745,
+  "version": 1778266323389,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:51:59.745Z",
+  "updatedAt": "2026-05-08T18:52:03.389Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5677,7 +5677,7 @@
         "landscape": "2026-04-29",
         "energyCalcs": "2026-04-23",
         "sitePlan": "2026-03-24",
-        "soilTest": "2026-05-08"
+        "soilTest": ""
       },
       "stageCompletedAt": {
         "landscape": "2026-05-01",
