@@ -1,7 +1,7 @@
 {
-  "version": 1778274802871,
+  "version": 1778274851843,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T21:13:22.871Z",
+  "updatedAt": "2026-05-08T21:14:11.843Z",
   "permits": [
     {
       "id": "permit-1",
@@ -213,7 +213,7 @@
       "garage": "Left Hand",
       "elevation": "Farmhouse",
       "options": "Double Doors at Flex",
-      "permitNumber": "",
+      "permitNumber": "2026030841",
       "releaseDate": "2026-01-20",
       "stages": {
         "architecture": "complete",
@@ -249,7 +249,7 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {},
-      "stageLastModified": "2026-04-08",
+      "stageLastModified": "2026-05-08",
       "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
@@ -258,7 +258,8 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "applied"
+      "permitStatus": "applied",
+      "_ts": 1778274849826
     },
     {
       "id": "permit-5",
