@@ -1,7 +1,7 @@
 {
-  "version": 1778272884493,
+  "version": 1778272908768,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T20:41:24.493Z",
+  "updatedAt": "2026-05-08T20:41:48.768Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11137,7 +11137,7 @@
       "plan": "",
       "garage": "3 Car - RH",
       "elevation": "A2 Stone/Stucco",
-      "options": "",
+      "options": "86060 · Pearl Series Exterior Package",
       "permitNumber": "BLDR-26-05-13619 ",
       "releaseDate": "2026-03-31",
       "stages": {
@@ -11184,7 +11184,8 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778272882478
+      "_ts": 1778272906676,
+      "projectManager": "Jeffrey Gwinn"
     },
     {
       "id": "permit-180",
