@@ -1,7 +1,7 @@
 {
-  "version": 1778269042889,
+  "version": 1778269055374,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:37:22.889Z",
+  "updatedAt": "2026-05-08T19:37:35.374Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6153,7 +6153,7 @@
         "energyCalcs": "complete",
         "soilTest": "requested",
         "structuralEng": "complete",
-        "landscape": "requested",
+        "landscape": "complete",
         "productApproval": "not-started",
         "colorMaterial": "not-started",
         "roofingWorksheet": "not-started",
@@ -6216,7 +6216,8 @@
         "trussEng": "2026-04-16",
         "structuralEng": "2026-04-18",
         "energyCalcs": "2026-04-22",
-        "sitePlan": "2026-05-06"
+        "sitePlan": "2026-05-06",
+        "landscape": "2026-05-08"
       }
     },
     {
