@@ -1,7 +1,7 @@
 {
-  "version": 1778257611196,
-  "updatedBy": "Team member",
-  "updatedAt": "2026-05-08T16:26:51.196Z",
+  "version": 1778264260736,
+  "updatedBy": "Natalia Massola",
+  "updatedAt": "2026-05-08T18:17:40.736Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5394,7 +5394,7 @@
       "garage": "RIGHT HAND",
       "elevation": "A2 Stone/Stucco",
       "options": "",
-      "permitNumber": "",
+      "permitNumber": "2026040489",
       "releaseDate": "2026-03-10",
       "stages": {
         "architecture": "complete",
@@ -5430,7 +5430,7 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {},
-      "stageLastModified": "2026-04-08",
+      "stageLastModified": "2026-05-08",
       "overallStatus": "active",
       "drawingReview": {
         "checks": {},
@@ -5439,7 +5439,8 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit"
+      "permitStatus": "presubmit",
+      "_ts": 1778264258723
     },
     {
       "id": "permit-93",
@@ -11069,7 +11070,12 @@
       "folder": "Utilities"
     }
   },
-  "customFields": [],
+  "customFields": [
+    {
+      "key": "cf_mot27ztm",
+      "label": "OWNER"
+    }
+  ],
   "optionsList": [
     "00005 · Extended Covered Patio - Per Plan",
     "00007 · Covered Patio - Per Plan",
