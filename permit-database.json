@@ -1,7 +1,7 @@
 {
-  "version": 1778265184356,
+  "version": 1778265211593,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:33:04.356Z",
+  "updatedAt": "2026-05-08T18:33:31.593Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5253,7 +5253,8 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778265130420
+      "_ts": 1778265209582,
+      "projectManager": "Joshua Parker"
     },
     {
       "id": "permit-90",
