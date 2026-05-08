@@ -1,7 +1,7 @@
 {
-  "version": 1778265593187,
+  "version": 1778265612134,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:39:53.187Z",
+  "updatedAt": "2026-05-08T18:40:12.134Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5452,7 +5452,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "issued",
-      "_ts": 1778265591184,
+      "_ts": 1778265610130,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 3 LLC"
       },
@@ -5461,7 +5461,8 @@
       },
       "stageCompletedAt": {
         "permitIssued": "2026-05-07"
-      }
+      },
+      "projectManager": "Jim Humphreys"
     },
     {
       "id": "permit-93",
