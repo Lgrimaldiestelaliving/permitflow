@@ -1,7 +1,7 @@
 {
-  "version": 1778265779043,
-  "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:42:59.043Z",
+  "version": 1778265803723,
+  "updatedBy": "Team member",
+  "updatedAt": "2026-05-08T18:43:23.723Z",
   "permits": [
     {
       "id": "permit-1",
@@ -418,7 +418,8 @@
       "stageNotes": {
         "permitIssued": ""
       },
-      "_ts": 1778265744213
+      "_ts": 1778265801712,
+      "reviewAgencies": []
     },
     {
       "id": "permit-8",
@@ -5268,13 +5269,13 @@
         "cf_mot27ztm": "ESTELA SPECS 7 LLC"
       },
       "stageRequestedAt": {
-        "constLienAff": "",
-        "productApproval": "",
+        "constLienAff": null,
+        "productApproval": null,
         "submitted": "2026-03-20"
       },
       "stageCompletedAt": {
-        "constLienAff": "",
-        "productApproval": "",
+        "constLienAff": null,
+        "productApproval": null,
         "submitted": "2026-05-08"
       }
     },
@@ -5428,7 +5429,7 @@
         "recordedDeed": "complete",
         "subCOI": "not-started",
         "omReview": "not-started",
-        "submitted": "complete",
+        "submitted": "not-started",
         "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "complete",
@@ -5449,8 +5450,7 @@
         "productApproval": "2026-05-08",
         "constLienAff": "2026-05-08",
         "noc": "2026-05-08",
-        "recordedDeed": "2026-05-08",
-        "submitted": "2026-05-08"
+        "recordedDeed": "2026-05-08"
       },
       "stageLastModified": "2026-05-08",
       "overallStatus": "permitted",
@@ -5468,21 +5468,19 @@
       },
       "stageRequestedAt": {
         "permitIssued": "2026-05-08",
-        "soilTest": "",
-        "productApproval": "",
-        "constLienAff": "",
-        "noc": "",
-        "recordedDeed": "",
-        "submitted": "2026-04-09"
+        "soilTest": null,
+        "productApproval": null,
+        "constLienAff": null,
+        "noc": null,
+        "recordedDeed": null
       },
       "stageCompletedAt": {
         "permitIssued": "2026-05-07",
-        "soilTest": "",
-        "productApproval": "",
-        "constLienAff": "",
-        "noc": "",
-        "recordedDeed": "",
-        "submitted": "2026-05-08"
+        "soilTest": null,
+        "productApproval": null,
+        "constLienAff": "2026-05-08",
+        "noc": "2026-05-08",
+        "recordedDeed": "2026-05-08"
       },
       "projectManager": "Jim Humphreys"
     },
