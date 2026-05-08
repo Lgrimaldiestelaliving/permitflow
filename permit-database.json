@@ -1,7 +1,7 @@
 {
-  "version": 1778267105097,
+  "version": 1778267160098,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:05:05.097Z",
+  "updatedAt": "2026-05-08T19:06:00.098Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5775,7 +5775,7 @@
         "submitted": null,
         "permitIssued": null
       },
-      "notes": "",
+      "notes": "Jamie sent the initial vendors request",
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
@@ -5794,7 +5794,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1778266936933,
+      "_ts": 1778267158085,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
       },
