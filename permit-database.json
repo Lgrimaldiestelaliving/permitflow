@@ -1,7 +1,7 @@
 {
-  "version": 1778272851474,
+  "version": 1778272884493,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T20:40:51.474Z",
+  "updatedAt": "2026-05-08T20:41:24.493Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11135,7 +11135,7 @@
       "address": "00 SW 110th St, Ocala, FL",
       "model": "Heron X-3Car",
       "plan": "",
-      "garage": "Right Hand",
+      "garage": "3 Car - RH",
       "elevation": "A2 Stone/Stucco",
       "options": "",
       "permitNumber": "BLDR-26-05-13619 ",
@@ -11184,7 +11184,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778272849457
+      "_ts": 1778272882478
     },
     {
       "id": "permit-180",
