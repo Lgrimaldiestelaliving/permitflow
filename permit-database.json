@@ -1,7 +1,7 @@
 {
-  "version": 1778269275108,
+  "version": 1778269279552,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:41:15.108Z",
+  "updatedAt": "2026-05-08T19:41:19.552Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6255,7 +6255,7 @@
       "model": "Sabino",
       "plan": "Plan 3 - 1742",
       "garage": "Left Hand",
-      "elevation": "A2 Stone/Stucco",
+      "elevation": "Transitional",
       "options": "",
       "permitNumber": "",
       "releaseDate": "2026-04-02",
@@ -6303,7 +6303,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778269273106
+      "_ts": 1778269277546
     },
     {
       "id": "permit-100",
