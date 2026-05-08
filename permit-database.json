@@ -1,7 +1,7 @@
 {
-  "version": 1778274437002,
+  "version": 1778274459320,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T21:07:17.002Z",
+  "updatedAt": "2026-05-08T21:07:39.320Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12302,7 +12302,7 @@
       "model": "Heron X",
       "plan": "",
       "garage": "Left Hand",
-      "elevation": "",
+      "elevation": "A2 Stone/Stucco",
       "projectManager": "",
       "estWeeks": "",
       "permitNumber": "",
@@ -12315,7 +12315,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778274418359,
+      "_ts": 1778274457311,
       "stageRequestedAt": {
         "architecture": "2026-05-08",
         "sitePlan": "2026-05-08",
