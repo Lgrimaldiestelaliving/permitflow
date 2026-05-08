@@ -1,7 +1,7 @@
 {
-  "version": 1778270874522,
+  "version": 1778270905686,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T20:07:54.522Z",
+  "updatedAt": "2026-05-08T20:08:25.686Z",
   "permits": [
     {
       "id": "permit-1",
@@ -11714,10 +11714,10 @@
       "address": "47 Louisiana Dr, Palm Coast, FL",
       "lotNumber": "",
       "parcelId": "07-11-31-7037-01060-0110",
-      "model": "",
+      "model": "Exuma X",
       "plan": "",
       "garage": "",
-      "elevation": "",
+      "elevation": "A2 Stone/Stucco",
       "projectManager": "",
       "estWeeks": "",
       "permitNumber": "",
@@ -11729,7 +11729,8 @@
         "cf_mot27ztm": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit"
+      "permitStatus": "presubmit",
+      "_ts": 1778270903682
     }
   ],
   "stageConfig": {
