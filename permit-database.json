@@ -1,7 +1,7 @@
 {
-  "version": 1778265090117,
+  "version": 1778265132428,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:31:30.117Z",
+  "updatedAt": "2026-05-08T18:32:12.428Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5204,7 +5204,7 @@
       "address": "1 Leeds Pl, Palm Coast, FL",
       "model": "Exuma X-3 Car",
       "plan": "",
-      "garage": "RIGHT HAND",
+      "garage": "3 Car - RH",
       "elevation": "A2 Stone/Stucco",
       "options": "",
       "permitNumber": "2026030834",
@@ -5253,7 +5253,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778265088104
+      "_ts": 1778265130420
     },
     {
       "id": "permit-90",
