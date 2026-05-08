@@ -1,7 +1,7 @@
 {
-  "version": 1778272213349,
+  "version": 1778272245074,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T20:30:13.349Z",
+  "updatedAt": "2026-05-08T20:30:45.074Z",
   "permits": [
     {
       "id": "permit-1",
@@ -2581,7 +2581,7 @@
       "garage": "Left Hand",
       "elevation": "Farmhouse",
       "options": "Double Doors at Flex",
-      "permitNumber": "",
+      "permitNumber": "BLDR-26-04-11006",
       "releaseDate": null,
       "stages": {
         "architecture": "complete",
@@ -2627,7 +2627,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1778272211339
+      "_ts": 1778272243072
     },
     {
       "id": "permit-45",
