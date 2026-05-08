@@ -1,7 +1,7 @@
 {
-  "version": 1778267418679,
+  "version": 1778267431180,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:10:18.679Z",
+  "updatedAt": "2026-05-08T19:10:31.180Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5498,7 +5498,7 @@
       "plan": "",
       "garage": "Right Hand",
       "elevation": "A2 Stone/Stucco",
-      "options": "86070 · Olive Series Exterior Package",
+      "options": "86070 · Olive Series Exterior Package, 85030 · Farm & Foundry Interior Package",
       "permitNumber": "2026050015",
       "releaseDate": "2026-03-20",
       "stages": {
