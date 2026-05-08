@@ -1,7 +1,7 @@
 {
-  "version": 1778265902222,
+  "version": 1778265907635,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:45:02.222Z",
+  "updatedAt": "2026-05-08T18:45:07.635Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5616,7 +5616,7 @@
       "plan": "",
       "garage": "3 Car - LH",
       "elevation": "A2 Stone/Stucco",
-      "options": "86055 · Stone Series Exterior Package",
+      "options": "86055 · Stone Series Exterior Package, 85045 · Classic Current Interior Package",
       "permitNumber": "2026041013",
       "releaseDate": "2026-03-20",
       "stages": {
