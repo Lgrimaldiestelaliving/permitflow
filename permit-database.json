@@ -1,7 +1,7 @@
 {
-  "version": 1778265237163,
+  "version": 1778265248173,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T18:33:57.163Z",
+  "updatedAt": "2026-05-08T18:34:08.173Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5238,7 +5238,7 @@
         "submitted": "2026-03-20",
         "permitIssued": null
       },
-      "notes": "Permit",
+      "notes": "",
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
@@ -5253,7 +5253,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778265235159,
+      "_ts": 1778265246164,
       "projectManager": "Joshua Parker",
       "estWeeks": "2 "
     },
