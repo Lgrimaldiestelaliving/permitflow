@@ -1,7 +1,7 @@
 {
-  "version": 1778268128180,
+  "version": 1778268168222,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:22:08.180Z",
+  "updatedAt": "2026-05-08T19:22:48.222Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6022,7 +6022,7 @@
       "garage": "Left Hand",
       "elevation": "A2 Stone/Stucco",
       "options": "",
-      "permitNumber": "",
+      "permitNumber": "2026050140",
       "releaseDate": "2026-04-01",
       "stages": {
         "architecture": "not-started",
@@ -6058,7 +6058,7 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {},
-      "stageLastModified": "2026-04-08",
+      "stageLastModified": "2026-05-08",
       "overallStatus": "active",
       "drawingReview": {
         "checks": {},
@@ -6067,7 +6067,8 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit"
+      "permitStatus": "presubmit",
+      "_ts": 1778268166219
     },
     {
       "id": "permit-98",
