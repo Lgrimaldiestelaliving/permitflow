@@ -1,7 +1,7 @@
 {
-  "version": 1778267987040,
+  "version": 1778267991530,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:19:47.040Z",
+  "updatedAt": "2026-05-08T19:19:51.530Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5693,9 +5693,9 @@
       "projectManager": "Jim Humphreys",
       "stageRequestedAt": {
         "submitted": "2026-05-05",
-        "landscape": "2026-05-08",
-        "productApproval": "2026-05-08",
-        "colorMaterial": "2026-05-08",
+        "landscape": "",
+        "productApproval": "",
+        "colorMaterial": "",
         "roofingWorksheet": "",
         "utilityPP": "",
         "geotechLetter": "",
