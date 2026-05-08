@@ -1,7 +1,7 @@
 {
-  "version": 1778274885114,
+  "version": 1778274935505,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T21:14:45.114Z",
+  "updatedAt": "2026-05-08T21:15:35.505Z",
   "permits": [
     {
       "id": "permit-1",
@@ -284,7 +284,7 @@
       "garage": "Left Hand",
       "elevation": "Farmhouse",
       "options": "",
-      "permitNumber": "",
+      "permitNumber": "2026030843",
       "releaseDate": "2026-01-20",
       "stages": {
         "architecture": "complete",
@@ -320,7 +320,7 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {},
-      "stageLastModified": "2026-04-08",
+      "stageLastModified": "2026-05-08",
       "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
@@ -329,7 +329,8 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "applied"
+      "permitStatus": "applied",
+      "_ts": 1778274933490
     },
     {
       "id": "permit-6",
