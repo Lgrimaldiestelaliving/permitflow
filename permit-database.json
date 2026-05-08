@@ -1,7 +1,7 @@
 {
-  "version": 1778266803404,
-  "updatedBy": "Team member",
-  "updatedAt": "2026-05-08T19:00:03.404Z",
+  "version": 1778266809559,
+  "updatedBy": "Natalia Massola",
+  "updatedAt": "2026-05-08T19:00:09.559Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5269,13 +5269,13 @@
         "cf_mot27ztm": "ESTELA SPECS 7 LLC"
       },
       "stageRequestedAt": {
-        "constLienAff": null,
-        "productApproval": null,
+        "constLienAff": "",
+        "productApproval": "",
         "submitted": "2026-03-20"
       },
       "stageCompletedAt": {
-        "constLienAff": null,
-        "productApproval": null,
+        "constLienAff": "",
+        "productApproval": "",
         "submitted": "2026-05-08"
       }
     },
@@ -5469,20 +5469,20 @@
       },
       "stageRequestedAt": {
         "permitIssued": "2026-05-08",
-        "soilTest": null,
-        "productApproval": null,
-        "constLienAff": null,
-        "noc": null,
-        "recordedDeed": null,
+        "soilTest": "",
+        "productApproval": "",
+        "constLienAff": "",
+        "noc": "",
+        "recordedDeed": "",
         "submitted": "2026-04-09"
       },
       "stageCompletedAt": {
         "permitIssued": "2026-05-07",
-        "soilTest": null,
-        "productApproval": null,
-        "constLienAff": null,
-        "noc": null,
-        "recordedDeed": null,
+        "soilTest": "",
+        "productApproval": "",
+        "constLienAff": "",
+        "noc": "",
+        "recordedDeed": "",
         "submitted": "2026-05-08"
       },
       "projectManager": "Jim Humphreys"
@@ -5677,39 +5677,39 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1778266801399,
+      "_ts": 1778266807544,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
       },
       "projectManager": "Joshua Parker",
       "stageRequestedAt": {
-        "landscape": null,
+        "landscape": "",
         "energyCalcs": "2026-04-23",
         "sitePlan": "2026-03-24",
-        "soilTest": null,
+        "soilTest": "",
         "productApproval": "2026-05-08",
-        "colorMaterial": null,
-        "roofingWorksheet": null,
-        "utilityPP": null,
-        "geotechLetter": null,
-        "constLienAff": null,
-        "noc": null,
-        "recordedDeed": null,
+        "colorMaterial": "",
+        "roofingWorksheet": "",
+        "utilityPP": "",
+        "geotechLetter": "",
+        "constLienAff": "",
+        "noc": "",
+        "recordedDeed": "",
         "submitted": "2026-04-23"
       },
       "stageCompletedAt": {
-        "landscape": null,
+        "landscape": "",
         "energyCalcs": "2026-04-24",
         "sitePlan": "2026-04-18",
-        "soilTest": null,
-        "productApproval": null,
-        "colorMaterial": null,
-        "roofingWorksheet": null,
-        "utilityPP": null,
-        "geotechLetter": null,
-        "constLienAff": null,
-        "noc": null,
-        "recordedDeed": null,
+        "soilTest": "",
+        "productApproval": "",
+        "colorMaterial": "",
+        "roofingWorksheet": "",
+        "utilityPP": "",
+        "geotechLetter": "",
+        "constLienAff": "",
+        "noc": "",
+        "recordedDeed": "",
         "submitted": "2026-05-08"
       },
       "reviewAgencies": [
@@ -5725,8 +5725,8 @@
           }
         ]
       },
-      "agencyNotes": {
-        "stormwater": ""
+      "agencyStatuses": {
+        "stormwater": "complete"
       }
     },
     {
