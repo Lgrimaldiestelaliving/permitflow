@@ -1,7 +1,7 @@
 {
-  "version": 1778268225894,
+  "version": 1778268251063,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:23:45.894Z",
+  "updatedAt": "2026-05-08T19:24:11.063Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6025,7 +6025,7 @@
       "permitNumber": "2026050140",
       "releaseDate": "2026-04-01",
       "stages": {
-        "architecture": "not-started",
+        "architecture": "requested",
         "sitePlan": "not-started",
         "trussEng": "not-started",
         "energyCalcs": "not-started",
@@ -6057,7 +6057,9 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "architecture": "2026-05-08"
+      },
       "stageLastModified": "2026-05-08",
       "overallStatus": "active",
       "drawingReview": {
@@ -6072,7 +6074,11 @@
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
       },
-      "projectManager": "Joshua Parker"
+      "projectManager": "Joshua Parker",
+      "stageRequestedAt": {
+        "architecture": "2026-05-08"
+      },
+      "stageCompletedAt": {}
     },
     {
       "id": "permit-98",
