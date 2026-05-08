@@ -1,7 +1,7 @@
 {
-  "version": 1778267225506,
+  "version": 1778267228127,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:07:05.506Z",
+  "updatedAt": "2026-05-08T19:07:08.127Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5830,7 +5830,7 @@
         "utilityPP": "",
         "geotechLetter": "",
         "constLienAff": "",
-        "noc": "2026-05-08",
+        "noc": "",
         "recordedDeed": "2026-05-08"
       },
       "projectManager": "Joshua Parker"
