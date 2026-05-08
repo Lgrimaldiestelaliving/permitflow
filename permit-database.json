@@ -1,7 +1,7 @@
 {
-  "version": 1778266798910,
+  "version": 1778266803404,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-08T18:59:58.910Z",
+  "updatedAt": "2026-05-08T19:00:03.404Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5677,7 +5677,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1778266796896,
+      "_ts": 1778266801399,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
       },
