@@ -1,7 +1,7 @@
 {
-  "version": 1778273852949,
+  "version": 1778273876617,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T20:57:32.949Z",
+  "updatedAt": "2026-05-08T20:57:56.617Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12212,19 +12212,19 @@
       "plan": "",
       "garage": "3 Car - RH",
       "elevation": "",
-      "projectManager": "",
+      "projectManager": "Jeffrey Gwinn",
       "estWeeks": "",
       "permitNumber": "",
       "permitFee": "",
       "utilities": "",
-      "options": "",
+      "options": "86055 · Stone Series Exterior Package",
       "notes": "",
       "customFields": {
         "cf_mot27ztm": ""
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778273850943
+      "_ts": 1778273874380
     },
     {
       "id": "permit-1778272381680",
