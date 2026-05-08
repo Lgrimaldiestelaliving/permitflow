@@ -1,7 +1,7 @@
 {
-  "version": 1778266960078,
+  "version": 1778267002486,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:02:40.078Z",
+  "updatedAt": "2026-05-08T19:03:22.486Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5797,7 +5797,8 @@
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
       },
       "stageRequestedAt": {
-        "submitted": "2026-04-30"
+        "submitted": "2026-04-30",
+        "sitePlan": "2026-03-24"
       },
       "stageCompletedAt": {
         "submitted": "2026-05-08"
