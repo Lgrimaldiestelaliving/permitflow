@@ -1,7 +1,7 @@
 {
-  "version": 1778268517775,
+  "version": 1778268524828,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:28:37.775Z",
+  "updatedAt": "2026-05-08T19:28:44.828Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6102,9 +6102,9 @@
         "roofingWorksheet": "",
         "utilityPP": "",
         "geotechLetter": "",
-        "constLienAff": "2026-05-08",
-        "noc": "2026-05-08",
-        "recordedDeed": "2026-05-08"
+        "constLienAff": "",
+        "noc": "",
+        "recordedDeed": ""
       },
       "stageCompletedAt": {
         "architecture": "2026-04-14",
