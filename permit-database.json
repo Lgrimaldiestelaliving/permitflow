@@ -1,7 +1,7 @@
 {
-  "version": 1778268829885,
+  "version": 1778268855173,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-08T19:33:49.885Z",
+  "updatedAt": "2026-05-08T19:34:15.173Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6147,8 +6147,8 @@
       "permitNumber": "",
       "releaseDate": "2026-04-02",
       "stages": {
-        "architecture": "not-started",
-        "sitePlan": "not-started",
+        "architecture": "requested",
+        "sitePlan": "requested",
         "trussEng": "not-started",
         "energyCalcs": "not-started",
         "soilTest": "not-started",
@@ -6179,7 +6179,10 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "architecture": "2026-05-08",
+        "sitePlan": "2026-05-08"
+      },
       "stageLastModified": "2026-05-08",
       "overallStatus": "active",
       "drawingReview": {
@@ -6194,7 +6197,12 @@
       "_ts": 1778268770826,
       "customFields": {
         "cf_mot27ztm": "Estela Specs 7 LLC"
-      }
+      },
+      "stageRequestedAt": {
+        "architecture": "2026-05-08",
+        "sitePlan": "2026-05-08"
+      },
+      "stageCompletedAt": {}
     },
     {
       "id": "permit-99",
