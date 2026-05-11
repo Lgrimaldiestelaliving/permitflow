@@ -1,7 +1,7 @@
 {
-  "version": 1778529257216,
+  "version": 1778529522268,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-11T19:54:17.216Z",
+  "updatedAt": "2026-05-11T19:58:42.268Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5735,6 +5735,12 @@
             "sent": "2026-05-08",
             "received": "2026-05-11",
             "result": "approved",
+            "note": ""
+          },
+          {
+            "sent": "2026-05-11",
+            "received": "",
+            "result": "pending",
             "note": ""
           }
         ]
