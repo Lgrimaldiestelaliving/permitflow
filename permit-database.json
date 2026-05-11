@@ -1,7 +1,7 @@
 {
-  "version": 1778529749608,
+  "version": 1778529979507,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-11T20:02:29.608Z",
+  "updatedAt": "2026-05-11T20:06:19.507Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6854,7 +6854,7 @@
         "ra_zoning": [
           {
             "sent": "2026-05-07",
-            "received": "",
+            "received": "2026-05-11",
             "result": "pending",
             "note": "Site Plan"
           }
@@ -6862,7 +6862,7 @@
         "ra_stormwater": [
           {
             "sent": "2026-05-11",
-            "received": "",
+            "received": "2026-05-11",
             "result": "pending",
             "note": "Lot Grading"
           }
