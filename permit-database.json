@@ -1,7 +1,7 @@
 {
-  "version": 1778514079219,
+  "version": 1778514104166,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-11T15:41:19.219Z",
+  "updatedAt": "2026-05-11T15:41:44.166Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5872,7 +5872,7 @@
         "ra_stormwater": [
           {
             "sent": "2026-05-08",
-            "received": "",
+            "received": "2026-05-11",
             "result": "pending",
             "note": ""
           }
