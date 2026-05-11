@@ -1,7 +1,7 @@
 {
-  "version": 1778519192328,
+  "version": 1778519504797,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-11T17:06:32.328Z",
+  "updatedAt": "2026-05-11T17:11:44.797Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6359,7 +6359,12 @@
           "landscape_location": true,
           "landscape_modelElev": true,
           "landscape_garageCars": true,
-          "landscape_options": true
+          "landscape_options": true,
+          "trussEng_address": true,
+          "trussEng_garage": true,
+          "trussEng_location": true,
+          "trussEng_modelElev": true,
+          "trussEng_garageCars": true
         },
         "notes": "",
         "completedAt": null,
