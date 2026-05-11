@@ -1,7 +1,7 @@
 {
-  "version": 1778519504797,
+  "version": 1778519508194,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-11T17:11:44.797Z",
+  "updatedAt": "2026-05-11T17:11:48.194Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6364,7 +6364,8 @@
           "trussEng_garage": true,
           "trussEng_location": true,
           "trussEng_modelElev": true,
-          "trussEng_garageCars": true
+          "trussEng_garageCars": true,
+          "trussEng_options": true
         },
         "notes": "",
         "completedAt": null,
