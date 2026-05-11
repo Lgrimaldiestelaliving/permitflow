@@ -1,7 +1,7 @@
 {
-  "version": 1778514571398,
+  "version": 1778514577876,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-11T15:49:31.398Z",
+  "updatedAt": "2026-05-11T15:49:37.876Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6676,7 +6676,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1778514567776,
+      "_ts": 1778514578333,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPEC 6 LLC "
       },
@@ -6740,6 +6740,10 @@
       },
       "agencyNotes": {
         "zoning": "Sent to Alliance"
+      },
+      "agencyStatuses": {
+        "stormwater": "in-progress",
+        "zoning": "in-progress"
       }
     },
     {
