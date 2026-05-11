@@ -1,7 +1,7 @@
 {
-  "version": 1778530118344,
+  "version": 1778530313714,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-11T20:08:38.344Z",
+  "updatedAt": "2026-05-11T20:11:53.714Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6187,7 +6187,7 @@
         "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
-        "permitIssued": "not-started",
+        "permitIssued": "complete",
         "inspections": "not-started",
         "co": "not-started"
       },
@@ -6215,10 +6215,11 @@
         "constLienAff": "2026-05-08",
         "noc": "2026-05-08",
         "recordedDeed": "2026-05-08",
-        "submitted": "2026-05-08"
+        "submitted": "2026-05-08",
+        "permitIssued": "2026-05-11"
       },
       "stageLastModified": "2026-05-08",
-      "overallStatus": "submitted",
+      "overallStatus": "permitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -6226,7 +6227,7 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "applied",
+      "permitStatus": "issued",
       "_ts": 1778268215441,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
@@ -6248,7 +6249,8 @@
         "constLienAff": null,
         "noc": null,
         "recordedDeed": null,
-        "submitted": "2026-05-05"
+        "submitted": "2026-05-05",
+        "permitIssued": "2026-05-11"
       },
       "stageCompletedAt": {
         "architecture": "2026-04-14",
@@ -6265,7 +6267,8 @@
         "constLienAff": null,
         "noc": null,
         "recordedDeed": null,
-        "submitted": "2026-05-08"
+        "submitted": "2026-05-08",
+        "permitIssued": "2026-05-11"
       }
     },
     {
