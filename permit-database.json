@@ -1,7 +1,7 @@
 {
-  "version": 1778531299681,
+  "version": 1778531326443,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-11T20:28:19.681Z",
+  "updatedAt": "2026-05-11T20:28:46.443Z",
   "permits": [
     {
       "id": "permit-1",
@@ -2309,7 +2309,11 @@
       "stageRequestedAt": {
         "omReview": "2026-05-11"
       },
-      "stageCompletedAt": {}
+      "stageCompletedAt": {},
+      "stageNotes": {
+        "omReview": "PLEASE REVIEW THIS PROJECT, BEFORE START THE SUBMITION WITH THE CITY."
+      },
+      "_ts": 1778531324440
     },
     {
       "id": "permit-38",
