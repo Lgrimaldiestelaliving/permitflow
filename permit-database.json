@@ -1,7 +1,7 @@
 {
-  "version": 1778529985133,
+  "version": 1778530115974,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-11T20:06:25.133Z",
+  "updatedAt": "2026-05-11T20:08:35.974Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6855,7 +6855,7 @@
           {
             "sent": "2026-05-07",
             "received": "2026-05-11",
-            "result": "pending",
+            "result": "approved",
             "note": "Site Plan"
           }
         ],
@@ -6863,7 +6863,7 @@
           {
             "sent": "2026-05-11",
             "received": "2026-05-11",
-            "result": "pending",
+            "result": "approved",
             "note": "Lot Grading"
           }
         ]
