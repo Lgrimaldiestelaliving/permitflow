@@ -1,7 +1,7 @@
 {
-  "version": 1778606819709,
+  "version": 1778606845052,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-12T17:26:59.709Z",
+  "updatedAt": "2026-05-12T17:27:25.052Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6406,7 +6406,7 @@
       "docsStatus": "collecting",
       "permitStatus": "applied",
       "projectManager": "Joshue Parker",
-      "_ts": 1778606809441,
+      "_ts": 1778606843048,
       "customFields": {
         "cf_mot27ztm": "Estela Specs 7 LLC"
       },
@@ -6460,6 +6460,9 @@
       },
       "agencyStatuses": {
         "mechanical": "in-progress"
+      },
+      "agencyNotes": {
+        "mechanical": "Resummit: \"State Card\""
       }
     },
     {
