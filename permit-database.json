@@ -1,7 +1,7 @@
 {
-  "version": 1778593164708,
+  "version": 1778593185456,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-12T13:39:24.708Z",
+  "updatedAt": "2026-05-12T13:39:45.456Z",
   "permits": [
     {
       "id": "permit-1",
@@ -422,7 +422,7 @@
       "plan": "Plan 5-2182",
       "garage": "Left Hand",
       "elevation": "Transitional",
-      "options": "5th Bedroom and bath in Flex",
+      "options": "5th Bedroom and bath in Flex, 00005 · Extended Covered Patio - Per Plan",
       "permitNumber": "2026050014",
       "releaseDate": null,
       "stages": {
