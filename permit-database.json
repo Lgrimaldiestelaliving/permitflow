@@ -1,7 +1,7 @@
 {
-  "version": 1778705297975,
-  "updatedBy": "Team member",
-  "updatedAt": "2026-05-13T20:48:17.975Z",
+  "version": 1778705369570,
+  "updatedBy": "Natalia Massola",
+  "updatedAt": "2026-05-13T20:49:29.570Z",
   "permits": [
     {
       "id": "permit-1",
@@ -10861,14 +10861,14 @@
         "constLienAff": "n/a",
         "noc": "n/a",
         "recordedDeed": "n/a",
-        "subCOI": "complete",
-        "omReview": "complete",
+        "subCOI": "not-started",
+        "omReview": "not-started",
         "submitted": "complete",
-        "planReview": "complete",
+        "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "complete",
-        "inspections": "complete",
-        "co": "complete"
+        "inspections": "not-started",
+        "co": "not-started"
       },
       "stageDates": {
         "submitted": "2025-08-22",
@@ -10878,37 +10878,17 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {
-        "co": "2026-05-12",
-        "architecture": "2026-05-12",
-        "sitePlan": "2026-05-12",
-        "trussEng": "2026-05-12",
-        "energyCalcs": "2026-05-12",
-        "soilTest": "2026-05-12",
-        "structuralEng": "2026-05-12",
-        "subCOI": "2026-05-12",
-        "omReview": "2026-05-12",
-        "submitted": "2026-05-12",
-        "planReview": "2026-05-12",
-        "permitIssued": "2026-05-12",
-        "inspections": "2026-05-12"
-      },
+      "stageUpdatedAt": {},
       "stageLastModified": "2026-04-08",
-      "overallStatus": "co",
+      "overallStatus": "permitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
       },
-      "docsStatus": "complete",
-      "permitStatus": "co",
-      "stageRequestedAt": {
-        "co": "2026-05-12"
-      },
-      "stageCompletedAt": {
-        "co": "2026-03-31"
-      }
+      "docsStatus": "collecting",
+      "permitStatus": "issued"
     },
     {
       "id": "permit-169",
@@ -11512,7 +11492,7 @@
       "garage": "Right Hand",
       "elevation": "A2 Stone/Stucco",
       "options": "",
-      "permitNumber": "",
+      "permitNumber": "BLDR-26-05-13619",
       "releaseDate": "2026-03-31",
       "stages": {
         "architecture": "not-started",
@@ -11532,7 +11512,7 @@
         "recordedDeed": "n/a",
         "subCOI": "not-started",
         "omReview": "not-started",
-        "submitted": "not-started",
+        "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "not-started",
@@ -11547,9 +11527,11 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "submitted": "2026-05-13"
+      },
       "stageLastModified": "2026-05-13",
-      "overallStatus": "active",
+      "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -11557,10 +11539,16 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit",
-      "_ts": 1778701244296,
+      "permitStatus": "applied",
+      "_ts": 1778705366231,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
+      },
+      "stageRequestedAt": {
+        "submitted": "2026-05-13"
+      },
+      "stageCompletedAt": {
+        "submitted": "2026-05-13"
       }
     },
     {
