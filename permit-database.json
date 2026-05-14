@@ -1,7 +1,7 @@
 {
-  "version": 1778791017164,
+  "version": 1778791157958,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-14T20:36:57.164Z",
+  "updatedAt": "2026-05-14T20:39:17.958Z",
   "permits": [
     {
       "id": "permit-1",
@@ -2710,7 +2710,7 @@
         "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
-        "permitIssued": "not-started",
+        "permitIssued": "complete",
         "inspections": "not-started",
         "co": "not-started"
       },
@@ -2722,9 +2722,11 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "permitIssued": "2026-05-14"
+      },
       "stageLastModified": "2026-05-08",
-      "overallStatus": "submitted",
+      "overallStatus": "permitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -2732,13 +2734,15 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "applied",
+      "permitStatus": "issued",
       "_ts": 1778272243072,
       "stageRequestedAt": {
-        "submitted": "2026-04-08"
+        "submitted": "2026-04-08",
+        "permitIssued": "2026-05-14"
       },
       "stageCompletedAt": {
-        "submitted": "2026-04-09"
+        "submitted": "2026-04-09",
+        "permitIssued": "2026-05-14"
       }
     },
     {
