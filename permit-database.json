@@ -1,7 +1,7 @@
 {
-  "version": 1778790976522,
+  "version": 1778791010454,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-14T20:36:16.522Z",
+  "updatedAt": "2026-05-14T20:36:50.454Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12178,7 +12178,10 @@
         "completedAt": null,
         "completedBy": ""
       },
-      "_ts": 1778790912821
+      "_ts": 1778791008450,
+      "stageNotes": {
+        "submitted": "pENDING SUBIR noc"
+      }
     },
     {
       "id": "permit-1778270872516",
