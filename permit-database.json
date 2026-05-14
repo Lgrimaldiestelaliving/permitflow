@@ -1,7 +1,7 @@
 {
-  "version": 1778768781183,
+  "version": 1778768787532,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-14T14:26:21.183Z",
+  "updatedAt": "2026-05-14T14:26:27.532Z",
   "permits": [
     {
       "id": "permit-1",
@@ -3196,7 +3196,7 @@
         "resubmittal": "n/a",
         "permitIssued": "complete",
         "inspections": "not-started",
-        "co": "not-started"
+        "co": "complete"
       },
       "stageDates": {
         "submitted": "Applied 4/",
@@ -3206,9 +3206,11 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": true,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "co": "2026-05-14"
+      },
       "stageLastModified": "2026-04-08",
-      "overallStatus": "permitted",
+      "overallStatus": "co",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -3216,7 +3218,7 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "issued",
+      "permitStatus": "co",
       "stageRounds": {
         "colorMaterial": [
           {
@@ -3226,6 +3228,12 @@
             "note": ""
           }
         ]
+      },
+      "stageRequestedAt": {
+        "co": "2026-05-14"
+      },
+      "stageCompletedAt": {
+        "co": "2026-05-14"
       }
     },
     {
