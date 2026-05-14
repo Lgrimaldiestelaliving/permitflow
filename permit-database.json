@@ -1,7 +1,7 @@
 {
-  "version": 1778768776433,
+  "version": 1778768781183,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-14T14:26:16.433Z",
+  "updatedAt": "2026-05-14T14:26:21.183Z",
   "permits": [
     {
       "id": "permit-1",
@@ -3216,7 +3216,17 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "issued"
+      "permitStatus": "issued",
+      "stageRounds": {
+        "colorMaterial": [
+          {
+            "sent": "2026-05-14",
+            "received": "",
+            "result": "pending",
+            "note": ""
+          }
+        ]
+      }
     },
     {
       "id": "permit-53",
