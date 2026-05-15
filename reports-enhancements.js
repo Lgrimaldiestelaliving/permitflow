@@ -1,84 +1,110 @@
-// Reports Enhancements v3 - correct selectors for this app
-(function() {
-  function _getS(p) {
-    var ps = p.permitStatus || p.overallStatus || '';
-    if(ps==='co') return 'co';
-    if(ps==='permitted'||ps==='issued') return 'permitted';
-    if(ps==='review'||ps==='resubmit') return 'review';
-    if(ps==='applied'||ps==='submitted') return 'applied';
-    return 'collecting';
-  }
-  function _getPermits() {
-    try { return JSON.parse(localStorage.getItem('estela_permits_v3')||'[]'); } catch(e){ return []; }
-  }
-  window._getS = _getS;
-  window._msView = function() {
-    var sel = Array.from(document.querySelectorAll('#_ms_boxes input:checked')).map(function(i){return i.value;});
-    var permits = _getPermits();
-    var filtered = sel.length ? permits.filter(function(p){return sel.includes(_getS(p));}) : permits;
-    var label = sel.length ? sel.map(function(s){return {collecting:'Collecting Docs',applied:'Applied',review:'Under Review',permitted:'Permitted',co:'CO Received'}[s];}).join(' + ') : 'All Permits';
-    _showDrill(label, filtered);
-  };
-  window._msPrint = function() { window._msView(); setTimeout(function(){window.print();}, 700); };
-  window._msChange = function() {
-    var sel = Array.from(document.querySelectorAll('#_ms_boxes input:checked')).map(function(i){return i.value;});
-    ['collecting','applied','review','permitted','co'].forEach(function(k) {
-      var el = document.getElementById('_lbl_'+k);
-      if(el){ el.style.borderColor=sel.includes(k)?'#7c3aed':'#e2e8f0'; el.style.background=sel.includes(k)?'#ede9fe':'#fff'; }
-    });
-    var permits = _getPermits();
-    var count = sel.length ? permits.filter(function(p){return sel.includes(_getS(p));}).length : 0;
-    var ct = document.getElementById('_ms_count');
-    if(ct) ct.textContent = sel.length ? count+' permits match' : '';
-  };
-  window._showDrill = function(title, permits) {
-    var m = document.getElementById('_drill_modal'); if(m) m.remove();
-    m = document.createElement('div');
-    m.id = '_drill_modal';
-    m.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10001;display:flex;align-items:center;justify-content:center;padding:20px';
-    var rows = permits.map(function(p,i){
-      var s=_getS(p);
-      var bg=i%2===0?'#fff':'#f9fafb';
-      var sc={collecting:'#fef9c3',applied:'#dbeafe',review:'#fee2e2',permitted:'#dcfce7',co:'#f3e8ff'}[s]||'#f1f5f9';
-      var tc={collecting:'#854d0e',applied:'#1e40af',review:'#991b1b',permitted:'#14532d',co:'#6b21a8'}[s]||'#374151';
-      var sl={collecting:'Collecting Docs',applied:'Applied',review:'Under Review',permitted:'Permitted',co:'CO'}[s]||s;
-      return '<tr style="background:'+bg+'"><td style="padding:8px 12px;color:#9ca3af;font-size:11px">'+(i+1)+'</td><td style="padding:8px 12px"><div style="font-weight:600">'+(p.address||'')+'</div><div style="font-size:11px;color:#9ca3af">Lot '+(p.lotNumber||'')+'</div></td><td style="padding:8px 12px;font-size:12px">'+(p.community||'')+'</td><td style="padding:8px 12px;font-family:monospace;font-size:12px;color:#4f46e5">'+(p.permitNumber||'—')+'</td><td style="padding:8px 12px;font-size:12px">'+(p.model||'')+'</td><td style="padding:8px 12px;font-size:12px">'+(p.projectManager||'—')+'</td><td style="padding:8px 12px"><span style="padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;background:'+sc+';color:'+tc+'">'+sl+'</span></td></tr>';
-    }).join('');
-    m.innerHTML = '<div style="background:#fff;border-radius:12px;width:100%;max-width:900px;max-height:88vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.35)"><div style="padding:14px 20px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;background:#f8fafc"><div><strong style="font-size:15px">'+title+'</strong> <span style="color:#6b7280;font-size:13px">('+permits.length+' permits)</span></div><div style="display:flex;gap:8px"><button onclick="window.print()" style="padding:6px 14px;background:#7c3aed;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">Print</button><button onclick="document.getElementById('_drill_modal').remove()" style="padding:6px 14px;background:#6b7280;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">Close</button></div></div><div style="overflow-y:auto;flex:1"><table style="width:100%;border-collapse:collapse;font-size:13px"><thead style="position:sticky;top:0;background:#f1f5f9"><tr><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0">#</th><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0">Address</th><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0">Development</th><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0">Permit #</th><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0">Model</th><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0">PM</th><th style="padding:10px 12px;text-align:left;border-bottom:2px solid #e2e8f0">Status</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
-    m.onclick = function(e){ if(e.target===m) m.remove(); };
-    document.body.appendChild(m);
-  };
+(function(){
+var OWNERS=[{code:'001',name:'Estela Living, LLC'},{code:'002',name:'Estela Specs 1 LLC'},{code:'003',name:'Estela Specs 2 LLC'},{code:'004',name:'Estela Specs 3 LLC'},{code:'005',name:'Estela Specs 4 LLC'},{code:'006',name:'Estela Specs 6 LLC'},{code:'007',name:'Estela Specs 7 LLC'},{code:'008',name:'Estela Specs 8 LLC'},{code:'009',name:'Estela Specs 9 LLC'},{code:'100',name:'Sabana Owner, LLC'}];
+var PMS=['Michael Bedaw','Jason Bedaw','Jim Humphreys','Jon Frantz'];
+window.OWNERS=OWNERS; window.APP_PMS=PMS;
+function _gp(){try{return JSON.parse(localStorage.getItem('estela_permits_v3')||'[]');}catch(e){return[];}}
+function _sp(permits){try{localStorage.setItem('estela_permits_v3',JSON.stringify(permits));}catch(e){}}
+function _save(pid,field,val){var p=_gp();var idx=p.findIndex(function(x){return x.id===pid;});if(idx>-1){p[idx][field]=val;_sp(p);if(typeof saveData==='function')saveData();};}
 
-  function injectPanel() {
-    if(document.getElementById('_ms_status')) return;
-    var content = document.getElementById('content');
-    if(!content) return;
-    var filterDiv = Array.from(content.children).find(function(el){ return el.textContent.includes('Market') || el.textContent.includes('Community'); });
-    if(!filterDiv) { filterDiv = content; }
-    var ms = document.createElement('div');
-    ms.id = '_ms_status';
-    ms.style.cssText = 'padding:12px 16px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;margin:8px 0';
-    ms.innerHTML = '<div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Select Multiple Statuses to Report</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px" id="_ms_boxes"><label id="_lbl_collecting" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="collecting" onchange="window._msChange()"> Collecting Docs</label><label id="_lbl_applied" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="applied" onchange="window._msChange()"> Applied</label><label id="_lbl_review" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="review" onchange="window._msChange()"> Under Review</label><label id="_lbl_permitted" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="permitted" onchange="window._msChange()"> Permitted</label><label id="_lbl_co" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="co" onchange="window._msChange()"> CO Received</label></div><div style="display:flex;gap:8px;align-items:center"><button onclick="window._msView()" style="padding:7px 16px;background:#7c3aed;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">View Selected</button><button onclick="window._msPrint()" style="padding:7px 16px;background:#2da44e;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Print Selected</button><span id="_ms_count" style="font-size:12px;color:#6b7280"></span></div>';
-    filterDiv.parentNode.insertBefore(ms, filterDiv.nextSibling || filterDiv);
-    // Make number cards clickable
-    document.querySelectorAll('.kpi-value,.stat-value,[class*="count"],[class*="number"]').forEach(function(el){
-      if(el.dataset.dc) return; el.dataset.dc='1'; el.style.cursor='pointer'; el.title='Click to see list';
-      el.addEventListener('click',function(e){
-        e.stopPropagation();
-        var txt=(el.closest('div')||el).textContent.toLowerCase();
-        var permits=_getPermits(); var f=permits,t='All Permits';
-        if(txt.includes('collect')){f=permits.filter(function(p){return _getS(p)==='collecting';});t='Collecting Docs';}
-        else if(txt.includes('review')){f=permits.filter(function(p){return _getS(p)==='review';});t='Under Review';}
-        else if(txt.includes('permit')&&!txt.includes('total')){f=permits.filter(function(p){return _getS(p)==='permitted';});t='Permitted';}
-        else if(txt.includes('co ')&&!txt.includes('total')){f=permits.filter(function(p){return _getS(p)==='co';});t='CO Received';}
-        _showDrill(t,f);
-      });
-    });
-  }
+// Inject Owner + PM dropdowns into expanded permit rows
+function injectOwnerFields(){
+  document.querySelectorAll('[data-permit-id],[id^="permit-row-"],[class*="permit-row"],[class*="permit-detail"]').forEach(function(row){
+    var pid = row.dataset.permitId || row.id.replace('permit-row-','');
+    if(!pid || row.dataset.ownerInjected) return;
+    row.dataset.ownerInjected = '1';
+    var permits = _gp();
+    var permit = permits.find(function(p){return p.id===pid;});
+    if(!permit) return;
+    var div = document.createElement('div');
+    div.style.cssText='display:flex;gap:12px;flex-wrap:wrap;padding:8px 0;border-top:1px solid #f0f0f0;margin-top:4px';
+    div.innerHTML='<div><label style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;display:block;margin-bottom:3px">Owner</label><select onchange="_save(''+pid+'','owner',this.value)" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;min-width:180px"><option value="">Select owner...</option>'+OWNERS.map(function(o){return '<option value="'+o.code+'" '+(permit.owner===o.code?'selected':'')+'>'+o.code+' – '+o.name+'</option>';}).join('')+'</select></div><div><label style="font-size:10px;font-weight:700;color:#6b7280;text-transform:uppercase;display:block;margin-bottom:3px">Project Manager</label><select onchange="_save(''+pid+'','projectManager',this.value)" style="padding:4px 8px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;min-width:180px"><option value="">Select PM...</option>'+PMS.map(function(pm){return '<option value="'+pm+'" '+(permit.projectManager===pm?'selected':'')+'>'+pm+'</option>';}).join('')+'</select></div>';
+    // Find the detail section for this permit
+    var detail = row.querySelector('.permit-info,[class*="info-grid"],[class*="detail"]');
+    if(detail) detail.appendChild(div);
+    else row.appendChild(div);
+  });
+}
 
-  // Run when Reports view is active - observe DOM changes
-  var obs = new MutationObserver(function(){ if(document.getElementById('content')) injectPanel(); });
-  obs.observe(document.body,{childList:true,subtree:true});
-  setTimeout(injectPanel,500);
-  setInterval(injectPanel,1500);
+// Also patch modal forms to include Owner + correct PM options
+function patchModal(){
+  var ownerSel = document.getElementById('f-owner');
+  var pmSel = document.getElementById('f-projectManager');
+  if(!ownerSel){
+    var pmField = document.getElementById('f-projectManager');
+    if(pmField){
+      var ownerDiv = document.createElement('div');
+      ownerDiv.className = pmField.closest('.form-field, div')?.className||'';
+      ownerDiv.style.cssText = pmField.closest('div')?.style.cssText||'';
+      ownerDiv.innerHTML='<label class="form-label" style="font-size:11px;font-weight:600;color:#374151;margin-bottom:4px;display:block">Owner</label><select class="form-input" id="f-owner" style="width:100%;padding:8px;border:1px solid #d1d5db;border-radius:6px;font-size:13px"><option value="">Select owner...</option>'+OWNERS.map(function(o){return '<option value="'+o.code+'">'+o.code+' – '+o.name+'</option>';}).join('')+'</select>';
+      var parent = pmField.closest('.form-field, div')?.parentNode;
+      if(parent) parent.insertBefore(ownerDiv, pmField.closest('.form-field, div'));
+    }
+  }
+  if(pmSel){
+    var cur = pmSel.value;
+    pmSel.innerHTML='<option value="">Select PM...</option>'+PMS.map(function(pm){return '<option value="'+pm+'" '+(pm===cur?'selected':'')+'>'+pm+'</option>';}).join('');
+  }
+}
+
+// Update _sd (drill-down) to show owner code
+var _origSd = window._sd;
+window._sd = function(title, permits){
+  if(permits && permits.length) {
+    // Add owner code to existing drill-down by patching after render
+    if(_origSd) _origSd(title, permits);
+    // Find the table and add owner column if not there
+    setTimeout(function(){
+      var tbl = document.querySelector('#_dm table');
+      if(!tbl || tbl.querySelector('th[data-owner]')) return;
+      var ths = tbl.querySelectorAll('thead th');
+      if(ths.length > 2) {
+        var ownerTh = document.createElement('th');
+        ownerTh.setAttribute('data-owner','1');
+        ownerTh.style.cssText='padding:10px;text-align:left;border-bottom:2px solid #e2e8f0';
+        ownerTh.textContent='Owner';
+        ths[2].after(ownerTh);
+        var rows = tbl.querySelectorAll('tbody tr');
+        permits.forEach(function(p,i){
+          var row = rows[i];
+          if(!row) return;
+          var tds = row.querySelectorAll('td');
+          var ownerTd = document.createElement('td');
+          ownerTd.style.cssText='padding:8px;font-family:monospace;font-size:12px;font-weight:700;color:#7c3aed';
+          ownerTd.textContent = p.owner||'—';
+          if(tds[2]) tds[2].after(ownerTd);
+        });
+      }
+    },100);
+  }
+};
+
+// Also add Owner + PM to filter area and reports multi-select panel
+function addOwnerFilter(){
+  if(document.getElementById('_owner_filter')) return;
+  var ms = document.getElementById('_ms_status');
+  if(!ms) return;
+  var ownerDiv = document.createElement('div');
+  ownerDiv.id='_owner_filter';
+  ownerDiv.style.cssText='margin-top:10px;padding:10px 12px;background:#fff;border-radius:6px;border:1px solid #e2e8f0';
+  ownerDiv.innerHTML='<div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:6px;text-transform:uppercase;letter-spacing:1px">Owner Filter</div><select id="_owner_sel" onchange="window._ownerFilter=this.value" style="padding:5px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:12px;min-width:220px"><option value="">All Owners</option>'+OWNERS.map(function(o){return '<option value="'+o.code+'">'+o.code+' – '+o.name+'</option>';}).join('')+'</select>';
+  ms.parentNode.insertBefore(ownerDiv, ms.nextSibling);
+}
+
+var _origMsView = window._msView;
+window._msView = function(){
+  var sel = Array.from(document.querySelectorAll('#_ms_boxes input:checked')).map(function(i){return i.value;});
+  var ownerF = window._ownerFilter||'';
+  var permits = _gp();
+  if(sel.length) permits = permits.filter(function(p){return sel.includes(window._getS?window._getS(p):'');});
+  if(ownerF) permits = permits.filter(function(p){return p.owner===ownerF;});
+  var parts=[];
+  if(sel.length) parts.push(sel.map(function(s){return{collecting:'Collecting Docs',applied:'Applied',review:'Under Review',permitted:'Permitted',co:'CO Received'}[s];}).join(' + '));
+  if(ownerF){var o=OWNERS.find(function(x){return x.code===ownerF;});if(o)parts.push(o.name);}
+  window._sd(parts.join(' | ')||'All Permits', permits);
+};
+
+var obs=new MutationObserver(function(){patchModal();addOwnerFilter();});
+obs.observe(document.body,{childList:true,subtree:true});
+setTimeout(function(){patchModal();addOwnerFilter();},500);
+setInterval(function(){patchModal();addOwnerFilter();},2000);
 })();
