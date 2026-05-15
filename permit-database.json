@@ -1,7 +1,7 @@
 {
-  "version": 1778859070800,
+  "version": 1778859079253,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T15:31:10.800Z",
+  "updatedAt": "2026-05-15T15:31:19.253Z",
   "permits": [
     {
       "id": "permit-1",
@@ -13153,7 +13153,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778859059807,
+      "_ts": 1778859077243,
       "stageRequestedAt": {
         "architecture": "2026-04-28",
         "sitePlan": "2026-04-28",
@@ -13175,6 +13175,9 @@
         "notes": "",
         "completedAt": null,
         "completedBy": ""
+      },
+      "stageNotes": {
+        "soilTest": "SENT TO FTE"
       }
     },
     {
