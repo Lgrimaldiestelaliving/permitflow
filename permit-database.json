@@ -1,7 +1,7 @@
 {
-  "version": 1778862528420,
+  "version": 1778862582686,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-15T16:28:48.420Z",
+  "updatedAt": "2026-05-15T16:29:42.686Z",
   "permits": [
     {
       "id": "permit-1",
@@ -487,7 +487,7 @@
       "stageUpdatedAt": {
         "submitted": "2026-05-08"
       },
-      "stageLastModified": "2026-05-12",
+      "stageLastModified": "2026-05-15",
       "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
@@ -500,7 +500,7 @@
       "stageNotes": {
         "permitIssued": ""
       },
-      "_ts": 1778593729305,
+      "_ts": 1778862472579,
       "reviewAgencies": [
         "mechanical",
         "stormwater"
@@ -541,7 +541,8 @@
       "agencyStatuses": {
         "stormwater": "complete",
         "mechanical": "in-progress"
-      }
+      },
+      "projectManager": "JON FRANTZ"
     },
     {
       "id": "permit-8",
