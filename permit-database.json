@@ -1,7 +1,7 @@
 {
-  "version": 1778854245482,
+  "version": 1778854319329,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T14:10:45.482Z",
+  "updatedAt": "2026-05-15T14:11:59.329Z",
   "permits": [
     {
       "id": "permit-1",
@@ -2912,7 +2912,7 @@
       "garage": "3 Car - LH",
       "elevation": "Heron - A2 Stone/Stucco",
       "options": "",
-      "permitNumber": "",
+      "permitNumber": "2025010439",
       "releaseDate": null,
       "stages": {
         "architecture": "complete",
@@ -2937,7 +2937,7 @@
         "resubmittal": "n/a",
         "permitIssued": "complete",
         "inspections": "not-started",
-        "co": "not-started"
+        "co": "complete"
       },
       "stageDates": {
         "submitted": null,
@@ -2947,9 +2947,11 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": true,
-      "stageUpdatedAt": {},
-      "stageLastModified": "2026-04-08",
-      "overallStatus": "permitted",
+      "stageUpdatedAt": {
+        "co": "2026-05-15"
+      },
+      "stageLastModified": "2026-05-15",
+      "overallStatus": "co",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -2957,7 +2959,14 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "issued"
+      "permitStatus": "co",
+      "_ts": 1778854316105,
+      "stageRequestedAt": {
+        "co": "2026-05-15"
+      },
+      "stageCompletedAt": {
+        "co": "2026-05-15"
+      }
     },
     {
       "id": "permit-48",
