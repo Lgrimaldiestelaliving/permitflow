@@ -1,7 +1,7 @@
 {
-  "version": 1778857866841,
+  "version": 1778857879833,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-15T15:11:06.841Z",
+  "updatedAt": "2026-05-15T15:11:19.833Z",
   "permits": [
     {
       "id": "permit-1",
@@ -5455,7 +5455,7 @@
         "submitted": "2026-05-08",
         "permitIssued": "2026-05-11"
       },
-      "stageLastModified": "2026-05-08",
+      "stageLastModified": "2026-05-15",
       "overallStatus": "permitted",
       "drawingReview": {
         "checks": {},
@@ -5465,8 +5465,8 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "issued",
-      "_ts": 1778265390788,
-      "projectManager": "Joshua Parker",
+      "_ts": 1778857805404,
+      "projectManager": "JIM HUMPHREYS",
       "estWeeks": "2 ",
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 7 LLC"
