@@ -1,7 +1,7 @@
 {
-  "version": 1778864422637,
+  "version": 1778864427280,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T17:00:22.637Z",
+  "updatedAt": "2026-05-15T17:00:27.280Z",
   "permits": [
     {
       "id": "permit-1",
@@ -14105,8 +14105,8 @@
         "geotechLetter": "2026-05-15",
         "constLienAff": "2026-05-08",
         "noc": "2026-05-08",
-        "recordedDeed": "2026-05-08",
-        "subCOI": "2026-05-08",
+        "recordedDeed": "2026-05-15",
+        "subCOI": "2026-05-15",
         "omReview": "2026-05-08",
         "submitted": "2026-05-08",
         "permitIssued": "2026-05-08",
@@ -14132,8 +14132,8 @@
         "geotechLetter": "n/a",
         "constLienAff": "not-started",
         "noc": "not-started",
-        "recordedDeed": "not-started",
-        "subCOI": "not-started",
+        "recordedDeed": "n/a",
+        "subCOI": "n/a",
         "omReview": "not-started",
         "submitted": "not-started",
         "permitIssued": "not-started",
