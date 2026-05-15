@@ -897,7 +897,7 @@ function saveSettings() {
 //  SHARED DATABASE — GitHub (single source of truth
 //  for the whole team; no OneDrive login needed)
 // ══════════════════════════════════════════════════
-const GH_TOKEN   = 'ghp_MzTLKw0HImsKcn0ps' + 'A8HKpDHnWXby53ydqbu';
+const GH_TOKEN   = 'GITHUB_TOKEN_REMOVED' + 'A8HKpDHnWXby53ydqbu';
 const GH_REPO    = 'estelaliving/permitflow';
 const GH_DB_FILE = 'permit-database.json';
 const GH_API_URL = `https://api.github.com/repos/${GH_REPO}/contents/${GH_DB_FILE}`;
@@ -4362,98 +4362,102 @@ render();
 
 
 
-
 <script>
-window.OW=[['001','Estela Living, LLC'],['002','Estela Specs 1 LLC'],['003','Estela Specs 2 LLC'],['004','Estela Specs 3 LLC'],['005','Estela Specs 4 LLC'],['006','Estela Specs 6 LLC'],['007','Estela Specs 7 LLC'],['008','Estela Specs 8 LLC'],['009','Estela Specs 9 LLC'],['100','Sabana Owner, LLC']];
-window.PMS=['Michael Bedaw','Jason Bedaw','Jim Humphreys','Jon Frantz'];
-window._gp=function(){try{return JSON.parse(localStorage.getItem('estela_permits_v3')||'[]');}catch(e){return[];}};
-window._gs=function(p){var ps=p.permitStatus||p.overallStatus||'';if(ps==='co')return 'co';if(ps==='permitted'||ps==='issued')return 'permitted';if(ps==='review'||ps==='resubmit')return 'review';if(ps==='applied'||ps==='submitted')return 'applied';return 'collecting';};
-window._saveFld=function(pid,fld,val){var p=window._gp();var i=p.findIndex(function(x){return x.id===pid;});if(i>-1){p[i][fld]=val;try{localStorage.setItem('estela_permits_v3',JSON.stringify(p));}catch(e){}if(typeof saveData==='function')saveData();}};
-// PM & Owner dropdowns in permit detail panel
-window._patchFields=function(){
-  document.querySelectorAll('.info-field').forEach(function(f){
-    var lbl=f.querySelector('.info-label');
-    var inp=f.querySelector('input.info-input');
-    if(!inp||inp.dataset.pf)return;
-    var label=lbl?lbl.textContent.trim():'';
-    if(label==='Project Manager'||label==='OWNER'){
-      inp.dataset.pf='1';
-      var onch=inp.getAttribute('onchange')||'';
-      var cur=inp.value;
-      var sel=document.createElement('select');
-      sel.className='info-input';
-      sel.style.cssText='width:100%;padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;background:#fff;color:#1e293b';
-      if(label==='Project Manager'){
-        sel.innerHTML='<option value="">Select PM...</option>'+window.PMS.map(function(pm){return '<option value="'+pm+'" '+(pm.toUpperCase()===cur.toUpperCase()?'selected':'')+'>'+pm+'</option>';}).join('');
-      } else {
-        sel.innerHTML='<option value="">Select owner...</option>'+window.OW.map(function(o){return '<option value="'+o[0]+'" '+(o[0]===cur?'selected':'')+'>'+o[0]+' - '+o[1]+'</option>';}).join('');
-      }
-      sel.addEventListener('change',function(){
-        try{eval(onch.replace(/this\.value/g,'"'+this.value.replace(/"/g,'\\"')+'"'));}catch(e){}
-      });
-      inp.replaceWith(sel);
-    }
-  });
-};
-// Reports: multi-select + clickable cards
-window._showDrill=function(title,permits){
+(function(){
+var OW=[{c:'001',n:'Estela Living, LLC'},{c:'002',n:'Estela Specs 1 LLC'},{c:'003',n:'Estela Specs 2 LLC'},{c:'004',n:'Estela Specs 3 LLC'},{c:'005',n:'Estela Specs 4 LLC'},{c:'006',n:'Estela Specs 6 LLC'},{c:'007',n:'Estela Specs 7 LLC'},{c:'008',n:'Estela Specs 8 LLC'},{c:'009',n:'Estela Specs 9 LLC'},{c:'100',n:'Sabana Owner, LLC'}];
+var PMS=['Michael Bedaw','Jason Bedaw','Jim Humphreys','Jon Frantz'];
+window.OWNERS=OW; window.APP_PMS=PMS;
+function _gp(){try{return JSON.parse(localStorage.getItem('estela_permits_v3')||'[]');}catch(e){return[];}}
+function _sp(p){try{localStorage.setItem('estela_permits_v3',JSON.stringify(p));}catch(e){}}
+function _gs(p){var ps=p.permitStatus||p.overallStatus||'';if(ps==='co')return 'co';if(ps==='permitted'||ps==='issued')return 'permitted';if(ps==='review'||ps==='resubmit')return 'review';if(ps==='applied'||ps==='submitted')return 'applied';return 'collecting';}
+window._saveFld=function(pid,fld,val){var p=_gp();var i=p.findIndex(function(x){return x.id===pid;});if(i>-1){p[i][fld]=val;_sp(p);if(typeof saveData==='function')saveData();}};
+// DRILL-DOWN MODAL
+window._showDrillDown=function(title,permits){
   var m=document.getElementById('_dm');if(m)m.remove();
   m=document.createElement('div');m.id='_dm';
   m.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:10001;display:flex;align-items:center;justify-content:center;padding:16px';
-  var rows=permits.map(function(p,i){var bg=i%2===0?'#fff':'#f9fafb';var s=window._gs(p);var sc={collecting:'#fef9c3',applied:'#dbeafe',review:'#fee2e2',permitted:'#dcfce7',co:'#cffafe'}[s]||'#f1f5f9';var tc={collecting:'#854d0e',applied:'#1e40af',review:'#991b1b',permitted:'#14532d',co:'#0e7490'}[s]||'#374151';var sl={collecting:'Collecting',applied:'Applied',review:'Under Review',permitted:'Permitted',co:'CO'}[s]||s;return '<tr style="background:'+bg+'"><td style="padding:8px;color:#9ca3af;font-size:11px">'+(i+1)+'</td><td style="padding:8px"><div style="font-weight:600;font-size:13px">'+(p.address||'')+'</div><div style="font-size:11px;color:#9ca3af">Lot '+(p.lotNumber||'')+'</div></td><td style="padding:8px;font-size:12px">'+(p.community||'')+'</td><td style="padding:8px;font-family:monospace;font-size:12px;color:#4f46e5">'+(p.permitNumber||'—')+'</td><td style="padding:8px;font-size:12px">'+(p.model||'')+'</td><td style="padding:8px;font-size:12px">'+(p.projectManager||'—')+'</td><td style="padding:8px;font-size:11px;font-weight:700;color:#7c3aed">'+(p.owner||'—')+'</td><td style="padding:8px"><span style="padding:2px 8px;border-radius:12px;font-size:11px;font-weight:700;background:'+sc+';color:'+tc+'">'+sl+'</span></td></tr>';}).join('');
-  m.innerHTML='<div style="background:#fff;border-radius:12px;width:100%;max-width:960px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.3)"><div style="padding:14px 20px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;background:#f8fafc;border-radius:12px 12px 0 0;flex-shrink:0"><div><strong>'+title+'</strong> <span style="color:#6b7280;font-size:13px">('+permits.length+' permits)</span></div><div style="display:flex;gap:8px"><button onclick="window.print()" style="padding:6px 14px;background:#7c3aed;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">Print</button><button onclick="document.getElementById('_dm').remove()" style="padding:6px 14px;background:#6b7280;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">Close</button></div></div><div style="overflow-y:auto;flex:1"><table style="width:100%;border-collapse:collapse"><thead style="position:sticky;top:0;background:#f1f5f9"><tr><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">#</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">Address</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">Development</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">Permit#</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">Model</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">PM</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">Owner</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">Status</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
+  var rows=permits.map(function(p,i){var bg=i%2===0?'#fff':'#f9fafb';return '<tr style="background:'+bg+';border-bottom:1px solid #f0f0f0"><td style="padding:8px 10px;color:#9ca3af;font-size:11px">'+(i+1)+'</td><td style="padding:8px 10px"><div style="font-weight:600;font-size:13px">'+(p.address||'')+'</div><div style="font-size:11px;color:#9ca3af">Lot '+(p.lotNumber||'')+'</div></td><td style="padding:8px 10px;font-size:12px">'+(p.community||'')+'</td><td style="padding:8px 10px;font-family:monospace;font-size:12px;color:#4f46e5">'+(p.permitNumber||'—')+'</td><td style="padding:8px 10px;font-size:12px">'+(p.model||'')+'</td><td style="padding:8px 10px;font-size:12px">'+(p.projectManager||'—')+'</td><td style="padding:8px 10px;font-size:11px;font-weight:700;color:#7c3aed">'+(p.owner||'—')+'</td></tr>';}).join('');
+  m.innerHTML='<div style="background:#fff;border-radius:12px;width:100%;max-width:960px;max-height:90vh;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.3)"><div style="padding:14px 20px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;background:#f8fafc;border-radius:12px 12px 0 0"><div><strong style="font-size:15px">'+title+'</strong> <span style="color:#6b7280;font-size:13px">('+permits.length+' permits)</span></div><div style="display:flex;gap:8px"><button onclick="window.print()" style="padding:6px 14px;background:#7c3aed;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px;font-weight:600">Print</button><button onclick="document.getElementById('_dm').remove()" style="padding:6px 14px;background:#6b7280;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:12px">Close</button></div></div><div style="overflow-y:auto;flex:1"><table style="width:100%;border-collapse:collapse"><thead style="position:sticky;top:0;background:#f1f5f9"><tr><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">#</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">ADDRESS</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">DEVELOPMENT</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">PERMIT#</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">MODEL</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">PM</th><th style="padding:10px;text-align:left;border-bottom:2px solid #e2e8f0;font-size:11px">OWNER</th></tr></thead><tbody>'+rows+'</tbody></table></div></div>';
   m.onclick=function(e){if(e.target===m)m.remove();};
   document.body.appendChild(m);
 };
-window._msChange=function(){
-  var sel=Array.from(document.querySelectorAll('#_ms_boxes input:checked')).map(function(i){return i.value;});
-  ['collecting','applied','review','permitted','co'].forEach(function(k){var el=document.getElementById('_lbl_'+k);if(el){el.style.borderColor=sel.includes(k)?'#7c3aed':'#e2e8f0';el.style.background=sel.includes(k)?'#ede9fe':'#fff';}});
-  var ct=document.getElementById('_ms_count');
-  if(ct)ct.textContent=sel.length?window._gp().filter(function(p){return sel.includes(window._gs(p));}).length+' permits match':'';
-};
-window._msView=function(){
-  var sel=Array.from(document.querySelectorAll('#_ms_boxes input:checked')).map(function(i){return i.value;});
-  var f=sel.length?window._gp().filter(function(p){return sel.includes(window._gs(p));}):window._gp();
-  var lbl=sel.length?sel.map(function(s){return{collecting:'Collecting Docs',applied:'Applied',review:'Under Review',permitted:'Permitted',co:'CO'}[s];}).join(' + '):'All';
-  window._showDrill(lbl,f);
-};
+// MULTI-SELECT
+window._msChange=function(){var sel=Array.from(document.querySelectorAll('#_ms_boxes input:checked')).map(function(i){return i.value;});['collecting','applied','review','permitted','co'].forEach(function(k){var el=document.getElementById('_lbl_'+k);if(el){el.style.borderColor=sel.includes(k)?'#7c3aed':'#e2e8f0';el.style.background=sel.includes(k)?'#ede9fe':'#fff';}});var ct=document.getElementById('_ms_count');if(ct)ct.textContent=sel.length?_gp().filter(function(p){return sel.includes(_gs(p));}).length+' permits':'';};
+window._msView=function(){var sel=Array.from(document.querySelectorAll('#_ms_boxes input:checked')).map(function(i){return i.value;});var f=sel.length?_gp().filter(function(x){return sel.includes(_gs(x));}):_gp();var lbl=sel.length?sel.map(function(s){return{collecting:'Collecting Docs',applied:'Applied',review:'Under Review',permitted:'Permitted',co:'CO Received'}[s];}).join(' + '):'All Permits';window._showDrillDown(lbl,f);};
 window._msPrint=function(){window._msView();setTimeout(function(){window.print();},600);};
-window._addMS=function(){
-  if(document.getElementById('_ms_status'))return;
-  var c=document.getElementById('content');if(!c)return;
-  var fd=Array.from(c.children).find(function(el){return el.textContent.includes('Community');});if(!fd)return;
-  var ms=document.createElement('div');ms.id='_ms_status';
-  ms.style.cssText='padding:12px 16px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;margin:8px 0';
-  ms.innerHTML='<div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Select Multiple Statuses</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px" id="_ms_boxes"><label id="_lbl_collecting" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="collecting" onchange="window._msChange()"> Collecting</label><label id="_lbl_applied" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="applied" onchange="window._msChange()"> Applied</label><label id="_lbl_review" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="review" onchange="window._msChange()"> Under Review</label><label id="_lbl_permitted" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="permitted" onchange="window._msChange()"> Permitted</label><label id="_lbl_co" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="co" onchange="window._msChange()"> CO</label></div><div style="display:flex;gap:8px;align-items:center"><button onclick="window._msView()" style="padding:7px 16px;background:#7c3aed;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">View List</button><button onclick="window._msPrint()" style="padding:7px 16px;background:#2da44e;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Print</button><span id="_ms_count" style="font-size:12px;color:#6b7280;margin-left:8px"></span></div>';
-  fd.after(ms);
-};
-window._addCards=function(){
-  var sec=document.querySelector('.report-section');if(!sec)return;
-  Array.from(sec.querySelectorAll('div')).forEach(function(card){
-    if(card.dataset.dc)return;
-    var kids=Array.from(card.children);
-    var nEl=kids.find(function(k){return /^d+$/.test(k.textContent.trim())&&parseInt(k.textContent.trim())>0;});
-    var lEl=kids.find(function(k){return k.textContent.trim().length>3&&!/^d+$/.test(k.textContent.trim());});
-    if(!nEl||!lEl)return;
-    var lbl=lEl.textContent.trim();
-    var p=window._gp();var f,t;
-    if(lbl.includes('Total')){f=p;t='All Permits';}
-    else if(lbl.includes('Collecting')){f=p.filter(function(x){return window._gs(x)==='collecting';});t='Collecting Docs';}
-    else if(lbl.includes('Under Review')){f=p.filter(function(x){return window._gs(x)==='review';});t='Under Review';}
-    else if(lbl.includes('Permit Issued')){f=p.filter(function(x){return window._gs(x)==='permitted';});t='Permit Issued';}
-    else if(lbl.includes('CO')){f=p.filter(function(x){return window._gs(x)==='co';});t='CO Received';}
-    else if(lbl.includes('Not Yet')){f=p.filter(function(x){return!['permitted','co'].includes(window._gs(x));});t='Not Yet Approved';}
-    else return;
-    card.dataset.dc='1';card.style.cursor='pointer';card.title='Click to see permits';
-    (function(ff,tt){card.addEventListener('click',function(){window._showDrill(tt,ff);});})(f,t);
+// PM / OWNER DROPDOWNS
+window._patchInfoFields=function(){
+  document.querySelectorAll('.info-field').forEach(function(field){
+    var lbl=field.querySelector('.info-label');
+    var inp=field.querySelector('input.info-input');
+    if(!inp||inp.dataset.p2)return;
+    var label=lbl?lbl.textContent.trim():'';
+    if(label==='Project Manager'){
+      inp.dataset.p2='1';
+      var onch=inp.getAttribute('onchange')||'';var cur=inp.value;
+      var sel=document.createElement('select');sel.className='info-input';sel.style.cssText='width:100%;padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;background:#fff';
+      sel.innerHTML='<option value="">Select PM...</option>'+PMS.map(function(pm){return '<option value="'+pm+'" '+(pm===cur||pm.toUpperCase()===cur.toUpperCase()?'selected':'')+'>'+pm+'</option>';}).join('');
+      sel.addEventListener('change',function(){try{eval(onch.replace(/this.value/g,'"'+this.value.replace(/"/g,'\"')+'"'));}catch(e){}});
+      inp.replaceWith(sel);
+    }
+    if(label==='OWNER'){
+      inp.dataset.p2='1';
+      var onch2=inp.getAttribute('onchange')||'';var cur2=inp.value;
+      var sel2=document.createElement('select');sel2.className='info-input';sel2.style.cssText='width:100%;padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;background:#fff';
+      sel2.innerHTML='<option value="">Select owner...</option>'+OW.map(function(o){return '<option value="'+o.c+'" '+(o.c===cur2?'selected':'')+'>'+o.c+' - '+o.n+'</option>';}).join('');
+      sel2.addEventListener('change',function(){try{eval(onch2.replace(/this.value/g,'"'+this.value.replace(/"/g,'\"')+'"'));}catch(e){}});
+      inp.replaceWith(sel2);
+    }
   });
 };
-// Run everything every second - no race conditions possible
-setInterval(function(){
-  window._patchFields();
-  window._addMS();
-  window._addCards();
-},1000);
+// MAIN ENHANCE FUNCTION - runs after Reports view loads
+window._enhanceReports=function(){
+  // Multi-select panel
+  if(!document.getElementById('_ms_status')){
+    var content=document.getElementById('content');
+    if(content){
+      var filterDiv=Array.from(content.children).find(function(el){return el.textContent.includes('Community');});
+      if(filterDiv){
+        var ms=document.createElement('div');ms.id='_ms_status';
+        ms.style.cssText='padding:12px 16px;background:#f8fafc;border-radius:8px;border:1px solid #e2e8f0;margin:8px 0;flex-shrink:0';
+        ms.innerHTML='<div style="font-size:11px;font-weight:700;color:#6b7280;margin-bottom:8px;text-transform:uppercase;letter-spacing:1px">Select Multiple Statuses</div><div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px" id="_ms_boxes"><label id="_lbl_collecting" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="collecting" onchange="window._msChange()"> Collecting Docs</label><label id="_lbl_applied" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="applied" onchange="window._msChange()"> Applied</label><label id="_lbl_review" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="review" onchange="window._msChange()"> Under Review</label><label id="_lbl_permitted" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="permitted" onchange="window._msChange()"> Permitted</label><label id="_lbl_co" style="display:flex;align-items:center;gap:5px;padding:5px 12px;border:2px solid #e2e8f0;border-radius:20px;cursor:pointer;font-size:12px;font-weight:600;background:#fff"><input type="checkbox" value="co" onchange="window._msChange()"> CO Received</label></div><div style="display:flex;gap:8px;align-items:center"><button onclick="window._msView()" style="padding:7px 16px;background:#7c3aed;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">View List</button><button onclick="window._msPrint()" style="padding:7px 16px;background:#2da44e;color:#fff;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer">Print</button><span id="_ms_count" style="font-size:12px;color:#6b7280;margin-left:8px"></span></div>';
+        filterDiv.after(ms);
+      }
+    }
+  }
+  // Clickable cards
+  var section=document.querySelector('.report-section');
+  if(section){
+    Array.from(section.querySelectorAll('div')).forEach(function(card){
+      if(card.dataset.dc)return;
+      var kids=Array.from(card.children);
+      var numEl=kids.find(function(k){return /^d+$/.test(k.textContent.trim())&&parseInt(k.textContent.trim())>0;});
+      var lblEl=kids.find(function(k){return k.textContent.trim().length>3&&!/^d+$/.test(k.textContent.trim());});
+      if(!numEl||!lblEl)return;
+      var label=lblEl.textContent.trim();
+      var permits=_gp();var filtered,title;
+      if(label.includes('Total Permits')){filtered=permits;title='All Permits (193)';}
+      else if(label.includes('Collecting')){filtered=permits.filter(function(p){return _gs(p)==='collecting';});title='Collecting Docs';}
+      else if(label.includes('Under Review')){filtered=permits.filter(function(p){return _gs(p)==='review';});title='Under Review';}
+      else if(label.includes('Permit Issued')){filtered=permits.filter(function(p){return _gs(p)==='permitted';});title='Permit Issued';}
+      else if(label.includes('CO Received')){filtered=permits.filter(function(p){return _gs(p)==='co';});title='CO Received';}
+      else if(label.includes('Not Yet')){filtered=permits.filter(function(p){return !['permitted','co'].includes(_gs(p));});title='Not Yet Approved';}
+      else return;
+      card.dataset.dc='1';card.style.cursor='pointer';card.title='Click to see permits';
+      (function(f,t){card.addEventListener('click',function(){window._showDrillDown(t,f);});})(filtered,title);
+    });
+  }
+  window._patchInfoFields();
+};
+// DEBOUNCED OBSERVER - waits 300ms after last DOM change
+var _t=null;
+new MutationObserver(function(){
+  clearTimeout(_t);
+  _t=setTimeout(function(){window._enhanceReports();},300);
+}).observe(document.body,{childList:true,subtree:true});
+// Also run on interval as fallback
+setInterval(function(){window._enhanceReports();},2000);
+})();
 </script>
 </body>
 </html>
