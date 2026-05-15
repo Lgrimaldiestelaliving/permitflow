@@ -1,7 +1,7 @@
 {
-  "version": 1778863656045,
+  "version": 1778863659459,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T16:47:36.045Z",
+  "updatedAt": "2026-05-15T16:47:39.459Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12901,7 +12901,7 @@
         "energyCalcs": "2026-04-22",
         "structuralEng": "2026-04-17",
         "noc": "",
-        "recordedDeed": "2026-05-15"
+        "recordedDeed": ""
       },
       "projectManager": "MICHAEL BEDAW"
     },
