@@ -1,7 +1,7 @@
 {
-  "version": 1778860204946,
+  "version": 1778860208035,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T15:50:04.946Z",
+  "updatedAt": "2026-05-15T15:50:08.035Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6257,7 +6257,7 @@
         "constLienAff": "complete",
         "noc": "complete",
         "recordedDeed": "complete",
-        "subCOI": "not-started",
+        "subCOI": "n/a",
         "omReview": "not-started",
         "submitted": "complete",
         "planReview": "not-started",
@@ -6279,7 +6279,8 @@
         "permitIssued": "2026-05-15",
         "soilTest": "2026-05-15",
         "productApproval": "2026-05-15",
-        "constLienAff": "2026-05-15"
+        "constLienAff": "2026-05-15",
+        "subCOI": "2026-05-15"
       },
       "stageLastModified": "2026-05-15",
       "overallStatus": "permitted",
@@ -6289,7 +6290,7 @@
         "completedAt": null,
         "completedBy": ""
       },
-      "docsStatus": "collecting",
+      "docsStatus": "complete",
       "permitStatus": "issued",
       "_ts": 1778860191839,
       "projectManager": "JIM HUMPHREYS",
@@ -6305,7 +6306,7 @@
         "permitIssued": "2026-04-29",
         "soilTest": "",
         "productApproval": "",
-        "constLienAff": "2026-05-15"
+        "constLienAff": ""
       },
       "stageNotes": {
         "soilTest": "SENT TO FTE"
