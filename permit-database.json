@@ -1,7 +1,7 @@
 {
-  "version": 1778861807835,
+  "version": 1778861867831,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-15T16:16:47.835Z",
+  "updatedAt": "2026-05-15T16:17:47.831Z",
   "permits": [
     {
       "id": "permit-1",
@@ -2809,7 +2809,7 @@
         "constLienAff": "n/a",
         "noc": "n/a",
         "recordedDeed": "n/a",
-        "subCOI": "not-started",
+        "subCOI": "n/a",
         "omReview": "not-started",
         "submitted": "complete",
         "planReview": "not-started",
@@ -2826,8 +2826,10 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
-      "stageLastModified": "2026-05-08",
+      "stageUpdatedAt": {
+        "subCOI": "2026-05-15"
+      },
+      "stageLastModified": "2026-05-15",
       "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
@@ -2835,13 +2837,17 @@
         "completedAt": null,
         "completedBy": ""
       },
-      "docsStatus": "collecting",
+      "docsStatus": "complete",
       "permitStatus": "applied",
-      "_ts": 1778272166836,
+      "_ts": 1778861778053,
       "stageRequestedAt": {
         "submitted": "2026-04-08"
       },
-      "stageCompletedAt": {}
+      "stageCompletedAt": {},
+      "projectManager": "JASON BEDAW",
+      "reviewAgencies": [
+        "zoning"
+      ]
     },
     {
       "id": "permit-46",
