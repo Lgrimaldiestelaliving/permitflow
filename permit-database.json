@@ -1,7 +1,7 @@
 {
-  "version": 1778863679852,
+  "version": 1778863689214,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T16:47:59.852Z",
+  "updatedAt": "2026-05-15T16:48:09.214Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12835,7 +12835,7 @@
         "roofingWorksheet": "n/a",
         "utilityPP": "n/a",
         "geotechLetter": "n/a",
-        "constLienAff": "n/a",
+        "constLienAff": "complete",
         "noc": "complete",
         "recordedDeed": "n/a",
         "subCOI": "n/a",
@@ -12866,7 +12866,8 @@
         "subCOI": "2026-05-15",
         "noc": "2026-05-15",
         "recordedDeed": "2026-05-15",
-        "productApproval": "2026-05-15"
+        "productApproval": "2026-05-15",
+        "constLienAff": "2026-05-15"
       },
       "stageLastModified": "2026-05-15",
       "overallStatus": "submitted",
@@ -12892,7 +12893,8 @@
         "structuralEng": "2026-04-14",
         "noc": "",
         "recordedDeed": "",
-        "productApproval": ""
+        "productApproval": "",
+        "constLienAff": ""
       },
       "stageCompletedAt": {
         "submitted": "2026-05-13",
@@ -12904,7 +12906,8 @@
         "structuralEng": "2026-04-17",
         "noc": "",
         "recordedDeed": "",
-        "productApproval": ""
+        "productApproval": "",
+        "constLienAff": "2026-05-15"
       },
       "projectManager": "MICHAEL BEDAW"
     },
