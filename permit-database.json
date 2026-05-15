@@ -1,7 +1,7 @@
 {
-  "version": 1778860727836,
+  "version": 1778860731215,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-15T15:58:47.836Z",
+  "updatedAt": "2026-05-15T15:58:51.215Z",
   "permits": [
     {
       "id": "permit-1",
@@ -4279,10 +4279,10 @@
       "_ts": 1778859763446,
       "stageRequestedAt": {
         "co": "2026-05-15",
-        "constLienAff": null
+        "constLienAff": ""
       },
       "stageCompletedAt": {
-        "constLienAff": null
+        "constLienAff": ""
       }
     },
     {
@@ -5658,12 +5658,12 @@
       "_ts": 1778859966489,
       "projectManager": "JIM HUMPHREYS",
       "stageRequestedAt": {
-        "soilTest": null,
+        "soilTest": "",
         "permitIssued": "2026-05-15",
         "submitted": "2026-05-15"
       },
       "stageCompletedAt": {
-        "soilTest": null,
+        "soilTest": "",
         "permitIssued": "2026-04-25",
         "submitted": "2026-05-15"
       },
@@ -5786,13 +5786,13 @@
         "constLienAff": "complete",
         "noc": "complete",
         "recordedDeed": "complete",
-        "subCOI": "not-started",
+        "subCOI": "n/a",
         "omReview": "not-started",
         "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "complete",
-        "inspections": "not-started",
+        "inspections": "requested",
         "co": "not-started"
       },
       "stageDates": {
@@ -5810,19 +5810,64 @@
         "constLienAff": "2026-05-08",
         "noc": "2026-05-08",
         "recordedDeed": "2026-05-08",
-        "submitted": "2026-05-08"
+        "submitted": "2026-05-08",
+        "inspections": "2026-05-15",
+        "subCOI": "2026-05-15"
       },
       "stageLastModified": "2026-05-08",
       "overallStatus": "permitted",
       "drawingReview": {
-        "checks": {},
+        "checks": {
+          "architecture_address": true,
+          "sitePlan_address": true,
+          "trussEng_address": true,
+          "energyCalcs_address": true,
+          "structuralEng_address": true,
+          "soilTest_address": true,
+          "landscape_address": true,
+          "architecture_garage": true,
+          "sitePlan_garage": true,
+          "trussEng_garage": true,
+          "energyCalcs_garage": true,
+          "soilTest_garage": true,
+          "structuralEng_garage": true,
+          "landscape_garage": true,
+          "architecture_location": true,
+          "sitePlan_location": true,
+          "trussEng_location": true,
+          "energyCalcs_location": true,
+          "soilTest_location": true,
+          "structuralEng_location": true,
+          "landscape_location": true,
+          "architecture_modelElev": true,
+          "sitePlan_modelElev": true,
+          "trussEng_modelElev": true,
+          "energyCalcs_modelElev": true,
+          "soilTest_modelElev": true,
+          "structuralEng_modelElev": true,
+          "landscape_modelElev": true,
+          "architecture_garageCars": true,
+          "sitePlan_garageCars": true,
+          "trussEng_garageCars": true,
+          "energyCalcs_garageCars": true,
+          "soilTest_garageCars": true,
+          "structuralEng_garageCars": true,
+          "landscape_garageCars": true,
+          "architecture_options": true,
+          "sitePlan_options": true,
+          "trussEng_options": true,
+          "energyCalcs_options": true,
+          "soilTest_options": true,
+          "structuralEng_options": true,
+          "landscape_options": true
+        },
         "notes": "",
         "completedAt": null,
         "completedBy": ""
       },
-      "docsStatus": "collecting",
+      "docsStatus": "complete",
       "permitStatus": "issued",
-      "_ts": 1778265709633,
+      "_ts": 1778860656579,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 3 LLC"
       },
@@ -5833,7 +5878,8 @@
         "constLienAff": null,
         "noc": null,
         "recordedDeed": null,
-        "submitted": "2026-04-09"
+        "submitted": "2026-04-09",
+        "inspections": "2026-05-15"
       },
       "stageCompletedAt": {
         "permitIssued": "2026-05-07",
@@ -5844,7 +5890,10 @@
         "recordedDeed": null,
         "submitted": "2026-05-08"
       },
-      "projectManager": "Jim Humphreys"
+      "projectManager": "Jim Humphreys",
+      "stageNotes": {
+        "soilTest": "SENT TO FTE"
+      }
     },
     {
       "id": "permit-93",
@@ -5865,7 +5914,7 @@
         "sitePlan": "complete",
         "trussEng": "complete",
         "energyCalcs": "complete",
-        "soilTest": "requested",
+        "soilTest": "complete",
         "structuralEng": "complete",
         "landscape": "complete",
         "productApproval": "complete",
@@ -5876,7 +5925,7 @@
         "constLienAff": "complete",
         "noc": "complete",
         "recordedDeed": "complete",
-        "subCOI": "complete",
+        "subCOI": "n/a",
         "omReview": "not-started",
         "submitted": "complete",
         "planReview": "not-started",
@@ -5906,20 +5955,64 @@
         "constLienAff": "2026-05-08",
         "noc": "2026-05-08",
         "recordedDeed": "2026-05-08",
-        "subCOI": "2026-05-08",
-        "submitted": "2026-05-08"
+        "subCOI": "2026-05-15",
+        "submitted": "2026-05-08",
+        "soilTest": "2026-05-15"
       },
       "stageLastModified": "2026-05-11",
       "overallStatus": "submitted",
       "drawingReview": {
-        "checks": {},
+        "checks": {
+          "architecture_address": true,
+          "sitePlan_address": true,
+          "trussEng_address": true,
+          "energyCalcs_address": true,
+          "soilTest_address": true,
+          "structuralEng_address": true,
+          "landscape_address": true,
+          "architecture_garage": true,
+          "sitePlan_garage": true,
+          "trussEng_garage": true,
+          "energyCalcs_garage": true,
+          "soilTest_garage": true,
+          "landscape_garage": true,
+          "structuralEng_garage": true,
+          "architecture_location": true,
+          "sitePlan_location": true,
+          "trussEng_location": true,
+          "energyCalcs_location": true,
+          "soilTest_location": true,
+          "structuralEng_location": true,
+          "landscape_location": true,
+          "architecture_modelElev": true,
+          "sitePlan_modelElev": true,
+          "trussEng_modelElev": true,
+          "energyCalcs_modelElev": true,
+          "soilTest_modelElev": true,
+          "structuralEng_modelElev": true,
+          "landscape_modelElev": true,
+          "architecture_garageCars": true,
+          "sitePlan_garageCars": true,
+          "trussEng_garageCars": true,
+          "energyCalcs_garageCars": true,
+          "soilTest_garageCars": true,
+          "structuralEng_garageCars": true,
+          "landscape_garageCars": true,
+          "architecture_options": true,
+          "sitePlan_options": true,
+          "trussEng_options": true,
+          "energyCalcs_options": true,
+          "soilTest_options": true,
+          "structuralEng_options": true,
+          "landscape_options": true
+        },
         "notes": "",
         "completedAt": null,
         "completedBy": ""
       },
-      "docsStatus": "collecting",
+      "docsStatus": "complete",
       "permitStatus": "applied",
-      "_ts": 1778529533951,
+      "_ts": 1778860704315,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
       },
@@ -5938,7 +6031,8 @@
         "noc": null,
         "recordedDeed": null,
         "subCOI": null,
-        "submitted": "2026-05-01"
+        "submitted": "2026-05-01",
+        "soilTest": ""
       },
       "stageCompletedAt": {
         "trussEng": "2026-04-11",
@@ -5954,7 +6048,8 @@
         "noc": null,
         "recordedDeed": null,
         "subCOI": null,
-        "submitted": "2026-05-08"
+        "submitted": "2026-05-08",
+        "soilTest": ""
       },
       "reviewAgencies": [
         "stormwater"
@@ -5980,6 +6075,9 @@
       },
       "agencyStatuses": {
         "stormwater": "in-progress"
+      },
+      "stageNotes": {
+        "soilTest": "SENT TO FTE"
       }
     },
     {
@@ -6814,7 +6912,7 @@
         "sitePlan": "2026-04-13",
         "trussEng": "2026-04-13",
         "energyCalcs": "2026-04-13",
-        "soilTest": null,
+        "soilTest": "",
         "structuralEng": "2026-04-15",
         "landscape": "2026-05-05",
         "colorMaterial": null,
@@ -6843,7 +6941,7 @@
         "recordedDeed": null,
         "productApproval": null,
         "submitted": "2026-05-11",
-        "soilTest": null
+        "soilTest": ""
       },
       "reviewAgencies": [
         "mechanical"
@@ -6991,7 +7089,7 @@
         "sitePlan": "2026-04-13",
         "trussEng": "2026-04-13",
         "energyCalcs": "2026-04-13",
-        "soilTest": null,
+        "soilTest": "",
         "structuralEng": "2026-04-15",
         "landscape": "2026-05-06",
         "colorMaterial": null,
@@ -7022,7 +7120,7 @@
         "subCOI": "2026-05-08",
         "productApproval": null,
         "submitted": "2026-05-11",
-        "soilTest": null
+        "soilTest": ""
       },
       "reviewAgencies": [
         "electric"
@@ -7175,7 +7273,7 @@
         "sitePlan": "2026-04-13",
         "trussEng": "2026-04-13",
         "energyCalcs": "2026-04-13",
-        "soilTest": null,
+        "soilTest": "",
         "landscape": "2026-05-08",
         "structuralEng": "2026-04-14",
         "colorMaterial": null,
@@ -7204,7 +7302,7 @@
         "recordedDeed": null,
         "productApproval": null,
         "submitted": "2026-05-11",
-        "soilTest": null
+        "soilTest": ""
       },
       "reviewAgencies": [
         "mechanical"
@@ -7416,7 +7514,7 @@
         "sitePlan": "2026-04-13",
         "trussEng": "2026-04-13",
         "energyCalcs": "2026-04-13",
-        "soilTest": null,
+        "soilTest": "",
         "structuralEng": "2026-05-01",
         "landscape": null,
         "colorMaterial": null,
@@ -7445,7 +7543,7 @@
         "recordedDeed": null,
         "productApproval": null,
         "submitted": "2026-05-08",
-        "soilTest": null
+        "soilTest": ""
       },
       "reviewAgencies": [
         "zoning",
@@ -12692,7 +12790,7 @@
         "sitePlan": "2026-04-28",
         "trussEng": "2026-04-28",
         "energyCalcs": "2026-04-28",
-        "soilTest": null,
+        "soilTest": "",
         "structuralEng": "2026-05-01",
         "landscape": "2026-05-13"
       },
@@ -12701,7 +12799,7 @@
         "energyCalcs": "2026-05-02",
         "structuralEng": "2026-05-05",
         "trussEng": "2026-05-01",
-        "soilTest": null,
+        "soilTest": "",
         "sitePlan": "2026-05-15"
       },
       "releaseDate": null,
@@ -12798,7 +12896,7 @@
         "sitePlan": "2026-04-28",
         "trussEng": "2026-04-28",
         "energyCalcs": "2026-04-28",
-        "soilTest": null,
+        "soilTest": "",
         "structuralEng": "2026-05-04"
       },
       "stageCompletedAt": {
@@ -12806,7 +12904,7 @@
         "trussEng": "2026-04-30",
         "energyCalcs": "2026-05-01",
         "structuralEng": "2026-05-06",
-        "soilTest": null
+        "soilTest": ""
       },
       "releaseDate": null,
       "drawingReview": {
@@ -12909,7 +13007,7 @@
         "trussEng": "2026-05-06",
         "structuralEng": "2026-05-08",
         "energyCalcs": "2026-05-08",
-        "soilTest": null
+        "soilTest": ""
       },
       "releaseDate": null,
       "drawingReview": {
