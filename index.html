@@ -4415,5 +4415,44 @@ setTimeout(function(){window._patchModal();window._patchRows();},300);
 setInterval(function(){window._patchModal();window._patchRows();},1500);
 })();
 </script>
+<script>
+(function(){
+var OW=[{c:'001',n:'Estela Living, LLC'},{c:'002',n:'Estela Specs 1 LLC'},{c:'003',n:'Estela Specs 2 LLC'},{c:'004',n:'Estela Specs 3 LLC'},{c:'005',n:'Estela Specs 4 LLC'},{c:'006',n:'Estela Specs 6 LLC'},{c:'007',n:'Estela Specs 7 LLC'},{c:'008',n:'Estela Specs 8 LLC'},{c:'009',n:'Estela Specs 9 LLC'},{c:'100',n:'Sabana Owner, LLC'}];
+var PMS=['Michael Bedaw','Jason Bedaw','Jim Humphreys','Jon Frantz'];
+window.OWNERS=OW;window.APP_PMS=PMS;
+function patchInfoFields(){
+  document.querySelectorAll('.info-field').forEach(function(field){
+    var lbl=field.querySelector('.info-label');
+    var inp=field.querySelector('input.info-input');
+    if(!inp||inp.dataset.patched) return;
+    var label=lbl?lbl.textContent.trim():'';
+    if(label==='Project Manager'){
+      inp.dataset.patched='1';
+      var onch=inp.getAttribute('onchange')||'';
+      var cur=inp.value;
+      var sel=document.createElement('select');
+      sel.className='info-input';
+      sel.style.cssText='width:100%;padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;background:#fff';
+      sel.innerHTML='<option value="">Select PM...</option>'+PMS.map(function(pm){return '<option value="'+pm+'" '+(pm===cur||pm.toUpperCase()===cur.toUpperCase()?'selected':'')+'>'+pm+'</option>';}).join('');
+      sel.addEventListener('change',function(){try{eval(onch.replace(/this.value/g,'"'+this.value.replace(/"/g,'\"')+'"'));}catch(e){}});
+      inp.replaceWith(sel);
+    }
+    if(label==='OWNER'){
+      inp.dataset.patched='1';
+      var onch2=inp.getAttribute('onchange')||'';
+      var cur2=inp.value;
+      var sel2=document.createElement('select');
+      sel2.className='info-input';
+      sel2.style.cssText='width:100%;padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;background:#fff';
+      sel2.innerHTML='<option value="">Select owner...</option>'+OW.map(function(o){return '<option value="'+o.c+'" '+(o.c===cur2?'selected':'')+'>'+o.c+' – '+o.n+'</option>';}).join('');
+      sel2.addEventListener('change',function(){try{eval(onch2.replace(/this.value/g,'"'+this.value.replace(/"/g,'\"')+'"'));}catch(e){}});
+      inp.replaceWith(sel2);
+    }
+  });
+}
+patchInfoFields();
+new MutationObserver(patchInfoFields).observe(document.body,{childList:true,subtree:true});
+})();
+</script>
 </body>
 </html>
