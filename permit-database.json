@@ -1,7 +1,7 @@
 {
-  "version": 1778863156997,
+  "version": 1778863162571,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T16:39:16.997Z",
+  "updatedAt": "2026-05-15T16:39:22.571Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12858,7 +12858,7 @@
       "stageUpdatedAt": {
         "submitted": "2026-05-13"
       },
-      "stageLastModified": "2026-05-13",
+      "stageLastModified": "2026-05-15",
       "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
@@ -12868,7 +12868,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "_ts": 1778705366231,
+      "_ts": 1778863160553,
       "customFields": {
         "cf_mot27ztm": "ESTELA SPECS 9 LLC"
       },
@@ -12877,7 +12877,8 @@
       },
       "stageCompletedAt": {
         "submitted": "2026-05-13"
-      }
+      },
+      "projectManager": "MICHAEL BEDAW"
     },
     {
       "id": "permit-180",
