@@ -1,7 +1,7 @@
 {
-  "version": 1778867257199,
+  "version": 1778867269897,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T17:47:37.199Z",
+  "updatedAt": "2026-05-15T17:47:49.897Z",
   "permits": [
     {
       "id": "permit-1",
@@ -8295,6 +8295,12 @@
             "received": "2026-05-11",
             "result": "pending",
             "note": "Lot Grading"
+          },
+          {
+            "sent": "2026-05-15",
+            "received": "",
+            "result": "pending",
+            "note": ""
           }
         ]
       },
