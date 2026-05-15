@@ -1,7 +1,7 @@
 {
-  "version": 1778860046636,
+  "version": 1778860049732,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T15:47:26.636Z",
+  "updatedAt": "2026-05-15T15:47:29.732Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6132,7 +6132,7 @@
         "constLienAff": "complete",
         "noc": "complete",
         "recordedDeed": "complete",
-        "subCOI": "not-started",
+        "subCOI": "n/a",
         "omReview": "not-started",
         "submitted": "complete",
         "planReview": "not-started",
@@ -6153,7 +6153,8 @@
         "soilTest": "2026-05-15",
         "permitIssued": "2026-05-15",
         "submitted": "2026-05-15",
-        "constLienAff": "2026-05-15"
+        "constLienAff": "2026-05-15",
+        "subCOI": "2026-05-15"
       },
       "stageLastModified": "2026-05-15",
       "overallStatus": "permitted",
@@ -6177,7 +6178,7 @@
         "soilTest": "",
         "permitIssued": "2026-04-25",
         "submitted": "2026-05-15",
-        "constLienAff": "2026-05-15"
+        "constLienAff": ""
       },
       "stageNotes": {
         "soilTest": "SENT TO FTE"
