@@ -1,7 +1,7 @@
 {
-  "version": 1778869954830,
+  "version": 1778869961033,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-15T18:32:34.830Z",
+  "updatedAt": "2026-05-15T18:32:41.033Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12299,7 +12299,7 @@
       "garage": "Right Hand",
       "elevation": "A2 Stone/Stucco",
       "options": "",
-      "permitNumber": "",
+      "permitNumber": "BLDR-26-03-08949",
       "releaseDate": "2026-02-16",
       "stages": {
         "architecture": "complete",
@@ -12317,15 +12317,14 @@
         "constLienAff": "n/a",
         "noc": "n/a",
         "recordedDeed": "n/a",
-        "subCOI": "not-started",
+        "subCOI": "n/a",
         "omReview": "not-started",
         "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
-        "permitIssued": "not-started",
-        "inspections": "not-started",
-        "co": "not-started",
-        "test": "not-started"
+        "permitIssued": "complete",
+        "inspections": "requested",
+        "co": "not-started"
       },
       "stageDates": {
         "submitted": "2026-03-16",
@@ -12335,17 +12334,29 @@
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
-      "stageLastModified": "2026-04-08",
-      "overallStatus": "submitted",
+      "stageUpdatedAt": {
+        "subCOI": "2026-05-15",
+        "permitIssued": "2026-05-15",
+        "inspections": "2026-05-15"
+      },
+      "stageLastModified": "2026-05-15",
+      "overallStatus": "permitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
         "completedAt": null,
         "completedBy": ""
       },
-      "docsStatus": "collecting",
-      "permitStatus": "applied"
+      "docsStatus": "complete",
+      "permitStatus": "issued",
+      "stageRequestedAt": {
+        "permitIssued": "2026-05-15",
+        "inspections": "2026-05-15"
+      },
+      "stageCompletedAt": {
+        "permitIssued": "2026-04-14"
+      },
+      "_ts": 1778869915822
     },
     {
       "id": "permit-178",
