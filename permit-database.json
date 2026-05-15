@@ -1,7 +1,7 @@
 {
-  "version": 1778860133252,
+  "version": 1778860143103,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T15:48:53.252Z",
+  "updatedAt": "2026-05-15T15:49:03.103Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6259,7 +6259,7 @@
         "recordedDeed": "complete",
         "subCOI": "not-started",
         "omReview": "not-started",
-        "submitted": "submitted",
+        "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "not-started",
@@ -6270,13 +6270,15 @@
         "submitted": "2026-04-08",
         "permitIssued": null
       },
-      "notes": "permit submitted by natalia 4/8/26/ missing recording NOC",
+      "notes": "",
       "permitFee": "",
       "utilities": "",
       "buildersRisk": false,
-      "stageUpdatedAt": {},
+      "stageUpdatedAt": {
+        "submitted": "2026-05-15"
+      },
       "stageLastModified": "2026-05-15",
-      "overallStatus": "active",
+      "overallStatus": "submitted",
       "drawingReview": {
         "checks": {},
         "notes": "",
@@ -6284,9 +6286,15 @@
         "completedBy": ""
       },
       "docsStatus": "collecting",
-      "permitStatus": "presubmit",
-      "_ts": 1778860131239,
-      "projectManager": "JIM HUMPHREYS"
+      "permitStatus": "applied",
+      "_ts": 1778860141088,
+      "projectManager": "JIM HUMPHREYS",
+      "stageRequestedAt": {
+        "submitted": "2026-05-15"
+      },
+      "stageCompletedAt": {
+        "submitted": "2026-05-15"
+      }
     },
     {
       "id": "permit-92",
