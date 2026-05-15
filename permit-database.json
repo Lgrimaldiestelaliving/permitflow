@@ -1,7 +1,7 @@
 {
-  "version": 1778860035414,
+  "version": 1778860044425,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T15:47:15.414Z",
+  "updatedAt": "2026-05-15T15:47:24.425Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6129,7 +6129,7 @@
         "roofingWorksheet": "complete",
         "utilityPP": "complete",
         "geotechLetter": "complete",
-        "constLienAff": "not-started",
+        "constLienAff": "complete",
         "noc": "complete",
         "recordedDeed": "complete",
         "subCOI": "not-started",
@@ -6152,7 +6152,8 @@
       "stageUpdatedAt": {
         "soilTest": "2026-05-15",
         "permitIssued": "2026-05-15",
-        "submitted": "2026-05-15"
+        "submitted": "2026-05-15",
+        "constLienAff": "2026-05-15"
       },
       "stageLastModified": "2026-05-15",
       "overallStatus": "permitted",
@@ -6169,12 +6170,14 @@
       "stageRequestedAt": {
         "soilTest": "",
         "permitIssued": "2026-05-15",
-        "submitted": "2026-04-08"
+        "submitted": "2026-04-08",
+        "constLienAff": ""
       },
       "stageCompletedAt": {
         "soilTest": "",
         "permitIssued": "2026-04-25",
-        "submitted": "2026-05-15"
+        "submitted": "2026-05-15",
+        "constLienAff": "2026-05-15"
       },
       "stageNotes": {
         "soilTest": "SENT TO FTE"
