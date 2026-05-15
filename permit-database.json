@@ -1,7 +1,7 @@
 {
-  "version": 1778858750832,
+  "version": 1778858754830,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-15T15:25:50.832Z",
+  "updatedAt": "2026-05-15T15:25:54.830Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6660,7 +6660,7 @@
         "sitePlan": "2026-04-13",
         "trussEng": "2026-04-13",
         "energyCalcs": "2026-04-13",
-        "soilTest": "",
+        "soilTest": null,
         "structuralEng": "2026-04-15",
         "landscape": "2026-05-05",
         "colorMaterial": null,
@@ -6689,7 +6689,7 @@
         "recordedDeed": null,
         "productApproval": null,
         "submitted": "2026-05-11",
-        "soilTest": ""
+        "soilTest": null
       },
       "reviewAgencies": [
         "mechanical"
@@ -6837,7 +6837,7 @@
         "sitePlan": "2026-04-13",
         "trussEng": "2026-04-13",
         "energyCalcs": "2026-04-13",
-        "soilTest": "",
+        "soilTest": null,
         "structuralEng": "2026-04-15",
         "landscape": "2026-05-06",
         "colorMaterial": null,
@@ -6868,7 +6868,7 @@
         "subCOI": "2026-05-08",
         "productApproval": null,
         "submitted": "2026-05-11",
-        "soilTest": ""
+        "soilTest": null
       },
       "reviewAgencies": [
         "electric"
@@ -6905,14 +6905,14 @@
       "garage": "Right Hand",
       "elevation": "A2 Stone/Stucco",
       "options": "86060 · Pearl Series Exterior Package, 85030 · Farm & Foundry Interior Package",
-      "permitNumber": "",
+      "permitNumber": "2026050451",
       "releaseDate": "2026-04-02",
       "stages": {
         "architecture": "complete",
         "sitePlan": "complete",
         "trussEng": "complete",
         "energyCalcs": "complete",
-        "soilTest": "requested",
+        "soilTest": "complete",
         "structuralEng": "complete",
         "landscape": "complete",
         "productApproval": "complete",
@@ -6945,7 +6945,7 @@
         "sitePlan": "2026-05-08",
         "trussEng": "2026-05-08",
         "energyCalcs": "2026-05-08",
-        "soilTest": "2026-05-08",
+        "soilTest": "2026-05-15",
         "landscape": "2026-05-08",
         "structuralEng": "2026-05-08",
         "colorMaterial": "2026-05-08",
@@ -6958,7 +6958,7 @@
         "productApproval": "2026-05-08",
         "submitted": "2026-05-11"
       },
-      "stageLastModified": "2026-05-08",
+      "stageLastModified": "2026-05-15",
       "overallStatus": "submitted",
       "drawingReview": {
         "checks": {
@@ -6966,7 +6966,7 @@
           "sitePlan_address": true,
           "trussEng_address": true,
           "energyCalcs_address": true,
-          "soilTest_address": false,
+          "soilTest_address": true,
           "structuralEng_address": true,
           "landscape_address": true,
           "architecture_garage": true,
@@ -6998,7 +6998,12 @@
           "trussEng_options": true,
           "energyCalcs_options": true,
           "structuralEng_options": true,
-          "landscape_options": true
+          "landscape_options": true,
+          "soilTest_garage": true,
+          "soilTest_location": true,
+          "soilTest_modelElev": true,
+          "soilTest_garageCars": true,
+          "soilTest_options": true
         },
         "notes": "",
         "completedAt": null,
@@ -7006,8 +7011,8 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "applied",
-      "projectManager": "Joshua Parker",
-      "_ts": 1778778046736,
+      "projectManager": "JIM HUMPHREYS",
+      "_ts": 1778858722994,
       "customFields": {
         "cf_mot27ztm": "Estela Specs 7 LLC"
       },
@@ -7016,7 +7021,7 @@
         "sitePlan": "2026-04-13",
         "trussEng": "2026-04-13",
         "energyCalcs": "2026-04-13",
-        "soilTest": "2026-04-13",
+        "soilTest": "",
         "landscape": "2026-05-08",
         "structuralEng": "2026-04-14",
         "colorMaterial": null,
@@ -7044,7 +7049,8 @@
         "noc": null,
         "recordedDeed": null,
         "productApproval": null,
-        "submitted": "2026-05-11"
+        "submitted": "2026-05-11",
+        "soilTest": ""
       },
       "reviewAgencies": [
         "mechanical"
@@ -7064,6 +7070,9 @@
       },
       "agencyNotes": {
         "mechanical": "Resummit: Energy Calcs + Satte Card"
+      },
+      "stageNotes": {
+        "soilTest": "SENT TO FTE"
       }
     },
     {
