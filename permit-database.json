@@ -1,7 +1,7 @@
 {
-  "version": 1778860981781,
+  "version": 1778860993799,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T16:03:01.781Z",
+  "updatedAt": "2026-05-15T16:03:13.799Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6146,7 +6146,7 @@
         "soilTest": "complete",
         "structuralEng": "complete",
         "landscape": "complete",
-        "productApproval": "not-started",
+        "productApproval": "complete",
         "colorMaterial": "complete",
         "roofingWorksheet": "complete",
         "utilityPP": "complete",
@@ -6177,7 +6177,8 @@
         "submitted": "2026-05-15",
         "constLienAff": "2026-05-15",
         "subCOI": "2026-05-15",
-        "inspections": "2026-05-15"
+        "inspections": "2026-05-15",
+        "productApproval": "2026-05-15"
       },
       "stageLastModified": "2026-05-15",
       "overallStatus": "permitted",
@@ -6230,7 +6231,7 @@
         "completedAt": null,
         "completedBy": ""
       },
-      "docsStatus": "collecting",
+      "docsStatus": "complete",
       "permitStatus": "issued",
       "_ts": 1778859966489,
       "projectManager": "JIM HUMPHREYS",
@@ -6239,13 +6240,15 @@
         "permitIssued": "2026-05-15",
         "submitted": "2026-04-08",
         "constLienAff": "",
-        "inspections": "2026-05-15"
+        "inspections": "2026-05-15",
+        "productApproval": ""
       },
       "stageCompletedAt": {
         "soilTest": "",
         "permitIssued": "2026-04-25",
         "submitted": "2026-05-15",
-        "constLienAff": ""
+        "constLienAff": "",
+        "productApproval": "2026-05-15"
       },
       "stageNotes": {
         "soilTest": "SENT TO FTE"
