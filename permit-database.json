@@ -1,7 +1,7 @@
 {
-  "version": 1778861092615,
+  "version": 1778861143612,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T16:04:52.615Z",
+  "updatedAt": "2026-05-15T16:05:43.612Z",
   "permits": [
     {
       "id": "permit-1",
@@ -7827,7 +7827,7 @@
         "constLienAff": "complete",
         "noc": "complete",
         "recordedDeed": "complete",
-        "subCOI": "not-started",
+        "subCOI": "n/a",
         "omReview": "not-started",
         "submitted": "complete",
         "planReview": "not-started",
@@ -7860,7 +7860,8 @@
         "noc": "2026-05-08",
         "recordedDeed": "2026-05-08",
         "productApproval": "2026-05-08",
-        "submitted": "2026-05-11"
+        "submitted": "2026-05-11",
+        "subCOI": "2026-05-15"
       },
       "stageLastModified": "2026-05-15",
       "overallStatus": "submitted",
@@ -7913,7 +7914,7 @@
         "completedAt": null,
         "completedBy": ""
       },
-      "docsStatus": "collecting",
+      "docsStatus": "complete",
       "permitStatus": "applied",
       "projectManager": "JIM HUMPHREYS",
       "_ts": 1778858722994,
