@@ -1,7 +1,7 @@
 {
-  "version": 1778860949423,
+  "version": 1778860952378,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T16:02:29.423Z",
+  "updatedAt": "2026-05-15T16:02:32.378Z",
   "permits": [
     {
       "id": "permit-1",
@@ -7094,7 +7094,7 @@
         "sitePlan": "complete",
         "trussEng": "complete",
         "energyCalcs": "complete",
-        "soilTest": "requested",
+        "soilTest": "complete",
         "structuralEng": "complete",
         "landscape": "complete",
         "productApproval": "complete",
@@ -7135,7 +7135,8 @@
         "noc": "2026-05-08",
         "recordedDeed": "2026-05-08",
         "permitIssued": "2026-05-12",
-        "subCOI": "2026-05-15"
+        "subCOI": "2026-05-15",
+        "soilTest": "2026-05-15"
       },
       "stageLastModified": "2026-05-15",
       "overallStatus": "permitted",
@@ -7188,7 +7189,7 @@
         "completedAt": null,
         "completedBy": ""
       },
-      "docsStatus": "collecting",
+      "docsStatus": "complete",
       "permitStatus": "issued",
       "_ts": 1778858038839,
       "customFields": {
@@ -7207,7 +7208,8 @@
         "constLienAff": null,
         "noc": null,
         "recordedDeed": null,
-        "permitIssued": "2026-05-12"
+        "permitIssued": "2026-05-12",
+        "soilTest": "2026-05-15"
       },
       "stageCompletedAt": {
         "submitted": "2026-05-08",
@@ -7221,7 +7223,8 @@
         "constLienAff": null,
         "noc": null,
         "recordedDeed": null,
-        "permitIssued": "2026-05-13"
+        "permitIssued": "2026-05-13",
+        "soilTest": "2026-05-15"
       },
       "projectManager": "JON FRANTZ",
       "reviewAgencies": [
