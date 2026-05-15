@@ -1,7 +1,7 @@
 {
-  "version": 1778859001038,
+  "version": 1778859004692,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T15:30:01.038Z",
+  "updatedAt": "2026-05-15T15:30:04.692Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12981,7 +12981,7 @@
         "energyCalcs": "2026-05-08",
         "soilTest": "2026-05-15",
         "structuralEng": "2026-05-08",
-        "landscape": "2026-05-08",
+        "landscape": "2026-05-15",
         "productApproval": "2026-05-08",
         "colorMaterial": "2026-05-08",
         "roofingWorksheet": "2026-05-08",
@@ -13008,7 +13008,7 @@
         "energyCalcs": "complete",
         "soilTest": "complete",
         "structuralEng": "complete",
-        "landscape": "not-started",
+        "landscape": "requested",
         "productApproval": "not-started",
         "colorMaterial": "not-started",
         "roofingWorksheet": "not-started",
@@ -13054,7 +13054,8 @@
         "trussEng": "2026-04-28",
         "energyCalcs": "2026-04-28",
         "soilTest": "",
-        "structuralEng": "2026-05-01"
+        "structuralEng": "2026-05-01",
+        "landscape": "2026-05-15"
       },
       "stageCompletedAt": {
         "architecture": "2026-04-30",
