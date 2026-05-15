@@ -1,7 +1,7 @@
 {
-  "version": 1778859998885,
+  "version": 1778860002270,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T15:46:38.885Z",
+  "updatedAt": "2026-05-15T15:46:42.270Z",
   "permits": [
     {
       "id": "permit-1",
@@ -6134,7 +6134,7 @@
         "recordedDeed": "complete",
         "subCOI": "not-started",
         "omReview": "not-started",
-        "submitted": "submitted",
+        "submitted": "complete",
         "planReview": "not-started",
         "resubmittal": "n/a",
         "permitIssued": "complete",
@@ -6151,7 +6151,8 @@
       "buildersRisk": false,
       "stageUpdatedAt": {
         "soilTest": "2026-05-15",
-        "permitIssued": "2026-05-15"
+        "permitIssued": "2026-05-15",
+        "submitted": "2026-05-15"
       },
       "stageLastModified": "2026-05-15",
       "overallStatus": "permitted",
@@ -6167,11 +6168,13 @@
       "projectManager": "JIM HUMPHREYS",
       "stageRequestedAt": {
         "soilTest": "",
-        "permitIssued": "2026-05-15"
+        "permitIssued": "2026-05-15",
+        "submitted": "2026-05-15"
       },
       "stageCompletedAt": {
         "soilTest": "",
-        "permitIssued": "2026-04-25"
+        "permitIssued": "2026-04-25",
+        "submitted": "2026-05-15"
       },
       "stageNotes": {
         "soilTest": "SENT TO FTE"
