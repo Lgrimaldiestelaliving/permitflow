@@ -1,7 +1,7 @@
 {
-  "version": 1778858501624,
+  "version": 1778858507776,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T15:21:41.624Z",
+  "updatedAt": "2026-05-15T15:21:47.776Z",
   "permits": [
     {
       "id": "permit-1",
@@ -7154,7 +7154,7 @@
       "docsStatus": "collecting",
       "permitStatus": "applied",
       "projectManager": "JIM HUMPHREYS",
-      "_ts": 1778858498484,
+      "_ts": 1778858505768,
       "customFields": {
         "cf_mot27ztm": "Estela Specs 7 LLC"
       },
@@ -7214,7 +7214,7 @@
         "mechanical": "Resummit: \"State Card\""
       },
       "stageNotes": {
-        "soilTest": ""
+        "soilTest": "JIM TAKE CARE OF"
       }
     },
     {
