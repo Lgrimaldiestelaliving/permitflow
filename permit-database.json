@@ -1,7 +1,7 @@
 {
-  "version": 1778859766979,
+  "version": 1778859771683,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T15:42:46.979Z",
+  "updatedAt": "2026-05-15T15:42:51.683Z",
   "permits": [
     {
       "id": "permit-1",
@@ -4707,7 +4707,7 @@
         "roofingWorksheet": "complete",
         "utilityPP": "complete",
         "geotechLetter": "complete",
-        "constLienAff": "not-started",
+        "constLienAff": "complete",
         "noc": "complete",
         "recordedDeed": "complete",
         "subCOI": "not-started",
@@ -4728,7 +4728,8 @@
       "utilities": "",
       "buildersRisk": false,
       "stageUpdatedAt": {
-        "co": "2026-05-15"
+        "co": "2026-05-15",
+        "constLienAff": "2026-05-15"
       },
       "stageLastModified": "2026-05-15",
       "overallStatus": "permitted",
@@ -4742,9 +4743,12 @@
       "permitStatus": "issued",
       "_ts": 1778859763446,
       "stageRequestedAt": {
-        "co": "2026-05-15"
+        "co": "2026-05-15",
+        "constLienAff": ""
       },
-      "stageCompletedAt": {}
+      "stageCompletedAt": {
+        "constLienAff": "2026-05-15"
+      }
     },
     {
       "id": "permit-69",
