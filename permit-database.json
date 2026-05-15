@@ -1,7 +1,7 @@
 {
-  "version": 1778864373588,
+  "version": 1778864397399,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T16:59:33.588Z",
+  "updatedAt": "2026-05-15T16:59:57.399Z",
   "permits": [
     {
       "id": "permit-1",
@@ -14089,7 +14089,7 @@
     {
       "id": "permit-1778272381680",
       "overallStatus": "active",
-      "stageLastModified": "2026-05-08",
+      "stageLastModified": "2026-05-15",
       "stageUpdatedAt": {
         "architecture": "2026-05-08",
         "sitePlan": "2026-05-08",
@@ -14151,7 +14151,7 @@
       "plan": "",
       "garage": "Left Hand",
       "elevation": "A2 Stone/Stucco",
-      "projectManager": "Jeffrey Gwinn",
+      "projectManager": "MICHAEL BEDAW",
       "estWeeks": "",
       "permitNumber": "",
       "permitFee": "",
@@ -14163,7 +14163,7 @@
       },
       "docsStatus": "collecting",
       "permitStatus": "presubmit",
-      "_ts": 1778274479445,
+      "_ts": 1778864395386,
       "stageRequestedAt": {
         "architecture": "2026-05-06",
         "sitePlan": "2026-05-06",
