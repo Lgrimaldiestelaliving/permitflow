@@ -1,7 +1,7 @@
 {
-  "version": 1778858950580,
+  "version": 1778858955303,
   "updatedBy": "Natalia Massola",
-  "updatedAt": "2026-05-15T15:29:10.580Z",
+  "updatedAt": "2026-05-15T15:29:15.303Z",
   "permits": [
     {
       "id": "permit-1",
@@ -13061,7 +13061,7 @@
         "energyCalcs": "2026-05-02",
         "structuralEng": "2026-05-05",
         "trussEng": "2026-05-01",
-        "soilTest": "2026-05-15"
+        "soilTest": ""
       },
       "releaseDate": null,
       "drawingReview": {
