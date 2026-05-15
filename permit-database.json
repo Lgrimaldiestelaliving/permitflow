@@ -1,7 +1,7 @@
 {
-  "version": 1778877499791,
+  "version": 1778877507667,
   "updatedBy": "Team member",
-  "updatedAt": "2026-05-15T20:38:19.791Z",
+  "updatedAt": "2026-05-15T20:38:27.667Z",
   "permits": [
     {
       "id": "permit-1",
@@ -12361,66 +12361,6 @@
         "permitIssued": "2026-04-14"
       },
       "_ts": 1778869915822
-    },
-    {
-      "id": "permit-178",
-      "community": "Ocala Waterways",
-      "market": "Ocala",
-      "lotNumber": "",
-      "parcelId": "3579-003-114",
-      "address": "4315 SW 112th Ln, Ocala FL",
-      "model": "Exuma X-2 Car",
-      "plan": "",
-      "garage": "LEFT HAND",
-      "elevation": "A2 Stone/Stucco",
-      "options": "",
-      "permitNumber": "",
-      "releaseDate": null,
-      "stages": {
-        "architecture": "not-started",
-        "sitePlan": "not-started",
-        "trussEng": "not-started",
-        "energyCalcs": "not-started",
-        "soilTest": "not-started",
-        "structuralEng": "not-started",
-        "landscape": "n/a",
-        "productApproval": "n/a",
-        "colorMaterial": "n/a",
-        "roofingWorksheet": "n/a",
-        "utilityPP": "n/a",
-        "geotechLetter": "n/a",
-        "constLienAff": "n/a",
-        "noc": "n/a",
-        "recordedDeed": "n/a",
-        "subCOI": "not-started",
-        "omReview": "not-started",
-        "submitted": "not-started",
-        "planReview": "not-started",
-        "resubmittal": "n/a",
-        "permitIssued": "not-started",
-        "inspections": "not-started",
-        "co": "not-started",
-        "test": "not-started"
-      },
-      "stageDates": {
-        "submitted": null,
-        "permitIssued": null
-      },
-      "notes": "",
-      "permitFee": "",
-      "utilities": "",
-      "buildersRisk": false,
-      "stageUpdatedAt": {},
-      "stageLastModified": "2026-04-08",
-      "overallStatus": "active",
-      "drawingReview": {
-        "checks": {},
-        "notes": "",
-        "completedAt": null,
-        "completedBy": ""
-      },
-      "docsStatus": "collecting",
-      "permitStatus": "presubmit"
     },
     {
       "id": "permit-179",
