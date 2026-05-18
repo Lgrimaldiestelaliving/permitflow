@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><meta charset="UTF-8"><title>Restore Permits — Estela Living</title>
+<style>
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:500px;margin:80px auto;padding:20px;background:#f1f5f9;text-align:center}
+.card{background:white;border-radius:12px;padding:32px;box-shadow:0 4px 20px rgba(0,0,0,.1)}
+.logo{font-size:1.1rem;font-weight:800;color:#1e293b;margin-bottom:4px}
+.sub{font-size:12px;color:#94a3b8;margin-bottom:24px}
+h1{color:#1e293b;font-size:1.2rem;margin-bottom:8px}
+p{color:#555;font-size:13px;margin-bottom:20px;line-height:1.6}
+button{background:#2da44e;color:white;border:none;padding:14px;border-radius:8px;font-size:1rem;cursor:pointer;font-weight:700;width:100%}
+button:hover{background:#238636}button:disabled{background:#94d3a2;cursor:not-allowed}
+#st{margin-top:16px;padding:14px;border-radius:8px;display:none;font-size:13px;line-height:1.8}
+.ok{background:#dcfce7;color:#166534}.err{background:#fee2e2;color:#991b1b}.info{background:#dbeafe;color:#1e40af}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">ESTELA LIVING</div>
+  <div class="sub">Permit Tracking Portal</div>
+  <h1>🔄 Restore Permits</h1>
+  <p id="msg">Loading backup information...</p>
+  <button id="btn" onclick="restore()" disabled>Loading...</button>
+  <div id="st"></div>
+</div>
+<script>
+var backupData = null;
+// Load backup on page open
+fetch('permit-data-backup.json?t=' + Date.now())
+  .then(function(r){ return r.json(); })
+  .then(function(data){
+    backupData = data;
+    var n = (data.permits||[]).length;
+    var d = new Date(data.savedAt).toLocaleString();
+    var cur = JSON.parse(localStorage.getItem('estela_permits_v3')||'[]').length;
+    document.getElementById('msg').innerHTML =
+      'Backup contains <strong>' + n + ' permits</strong><br>' +
+      'Saved: ' + d + '<br>' +
+      'Your browser currently has: <strong>' + cur + ' permits</strong>';
+    var btn = document.getElementById('btn');
+    btn.disabled = false;
+    btn.textContent = 'Restore ' + n + ' Permits Now';
+  })
+  .catch(function(e){
+    document.getElementById('msg').textContent = 'Error loading backup: ' + e.message;
+  });
+
+function restore(){
+  var btn = document.getElementById('btn');
+  var st = document.getElementById('st');
+  if(!backupData){return;}
+  btn.disabled = true;
+  var permits = backupData.permits || [];
+  localStorage.setItem('estela_permits_v3', JSON.stringify(permits));
+  st.style.display='block'; st.className='ok';
+  st.innerHTML='&#10003; <strong>' + permits.length + ' permits restored!</strong><br><br>'+
+    '<a href="/" style="display:block;background:#2da44e;color:white;text-decoration:none;padding:12px;border-radius:8px;font-weight:700;font-size:14px">&#128279; Open Dashboard</a>';
+  btn.textContent='&#10003; Done';
+}
+</script>
+</body>
+</html>
