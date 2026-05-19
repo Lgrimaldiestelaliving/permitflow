@@ -4367,22 +4367,40 @@ render();
 var OW=[['001','Estela Living, LLC'],['002','Estela Specs 1 LLC'],['003','Estela Specs 2 LLC'],['004','Estela Specs 3 LLC'],['005','Estela Specs 4 LLC'],['006','Estela Specs 6 LLC'],['007','Estela Specs 7 LLC'],['008','Estela Specs 8 LLC'],['009','Estela Specs 9 LLC'],['100','Sabana Owner, LLC']];
 var PMS=['Michael Bedaw','Jason Bedaw','Jim Humphreys','Jon Frantz'];
 var SL={collecting:'Collecting Docs',review:'Under Review',permitted:'Permitted',co:'CO Received'};
-var BTNS=['Collecting Docs','Under Review','Permitted ✓','CO ★'];
 var BMAP={'Collecting Docs':'collecting','Under Review':'review','Permitted ✓':'permitted','CO ★':'co'};
 var _active=[];
 function _gp(){try{return JSON.parse(localStorage.getItem('estela_permits_v3')||'[]');}catch(e){return[];}}
-function _gs(p){
-  var ps=p.permitStatus||'',os=p.overallStatus||'';
-  if(ps==='co'||os==='co')return 'co';
-  if(ps==='issued'||ps==='permitted'||os==='permitted')return 'permitted';
-  if(ps==='applied'||os==='submitted'||ps==='review')return 'review';
-  return 'collecting';
+function _gs(p){var ps=p.permitStatus||'',os=p.overallStatus||'';if(ps==='co'||os==='co')return'co';if(ps==='issued'||ps==='permitted'||os==='permitted')return'permitted';if(ps==='applied'||os==='submitted'||ps==='review')return'review';return'collecting';}
+function _fp(){return _active.length?_gp().filter(function(p){return _active.indexOf(_gs(p))>-1;}):_gp();}
+
+// Update community table when filter changes
+function _updateTable(){
+  var fp=_fp();
+  Array.from(document.querySelectorAll('table tbody tr')).forEach(function(tr){
+    if(tr.dataset.er)return;
+    var tds=tr.querySelectorAll('td');if(tds.length<4)return;
+    var com=tds[0]&&tds[0].textContent.trim();
+    if(!com||com==='TOTAL'||/^\d+$/.test(com))return;
+    var cp=fp.filter(function(p){return p.community===com;});
+    // Update Total
+    if(tds[1]){tds[1].dataset.orig=tds[1].dataset.orig||tds[1].textContent.trim();tds[1].textContent=_active.length?cp.length:(tds[1].dataset.orig||cp.length);}
+    // Update status columns
+    [{i:2,s:'collecting'},{i:3,s:'review'},{i:4,s:'permitted'},{i:5,s:'co'}].forEach(function(col){
+      var td=tds[col.i];if(!td)return;
+      var badge=td.querySelector('span')||td;
+      var orig=badge.dataset.orig||(badge.tagName==='SPAN'?badge.textContent.trim():null);
+      if(orig)badge.dataset.orig=orig;
+      var n=cp.filter(function(p){return _gs(p)===col.s;}).length;
+      var show=_active.length?n:parseInt(orig||n);
+      if(badge.tagName==='SPAN'){badge.textContent=show||'';if(!show)badge.style.opacity='0.3';else badge.style.opacity='';}
+    });
+  });
 }
 
 // PM & OWNER DROPDOWNS
-function _pf(){document.querySelectorAll('.info-field').forEach(function(f){var lbl=f.querySelector('.info-label'),inp=f.querySelector('input.info-input');if(!inp||inp.dataset.pf)return;var label=lbl?lbl.textContent.trim():'';if(label!=='Project Manager'&&label!=='OWNER')return;inp.dataset.pf='1';var onch=inp.getAttribute('onchange')||'',cur=inp.value,sel=document.createElement('select');sel.className='info-input';sel.style.cssText='width:100%;padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;background:#fff;color:#1e293b';if(label==='Project Manager'){PMS.forEach(function(pm){var o=document.createElement('option');o.value=pm;o.textContent=pm;if(pm.toUpperCase()===cur.toUpperCase())o.selected=true;sel.appendChild(o);});var def=document.createElement('option');def.value='';def.textContent='Select PM...';sel.insertBefore(def,sel.firstChild);}else{OW.forEach(function(o){var opt=document.createElement('option');opt.value=o[0];opt.textContent=o[0]+' - '+o[1];if(o[0]===cur)opt.selected=true;sel.appendChild(opt);});var def2=document.createElement('option');def2.value='';def2.textContent='Select owner...';sel.insertBefore(def2,sel.firstChild);}sel.addEventListener('change',function(){try{eval(onch.replace(/this\.value/g,JSON.stringify(this.value)));}catch(e){}});inp.replaceWith(sel);})}
+function _pf(){document.querySelectorAll('.info-field').forEach(function(f){var lbl=f.querySelector('.info-label'),inp=f.querySelector('input.info-input');if(!inp||inp.dataset.pf)return;var label=lbl?lbl.textContent.trim():'';if(label!=='Project Manager'&&label!=='OWNER')return;inp.dataset.pf='1';var onch=inp.getAttribute('onchange')||'',cur=inp.value,sel=document.createElement('select');sel.className='info-input';sel.style.cssText='width:100%;padding:4px 8px;border:1px solid #d1d5db;border-radius:4px;font-size:13px;background:#fff;color:#1e293b';if(label==='Project Manager'){var d0=document.createElement('option');d0.value='';d0.textContent='Select PM...';sel.appendChild(d0);PMS.forEach(function(pm){var o=document.createElement('option');o.value=pm;o.textContent=pm;if(pm.toUpperCase()===cur.toUpperCase())o.selected=true;sel.appendChild(o);});}else{var d1=document.createElement('option');d1.value='';d1.textContent='Select owner...';sel.appendChild(d1);OW.forEach(function(o){var opt=document.createElement('option');opt.value=o[0];opt.textContent=o[0]+' - '+o[1];if(o[0]===cur)opt.selected=true;sel.appendChild(opt);});}sel.addEventListener('change',function(){try{eval(onch.replace(/this\.value/g,JSON.stringify(this.value)));}catch(e){}});inp.replaceWith(sel);});}
 
-// INLINE EXPANSION - click shows, click again hides
+// INLINE EXPANSION with Owner + Model
 function _exp(tr,com,st){
   var nxt=tr.nextElementSibling;
   if(nxt&&nxt.dataset.er===com+st){nxt.remove();return;}
@@ -4392,92 +4410,56 @@ function _exp(tr,com,st){
   var exp=document.createElement('tr');exp.dataset.er=com+st;
   var td=document.createElement('td');td.colSpan=tr.querySelectorAll('td').length||8;
   td.style.cssText='padding:0;border-bottom:3px solid #3b82f6;border-top:1px solid #bfdbfe';
-  var box=document.createElement('div');box.style.cssText='background:#f0f9ff;border-left:4px solid #3b82f6;padding:0 0 8px 0';
-  // header
+  var box=document.createElement('div');box.style.cssText='background:#f0f9ff;border-left:4px solid #3b82f6';
   var hd=document.createElement('div');hd.style.cssText='padding:8px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #bfdbfe';
   var hl=document.createElement('strong');hl.style.cssText='font-size:12px;color:#1e40af;text-transform:uppercase';hl.textContent=com+' — '+SL[st]+' ('+pp.length+')';
   var hb=document.createElement('button');hb.textContent='Close ✕';hb.style.cssText='background:none;border:1px solid #bfdbfe;border-radius:4px;cursor:pointer;color:#64748b;padding:2px 8px;font-size:11px';hb.onclick=function(){exp.remove();};
   hd.appendChild(hl);hd.appendChild(hb);box.appendChild(hd);
-  // table
   var tbl=document.createElement('table');tbl.style.cssText='width:100%;border-collapse:collapse';
   var thead=document.createElement('thead');var hr=document.createElement('tr');hr.style.background='#dbeafe';
-  ['#','Address / Lot','Permit #','Model','PM','Owner'].forEach(function(h){var th=document.createElement('th');th.style.cssText='padding:6px 12px;text-align:left;font-size:10px;color:#1e40af;font-weight:700;white-space:nowrap';th.textContent=h;hr.appendChild(th);});
+  ['#','Address / Lot','Permit #','Model','Owner','PM'].forEach(function(h){var th=document.createElement('th');th.style.cssText='padding:6px 12px;text-align:left;font-size:10px;color:#1e40af;font-weight:700;white-space:nowrap';th.textContent=h;hr.appendChild(th);});
   thead.appendChild(hr);tbl.appendChild(thead);
   var tb=document.createElement('tbody');
   pp.forEach(function(p,i){
     var row=document.createElement('tr');row.style.background=i%2===0?'#f8faff':'#eff6ff';
-    var cells=[i+1,p.address+(p.lotNumber?' · Lot '+p.lotNumber:''),p.permitNumber||'—',p.model||'—',p.projectManager||'—',p.owner||'—'];
-    cells.forEach(function(v,ci){var c=document.createElement('td');c.style.cssText='padding:6px 12px;font-size:12px';if(ci===0)c.style.color='#94a3b8';if(ci===2){c.style.fontFamily='monospace';c.style.color='#4f46e5';}if(ci===5){c.style.fontWeight='700';c.style.color='#7c3aed';}c.textContent=v;row.appendChild(c);});
-    tb.appendChild(row);
+    var ownerName=OW.find(function(o){return o[0]===p.owner;});
+    var ownerDisplay=p.owner?(p.owner+(ownerName?' - '+ownerName[1]:'')):'—';
+    [i+1,p.address+(p.lotNumber?' · Lot '+p.lotNumber:''),p.permitNumber||'—',p.model||'—',ownerDisplay,p.projectManager||'—'].forEach(function(v,ci){
+      var c=document.createElement('td');c.style.cssText='padding:6px 12px;font-size:12px';
+      if(ci===0)c.style.color='#94a3b8';
+      if(ci===2){c.style.fontFamily='monospace';c.style.color='#4f46e5';}
+      if(ci===4){c.style.fontWeight='700';c.style.color='#7c3aed';}
+      c.textContent=v;row.appendChild(c);
+    });tb.appendChild(row);
   });
   tbl.appendChild(tb);box.appendChild(tbl);td.appendChild(box);exp.appendChild(td);tr.insertAdjacentElement('afterend',exp);
 }
 
-// BIND TABLE CLICKS - all status columns
-function _bt(){
-  Array.from(document.querySelectorAll('table tbody tr')).forEach(function(tr){
-    if(tr.dataset.b5||tr.dataset.er)return;
-    var tds=tr.querySelectorAll('td');if(tds.length<4)return;
-    var com=tds[0]&&tds[0].textContent.trim();
-    if(!com||com==='TOTAL'||/^\d+$/.test(com))return;
-    tr.dataset.b5='1';
-    [{i:2,s:'collecting'},{i:3,s:'review'},{i:4,s:'permitted'},{i:5,s:'co'}].forEach(function(col){
-      var td=tds[col.i];if(!td)return;
-      var txt=td.textContent.trim();if(txt==='—'||txt===''||txt==='0')return;
-      td.style.cursor='pointer';td.title='Click to expand – click again to hide';
-      td.style.textDecoration='underline dotted';
-      (function(t,c,s){td.addEventListener('click',function(e){e.stopPropagation();_exp(t,c,s);});})(tr,com,col.s);
-    });
-  });
-}
+// BIND TABLE CLICKS
+function _bt(){Array.from(document.querySelectorAll('table tbody tr')).forEach(function(tr){if(tr.dataset.b5||tr.dataset.er)return;var tds=tr.querySelectorAll('td');if(tds.length<4)return;var com=tds[0]&&tds[0].textContent.trim();if(!com||com==='TOTAL'||/^\d+$/.test(com))return;tr.dataset.b5='1';[{i:2,s:'collecting'},{i:3,s:'review'},{i:4,s:'permitted'},{i:5,s:'co'}].forEach(function(col){var td=tds[col.i];if(!td||td.textContent.trim()==='—')return;td.style.cursor='pointer';td.title='Click to expand — click again to hide';td.style.textDecoration='underline dotted';(function(t,c,s){td.addEventListener('click',function(e){e.stopPropagation();_exp(t,c,s);});})(tr,com,col.s);});});}
 
-// MULTI-SELECT STATUS BUTTONS
+// MULTI-SELECT + TABLE UPDATE
 function _msb(){
-  var btns=Array.from(document.querySelectorAll('button')).filter(function(b){
-    var t=b.textContent.trim();return t==='All'||BTNS.indexOf(t)>-1;
-  });
+  var btns=Array.from(document.querySelectorAll('button')).filter(function(b){var t=b.textContent.trim();return t==='All'||BMAP[t];});
   if(!btns.length||btns[0].dataset.ms5)return;
   btns.forEach(function(btn){
     btn.dataset.ms5='1';
     var txt=btn.textContent.trim();
-    if(txt==='All'){
-      btn.addEventListener('click',function(){
-        _active=[];
-        btns.forEach(function(b){b.style.outline='';b.style.background='';});
-      },true);return;
-    }
+    if(txt==='All'){btn.addEventListener('click',function(){_active=[];btns.forEach(function(b){b.style.outline='';b.style.background='';});setTimeout(_updateTable,100);},true);return;}
     var sKey=BMAP[txt];if(!sKey)return;
-    btn.addEventListener('click',function(e){
-      e.stopPropagation();e.preventDefault();
+    btn.addEventListener('click',function(e){e.stopPropagation();e.preventDefault();
       setTimeout(function(){
         var idx=_active.indexOf(sKey);
         if(idx>-1){_active.splice(idx,1);btn.style.outline='';btn.style.background='';}
         else{_active.push(sKey);btn.style.outline='2px solid #7c3aed';btn.style.background='#ede9fe';}
-      },50);
+        _updateTable();
+      },80);
     },true);
   });
 }
 
-// SORT TABLE COLUMNS
-function _st(){
-  var tbl=document.querySelector('table');if(!tbl||tbl.dataset.s5)return;tbl.dataset.s5='1';
-  tbl.querySelectorAll('th').forEach(function(th,ci){
-    var t=th.textContent.trim().toUpperCase();
-    if(!['ADDRESS','COMMUNITY','MODEL','PM','PROJECT','LOT'].some(function(s){return t.includes(s);}))return;
-    th.style.cursor='pointer';th.title='Click to sort';
-    var a=document.createElement('span');a.style='margin-left:4px;opacity:0.5;font-size:10px';a.textContent='⇅';th.appendChild(a);
-    th.addEventListener('click',function(){
-      var tb=tbl.querySelector('tbody');if(!tb)return;
-      var rows=Array.from(tb.querySelectorAll('tr:not([data-er])'));
-      var d=th._d||1;th._d=-d;
-      rows.sort(function(a,b){return((a.querySelectorAll('td')[ci]||{}).textContent||'').localeCompare((b.querySelectorAll('td')[ci]||{}).textContent||'')*d;});
-      tb.querySelectorAll('[data-er]').forEach(function(r){r.remove();});
-      rows.forEach(function(r){tb.appendChild(r);});
-      tbl.querySelectorAll('th span').forEach(function(s){s.textContent='⇅';s.style.opacity='0.5';});
-      a.textContent=d===1?'↑':'↓';a.style.opacity='1';
-    });
-  });
-}
+// SORT
+function _st(){var tbl=document.querySelector('table');if(!tbl||tbl.dataset.s5)return;tbl.dataset.s5='1';tbl.querySelectorAll('th').forEach(function(th,ci){var t=th.textContent.trim().toUpperCase();if(!['ADDRESS','COMMUNITY','MODEL','PM','PROJECT','LOT'].some(function(s){return t.includes(s);}))return;th.style.cursor='pointer';th.title='Sort A-Z / Z-A';var a=document.createElement('span');a.style='margin-left:4px;opacity:0.4;font-size:10px';a.textContent='⇅';th.appendChild(a);th.addEventListener('click',function(){var tb=tbl.querySelector('tbody');if(!tb)return;var rows=Array.from(tb.querySelectorAll('tr:not([data-er])'));var d=th._d||1;th._d=-d;rows.sort(function(a,b){return((a.querySelectorAll('td')[ci]||{}).textContent||'').localeCompare((b.querySelectorAll('td')[ci]||{}).textContent||'')*d;});tb.querySelectorAll('[data-er]').forEach(function(r){r.remove();});rows.forEach(function(r){tb.appendChild(r);});tbl.querySelectorAll('th span').forEach(function(s){s.textContent='⇅';s.style.opacity='0.4';});a.textContent=d===1?'↑':'↓';a.style.opacity='1';});});}
 
 setInterval(function(){_pf();_bt();_msb();_st();},1000);
 })();
